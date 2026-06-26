@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "types": ["node"]
+  },
+  "include": [
+    ".storybook/**/*.ts",
+    "uno.config.ts"
+  ]
+}

@@ -1,0 +1,61 @@
+/**
+ * Splitpanes — base layout (so the `<SplitPane>` component works without
+ * importing the dependency's CSS) plus theming via the design tokens.
+ */
+
+.splitpanes {
+  display: flex;
+  width: 100%;
+  height: 100%;
+}
+.splitpanes--vertical {
+  flex-direction: row;
+}
+.splitpanes--horizontal {
+  flex-direction: column;
+}
+.splitpanes--dragging * {
+  user-select: none;
+}
+.splitpanes__pane {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+.splitpanes--vertical > .splitpanes__pane {
+  transition: width 0.2s ease-out;
+}
+.splitpanes--horizontal > .splitpanes__pane {
+  transition: height 0.2s ease-out;
+}
+.splitpanes--dragging > .splitpanes__pane {
+  transition: none;
+  pointer-events: none;
+}
+
+/* Splitter — recolored to the design tokens. */
+.splitpanes__splitter {
+  position: relative;
+  touch-action: none;
+  background-color: var(--af-border-base);
+  transition: background-color 0.2s;
+}
+.splitpanes__splitter:hover {
+  background-color: rgba(136, 136, 136, 0.4);
+}
+.splitpanes--vertical > .splitpanes__splitter {
+  min-width: 1px;
+  cursor: col-resize;
+}
+.splitpanes--horizontal > .splitpanes__splitter {
+  min-height: 1px;
+  cursor: row-resize;
+}
+
+/* Widen the invisible hit area so the 1px splitter is easy to grab. */
+.splitpanes__splitter::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  z-index: 1;
+}

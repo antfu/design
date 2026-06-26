@@ -1,0 +1,156 @@
+# @antfu/design
+
+> A customizable, **composable** design system for devtools-style Vue apps: a
+> UnoCSS preset (`presetAnthonyDesign`), a set of Vue primitives, a ground-up
+> design skill, and a color-contrast a11y check. Something in between a component
+> library and shadcn.
+
+## Install
+
+```bash
+pnpm add @antfu/design unocss vue
+```
+
+## Quick start
+
+```ts
+// uno.config.ts
+import { presetAnthonyDesign } from '@antfu/design/unocss'
+import { defineConfig, presetIcons, presetWebFonts, presetWind4 } from 'unocss'
+
+export default defineConfig({
+  presets: [
+    presetAnthonyDesign({ primary: '#49833E' }),
+    presetWind4(), // a base preset is required — bring your own
+    presetIcons(),
+    presetWebFonts({ fonts: { sans: 'DM Sans', mono: 'DM Mono' } }),
+  ],
+  content: { pipeline: { include: [/@antfu\/design/] } },
+})
+```
+
+```ts
+// Components are imported by full path (no barrel) — categorized and prefixed:
+import ActionButton from '@antfu/design/components/Action/ActionButton.vue'
+import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'
+import OverlayModal from '@antfu/design/components/Overlay/OverlayModal.vue'
+import '@antfu/design/styles.css'
+```
+
+The package ships **raw `.ts` / `.vue` source** (no bundling) — your build
+compiles it. Point UnoCSS at the package so the components' classes are
+generated (`content: { pipeline: { include: [/@antfu\/design/] } }`).
+
+It's a **single** preset that is **not self-contained**: it contributes only the
+antfu design layer (theme tokens, semantic shortcuts, dynamic rules, severity).
+You compose the base preset, icons, fonts and reset yourself.
+
+## Exports
+
+| Subpath | What |
+|---|---|
+| `./components/*` | one readable `.vue` per component (e.g. `./components/Display/DisplayBadge.vue`) |
+| `./unocss` | the single `presetAnthonyDesign` preset |
+| `./utils` | color, format, path, semver, contrast, keybinding helpers (pure, stateless) |
+| `./a11y` | programmatic color-contrast scan |
+| `./styles.css`, `./styles/*` | all styles, or per-concern files |
+
+> The package is **stateless** — no dark-mode/clipboard/toast state. Components
+> that vary by scheme take a `colorScheme` prop; toasts are controlled. Use VueUse
+> directly for state.
+
+## Accessibility
+
+A color-contrast scan (axe-core + Playwright) runs a URL in light **and** dark
+mode. Use it programmatically:
+
+```ts
+import { formatContrastReport, runContrastScan } from '@antfu/design/a11y'
+
+const result = await runContrastScan({ url: 'http://localhost:6006/iframe.html' })
+console.log(formatContrastReport(result))
+```
+
+…or run the bundled script with `tsx`:
+
+```bash
+tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
+```
+
+## Tokens
+
+<!-- TOKENS:START -->
+### Semantic & composite shortcuts
+
+| Token | Expands to |
+|---|---|
+| `color-base` | `color-neutral-800 dark:color-neutral-200` |
+| `color-muted` | `color-neutral-600 dark:color-neutral-400` |
+| `color-faint` | `color-neutral-500 dark:color-neutral-500` |
+| `color-active` | `color-primary-600 dark:color-primary-300` |
+| `bg-base` | `bg-white dark:bg-#111` |
+| `bg-secondary` | `bg-#eee dark:bg-#222` |
+| `bg-active` | `bg-#8881` |
+| `bg-hover` | `bg-primary/5` |
+| `bg-code` | `bg-gray-500/5` |
+| `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
+| `bg-gradient-more` | `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-#111 dark:via-#111/80 dark:to-#111/0` |
+| `border-base` | `border-#8882` |
+| `border-mute` | `border-#8881` |
+| `border-active` | `border-primary-600/25 dark:border-primary-400/25` |
+| `ring-base` | `ring-#8882` |
+| `op-fade` | `op65 dark:op55` |
+| `op-mute` | `op30 dark:op25` |
+| `btn-action` | `border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-active transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-action-sm` | `btn-action text-sm` |
+| `btn-action-active` | `color-active border-active! bg-active op100!` |
+| `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium leading-none` |
+| `badge-active` | `badge bg-active color-active` |
+| `badge-muted` | `badge bg-#8881 color-muted` |
+
+### Severity scale
+
+| Token | Expands to |
+|---|---|
+| `color-scale-neutral` | `text-gray-700 dark:text-gray-300` |
+| `color-scale-low` | `text-lime-700 dark:text-lime-300 dark:saturate-75` |
+| `color-scale-medium` | `text-amber-700 dark:text-amber-300 dark:saturate-90` |
+| `color-scale-high` | `text-orange-700 dark:text-orange-300` |
+| `color-scale-critical` | `text-red-700 dark:text-red-300` |
+
+### Type sizes
+
+| Token | Expands to |
+|---|---|
+| `text-micro` | `text-[10px] leading-[1.4]` |
+| `text-mini` | `text-[11px] leading-[1.45]` |
+| `text-compact` | `text-[12px] leading-[1.5]` |
+
+### Named z-index layers
+
+| Token | Expands to |
+|---|---|
+| `z-nav` | `z-[30]` |
+| `z-dropdown` | `z-[40]` |
+| `z-tooltip` | `z-[45]` |
+| `z-toast` | `z-[50]` |
+| `z-modal-backdrop` | `z-[60]` |
+| `z-modal-content` | `z-[70]` |
+| `z-drawer-backdrop` | `z-[80]` |
+| `z-drawer-content` | `z-[90]` |
+
+### Dynamic
+
+| Token | Expands to |
+|---|---|
+| `badge-color-<name>` | a chip tinted by any palette color name (dark-aware) |
+| `bg-glass` / `bg-glass:<n>` | translucent surface + `backdrop-blur` |
+| `bg-dots` / `bg-dots-<n>` | radial dot-grid background, variable cell size in px (default 16) |
+| `bg-grid` / `bg-grid-<n>` | crosshatch grid-lines background, variable cell size in px (default 16) |
+<!-- TOKENS:END -->
+
+## License
+
+[MIT](./LICENSE) © [Anthony Fu](https://github.com/antfu)

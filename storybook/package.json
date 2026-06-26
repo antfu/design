@@ -1,0 +1,27 @@
+{
+  "name": "@antfu/design-storybook",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "storybook dev -p 6006 --no-open",
+    "build": "storybook build",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/design": "workspace:*",
+    "@iconify-json/catppuccin": "catalog:frontend",
+    "@iconify-json/ph": "catalog:frontend",
+    "@storybook/vue3-vite": "catalog:storybook",
+    "@unocss/preset-icons": "catalog:frontend",
+    "@unocss/preset-web-fonts": "catalog:frontend",
+    "@unocss/preset-wind4": "catalog:frontend",
+    "@vitejs/plugin-vue": "catalog:frontend",
+    "floating-vue": "catalog:frontend",
+    "storybook": "catalog:storybook",
+    "unocss": "catalog:frontend",
+    "vite": "catalog:cli",
+    "vue": "catalog:frontend",
+    "vue-tsc": "catalog:frontend"
+  }
+}

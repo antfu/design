@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - run: pnpm i -g @antfu/ni
+      - run: nci
+      - run: nr lint
+      - run: nr typecheck
+      - name: Docs in sync
+        run: |
+          nr docs:gen
+          git diff --exit-code -- packages/design/README.md packages/design/skills
+
+  test:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        node: [lts/*]
+        os: [ubuntu-latest, windows-latest, macos-latest]
+      fail-fast: false
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - name: Set node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: pnpm
+
+      - run: pnpm i -g @antfu/ni
+      - run: nci
+      - run: nr test
+
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - run: pnpm i -g @antfu/ni
+      - run: nci
+      - run: nr storybook:build
+      - name: Install Playwright Chromium
+        run: pnpm -F @antfu/design exec playwright install --with-deps chromium
+      - name: Serve Storybook + color-contrast scan (light + dark)
+        run: |
+          pnpm dlx serve -l 6006 storybook/storybook-static &
+          npx --yes wait-on http://localhost:6006
+          pnpm -F @antfu/design exec tsx a11y/cli.ts "http://localhost:6006/iframe.html?id=display-displaybadge--gallery"

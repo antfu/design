@@ -1,0 +1,55 @@
+{
+  "name": "@antfu/design-monorepo",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@11.9.0",
+  "description": "A shared design system for devtools-style Vue apps",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/antfu/design#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/design.git"
+  },
+  "bugs": "https://github.com/antfu/design/issues",
+  "scripts": {
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "typecheck": "pnpm -r --filter './packages/*' run typecheck",
+    "test": "pnpm -r --filter './packages/*' run test",
+    "test:watch": "pnpm -F @antfu/design exec vitest",
+    "docs:gen": "pnpm -F @antfu/design run docs:gen",
+    "dev": "pnpm -F @antfu/design-playground run dev",
+    "storybook": "pnpm -F @antfu/design-storybook run dev",
+    "storybook:build": "pnpm -F @antfu/design-storybook run build",
+    "play": "pnpm -F @antfu/design-playground run dev",
+    "release": "bumpp -r && pnpm -F @antfu/design publish --no-git-checks",
+    "prepare": "git config core.hooksPath .githooks && simple-git-hooks && skills-npm"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "catalog:cli",
+    "@antfu/ni": "catalog:cli",
+    "@antfu/utils": "catalog:inlined",
+    "@types/node": "catalog:types",
+    "@unocss/eslint-plugin": "catalog:frontend",
+    "bumpp": "catalog:cli",
+    "eslint": "catalog:cli",
+    "nano-staged": "catalog:cli",
+    "publint": "catalog:cli",
+    "simple-git-hooks": "catalog:cli",
+    "skills-npm": "catalog:cli",
+    "tsx": "catalog:cli",
+    "typescript": "catalog:cli",
+    "vite": "catalog:cli",
+    "vitest": "catalog:testing",
+    "vue-tsc": "catalog:frontend"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm run lint:fix"
+  },
+  "nano-staged": {
+    "*": "eslint --fix"
+  }
+}

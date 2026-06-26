@@ -1,0 +1,24 @@
+{
+  "name": "@antfu/design-playground",
+  "type": "module",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "devDependencies": {
+    "@antfu/design": "workspace:*",
+    "@iconify-json/catppuccin": "catalog:frontend",
+    "@iconify-json/ph": "catalog:frontend",
+    "@unocss/preset-icons": "catalog:frontend",
+    "@unocss/preset-web-fonts": "catalog:frontend",
+    "@unocss/preset-wind4": "catalog:frontend",
+    "@vitejs/plugin-vue": "catalog:frontend",
+    "unocss": "catalog:frontend",
+    "vite": "catalog:cli",
+    "vue": "catalog:frontend",
+    "vue-tsc": "catalog:frontend"
+  }
+}
