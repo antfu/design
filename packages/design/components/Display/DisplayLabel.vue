@@ -1,23 +1,23 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useColorScheme } from '../../composables/colorScheme'
 import { labelStyle } from '../../utils/color'
 
-const props = withDefaults(
-  defineProps<{
-    /** Display text. */
-    text?: string
-    /** Base hex color; a contrast-aware tinted chip is derived from it. */
-    color?: string
-    /** The app's current color scheme. */
-    colorScheme?: 'light' | 'dark'
-  }>(),
-  { colorScheme: 'light' },
-)
+const props = defineProps<{
+  /** Display text. */
+  text?: string
+  /** Base hex color; a contrast-aware tinted chip is derived from it. */
+  color?: string
+  /** The app's current color scheme. Falls back to context, then `'light'`. */
+  colorScheme?: 'light' | 'dark'
+}>()
+
+const scheme = useColorScheme(() => props.colorScheme)
 
 const style = computed(() => {
   if (!props.color)
     return undefined
-  const s = labelStyle(props.color, props.colorScheme === 'dark')
+  const s = labelStyle(props.color, scheme.value === 'dark')
   return { color: s.color, background: s.background, borderColor: s.borderColor }
 })
 </script>

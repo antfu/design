@@ -78,10 +78,21 @@ export const defaultBrandHues: Record<string, number> = {
   nuxt: 153,
   vite: 265,
   react: 193,
-  node: 120,
+  preact: 280,
+  solid: 217,
   svelte: 15,
   angular: 348,
-  solid: 217,
+  qwik: 265,
+  lit: 210,
+  astro: 270,
+  remix: 220,
+  next: 220,
+  node: 120,
+  deno: 160,
+  bun: 45,
+  npm: 0,
+  pnpm: 35,
+  yarn: 200,
   ts: 211,
   typescript: 211,
   js: 47,
@@ -92,6 +103,12 @@ export const defaultBrandHues: Record<string, number> = {
   rolldown: 25,
   webpack: 200,
   esbuild: 49,
+  vitest: 120,
+  jest: 340,
+  eslint: 265,
+  prettier: 330,
+  electron: 200,
+  tauri: 200,
 }
 
 export interface LabelStyle {
@@ -103,7 +120,7 @@ export interface LabelStyle {
 const labelCache = new Map<string, LabelStyle>()
 
 function oklchToHex(l: number, c: number, h: number): string {
-  return new Color('oklch', [l, c, h]).to('srgb').toGamut({ space: 'srgb' }).toString({ format: 'hex' })
+  return new Color('oklch', [l, c, h]).to('srgb').toGamut({ space: 'srgb' }).toString({ format: 'hex', collapse: false })
 }
 
 /**
@@ -146,24 +163,55 @@ export function labelStyle(input: string, dark = false): LabelStyle {
   return style
 }
 
-const PLUGIN_PREFIX_RE = /^(?:@[^/]+\/)?(?:vite-plugin-|rollup-plugin-|webpack-plugin-|unplugin-|nuxt-|eslint-plugin-|postcss-)/
+/**
+ * The plugin prefixes {@link stripPluginPrefix} strips by default. Includes the
+ * common build-tool plugin conventions plus the `vite:`/`rollup:`-style internal
+ * namespace prefixes used by core plugins.
+ */
+export const defaultPluginPrefixes: readonly string[] = [
+  'vite-plugin-',
+  'rollup-plugin-',
+  'webpack-plugin-',
+  'unplugin-',
+  'nuxt-',
+  'eslint-plugin-',
+  'postcss-',
+  'vite:',
+  'rollup:',
+  'rolldown:',
+  'webpack:',
+  '__',
+]
+
+function buildPrefixRe(prefixes: readonly string[]): RegExp {
+  const alt = prefixes.map(p => p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')
+  return new RegExp(`^(?:@[^/]+\\/)?(?:${alt})`)
+}
+
+const DEFAULT_PREFIX_RE = buildPrefixRe(defaultPluginPrefixes)
 
 /**
  * Strip common tool prefixes/scopes to get the meaningful part of a name.
  *
  * Removes a recognised plugin prefix (`vite-plugin-`, `rollup-plugin-`,
- * `unplugin-`, `nuxt-`, `eslint-plugin-`, `postcss-`, optionally scoped) and any
- * remaining leading `@scope/`.
+ * `unplugin-`, `nuxt-`, `eslint-plugin-`, `postcss-`, the `vite:`/`rollup:`
+ * internal namespaces, …, optionally scoped) and any remaining leading
+ * `@scope/`. Pass a custom prefix list or `RegExp` to override the defaults.
  *
  * @param name - The package or plugin name to strip.
+ * @param prefixes - Custom prefix list or anchored `RegExp`. Defaults to {@link defaultPluginPrefixes}.
  * @returns The meaningful suffix of the name.
  *
  * @example
  * stripPluginPrefix('vite-plugin-inspect') // → 'inspect'
  * stripPluginPrefix('@antfu/eslint-config') // → 'eslint-config'
+ * stripPluginPrefix('vite:import-analysis') // → 'import-analysis'
  */
-export function stripPluginPrefix(name: string): string {
-  return name.replace(PLUGIN_PREFIX_RE, '').replace(/^@[^/]+\//, '')
+export function stripPluginPrefix(name: string, prefixes?: readonly string[] | RegExp): string {
+  const re = prefixes == null
+    ? DEFAULT_PREFIX_RE
+    : prefixes instanceof RegExp ? prefixes : buildPrefixRe(prefixes)
+  return name.replace(re, '').replace(/^@[^/]+\//, '')
 }
 
 /**
@@ -177,23 +225,104 @@ export function stripPluginPrefix(name: string): string {
  * @param name - The package or plugin name to color.
  * @param opacity - The alpha channel, a number or CSS string. Defaults to `1`.
  * @param dark - Whether to use the dark-mode variant. Defaults to `false`.
- * @param map - Brand-hue lookup table. Defaults to {@link defaultBrandHues}.
+ * @param map - Extra brand hues, **merged over** {@link defaultBrandHues} (pass only your additions/overrides).
  * @returns An `hsla(...)` CSS color string.
  *
  * @example
  * getPluginColor('vue') // → 'hsla(153, 65%, 40%, 1)'
  * getPluginColor('react') // → 'hsla(193, 65%, 40%, 1)'
  * getPluginColor('vite-plugin-vue') // → 'hsla(153, 65%, 40%, 1)' (matched by suffix)
+ * getPluginColor('acme', 1, false, { acme: 300 }) // → custom hue merged over the defaults
  */
 export function getPluginColor(
   name: string,
   opacity: number | string = 1,
   dark = false,
-  map: Record<string, number> = defaultBrandHues,
+  map: Record<string, number> = {},
 ): string {
+  const hues = map === defaultBrandHues ? defaultBrandHues : { ...defaultBrandHues, ...map }
   const bare = stripPluginPrefix(name).toLowerCase()
-  const key = Object.keys(map).find(k => bare === k || bare.startsWith(`${k}-`) || bare.startsWith(`${k}.`))
+  const key = Object.keys(hues).find(k => bare === k || bare.startsWith(`${k}-`) || bare.startsWith(`${k}.`))
   if (key != null)
-    return getHsla(map[key], opacity, dark)
+    return getHsla(hues[key], opacity, dark)
   return getHashColorFromString(name, opacity, dark)
+}
+
+// ── Color math (colorjs.io) ───────────────────────────────────────────────
+
+/**
+ * Convert any CSS color to a `#rrggbb[aa]` hex string (gamut-mapped to sRGB).
+ *
+ * @param input - Any CSS color string (hex, `rgb()`, `hsl()`, named, `oklch()`, …).
+ * @returns A sRGB hex string.
+ *
+ * @example
+ * toHex('hsl(0, 100%, 50%)') // → '#ff0000'
+ */
+export function toHex(input: string): string {
+  return new Color(input).to('srgb').toGamut({ space: 'srgb' }).toString({ format: 'hex', collapse: false })
+}
+
+/**
+ * Lighten a color by an OKLCH lightness delta (perceptually even).
+ *
+ * @param input - The base color as any CSS color string.
+ * @param amount - Lightness delta in the 0–1 OKLCH range. Defaults to `0.1`.
+ * @returns The lightened color as a sRGB hex string.
+ *
+ * @example
+ * lighten('#336699', 0.1) // → a lighter blue
+ */
+export function lighten(input: string, amount = 0.1): string {
+  const c = new Color(input).to('oklch')
+  c.l = Math.max(0, Math.min(1, (c.l ?? 0) + amount))
+  return c.to('srgb').toGamut({ space: 'srgb' }).toString({ format: 'hex', collapse: false })
+}
+
+/**
+ * Darken a color by an OKLCH lightness delta (perceptually even).
+ *
+ * @param input - The base color as any CSS color string.
+ * @param amount - Lightness delta in the 0–1 OKLCH range. Defaults to `0.1`.
+ * @returns The darkened color as a sRGB hex string.
+ *
+ * @example
+ * darken('#336699', 0.1) // → a darker blue
+ */
+export function darken(input: string, amount = 0.1): string {
+  return lighten(input, -amount)
+}
+
+/**
+ * Mix two colors in OKLCH space.
+ *
+ * @param a - The first color as any CSS color string.
+ * @param b - The second color as any CSS color string.
+ * @param weight - Weight of `b` in the mix, 0–1. Defaults to `0.5`.
+ * @returns The mixed color as a sRGB hex string.
+ *
+ * @example
+ * mix('#ff0000', '#0000ff') // → a purple midpoint
+ */
+export function mix(a: string, b: string, weight = 0.5): string {
+  return (Color.mix(new Color(a), new Color(b), weight, { space: 'oklch' }) as Color)
+    .to('srgb')
+    .toGamut({ space: 'srgb' })
+    .toString({ format: 'hex', collapse: false })
+}
+
+/**
+ * Set a color's alpha channel, returning an `rgb(...)`/`rgba(...)` string.
+ *
+ * @param input - The base color as any CSS color string.
+ * @param alpha - The alpha channel, 0–1.
+ * @returns The color with the given alpha, as a CSS string.
+ *
+ * @example
+ * withAlpha('#336699', 0.5) // → 'rgb(51 102 153 / 0.5)'
+ */
+export function withAlpha(input: string, alpha: number): string {
+  const c = new Color(input).to('srgb')
+  c.alpha = alpha
+  return c.toString()
 }

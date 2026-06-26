@@ -18,7 +18,7 @@ const open = defineModel<boolean>('open')
       <DialogOverlay class="bg-black/40 inset-0 fixed z-modal-backdrop backdrop-blur-sm" data-af-animate />
       <DialogContent
         class="outline-none border border-base rounded-xl bg-base max-w-lg w-[90vw] shadow-2xl left-1/2 top-1/2 fixed z-modal-content -translate-x-1/2 -translate-y-1/2"
-        data-af-animate
+        data-af-modal
       >
         <header v-if="title || description || $slots.header" class="px-4 py-3 border-b border-base flex gap-4 items-start justify-between">
           <div class="min-w-0">

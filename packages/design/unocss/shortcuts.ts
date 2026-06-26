@@ -19,7 +19,7 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
 
       // ── Surfaces ──────────────────────────────────────────────────────
       'bg-base': `bg-white dark:bg-${db}`,
-      'bg-secondary': 'bg-#eee dark:bg-#222',
+      'bg-secondary': 'bg-#f5f5f5 dark:bg-#1a1a1a',
       'bg-active': 'bg-#8881',
       'bg-hover': 'bg-primary/5',
       'bg-code': 'bg-gray-500/5',
@@ -41,10 +41,11 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'btn-action-sm': 'btn-action text-sm',
       'btn-action-active': 'color-active border-active! bg-active op100!',
       'btn-icon': 'w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      'btn-icon-compact': 'w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-primary': 'px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
 
       // ── Badges ────────────────────────────────────────────────────────
-      'badge': 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium leading-none',
+      'badge': 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none',
       'badge-active': 'badge bg-active color-active',
       'badge-muted': 'badge bg-#8881 color-muted',
 

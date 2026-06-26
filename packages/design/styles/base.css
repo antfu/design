@@ -7,7 +7,7 @@
 
 :root {
   --af-bg-base: #ffffff;
-  --af-bg-secondary: #eeeeee;
+  --af-bg-secondary: #f5f5f5;
   --af-color-base: #262626; /* neutral-800 */
   --af-color-muted: #525252; /* neutral-600 */
   --af-border-base: rgba(136, 136, 136, 0.13); /* ~#8882 */
@@ -18,7 +18,7 @@
 
 html.dark {
   --af-bg-base: #111111;
-  --af-bg-secondary: #222222;
+  --af-bg-secondary: #1a1a1a;
   --af-color-base: #e5e5e5; /* neutral-200 */
   --af-color-muted: #a3a3a3; /* neutral-400 */
   --af-tooltip-bg: rgba(17, 17, 17, 0.75);

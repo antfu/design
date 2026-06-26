@@ -29,16 +29,20 @@
   "exports": {
     "./unocss": "./unocss/index.ts",
     "./utils": "./utils/index.ts",
+    "./composables/*": "./composables/*",
     "./a11y": "./a11y/index.ts",
     "./styles.css": "./styles/index.css",
     "./styles/*": "./styles/*",
     "./components/*": "./components/*",
+    "./splitpanes.d.ts": "./splitpanes.d.ts",
     "./package.json": "./package.json"
   },
   "files": [
     "a11y",
     "components/**/*.vue",
+    "composables",
     "skills",
+    "splitpanes.d.ts",
     "styles",
     "unocss",
     "utils"

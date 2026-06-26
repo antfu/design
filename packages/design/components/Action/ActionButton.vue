@@ -26,13 +26,15 @@ const tag = computed(() => {
 })
 
 const isLink = computed(() => tag.value === 'a')
+const isButton = computed(() => tag.value === 'button')
+const sm = computed(() => props.size === 'sm')
 
 const variantClass = computed(() => {
   if (props.variant === 'primary')
-    return 'btn-primary'
+    return sm.value ? 'btn-primary text-sm px-2.5! py-1!' : 'btn-primary'
   if (props.variant === 'text')
-    return 'inline-flex items-center gap-1.5 op75 hover:op100 transition'
-  return props.size === 'sm' ? 'btn-action-sm' : 'btn-action'
+    return `inline-flex items-center gap-1.5 op75 hover:op100 transition${sm.value ? ' text-sm' : ''}`
+  return sm.value ? 'btn-action-sm' : 'btn-action'
 })
 
 const disabledState = computed(() => props.disabled || props.loading)
@@ -41,9 +43,10 @@ const disabledState = computed(() => props.disabled || props.loading)
 <template>
   <component
     :is="tag"
-    :class="[variantClass, { 'pointer-events-none op-mute': disabledState && isLink }]"
+    :class="[variantClass, { 'pointer-events-none op-mute': disabledState && !isButton }]"
     :href="isLink ? (href ?? to) : undefined"
-    :disabled="!isLink ? disabledState : undefined"
+    :to="as && to != null ? to : undefined"
+    :disabled="isButton ? disabledState : undefined"
     :aria-disabled="disabledState || undefined"
     :aria-busy="loading || undefined"
   >

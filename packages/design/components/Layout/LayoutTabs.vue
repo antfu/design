@@ -7,6 +7,9 @@ export interface TabItem {
   icon?: string
   /** Optional count chip. */
   count?: number
+  /** Render this trigger as a link (nav-style tabs). */
+  href?: string
+  disabled?: boolean
 }
 
 withDefaults(
@@ -31,6 +34,9 @@ const model = defineModel<string>()
         v-for="tab in tabs"
         :key="tab.value"
         :value="tab.value"
+        :as="tab.href ? 'a' : 'button'"
+        :href="tab.href"
+        :disabled="tab.disabled"
         class="text-sm color-muted outline-none flex gap-1.5 transition items-center relative disabled:op50 focus-visible:ring-2 focus-visible:ring-primary-500/40"
         :class="variant === 'segment'
           ? 'px-3 py-1 rounded-md data-[state=active]:bg-base data-[state=active]:color-base data-[state=active]:shadow-sm'

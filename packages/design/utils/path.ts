@@ -146,44 +146,69 @@ export function getModuleNameFromPath(path: string): string | undefined {
  * Collapse a `.pnpm/<pkg>@ver/node_modules/<pkg>` chunk to `~`, leaving the tail.
  *
  * Replaces everything up to and including the inner `node_modules/` of a `.pnpm`
- * store path with `~/`, yielding a short, readable path.
+ * store path with the `replacement` prefix, yielding a short, readable path.
  *
  * @param path - The file path to collapse.
- * @returns The path with the `.pnpm` store prefix replaced by `~/`.
+ * @param replacement - The prefix to substitute for the store chunk. Defaults to `'~/'`.
+ * @returns The path with the `.pnpm` store prefix replaced.
  *
  * @example
  * collapsePnpmPath('/x/node_modules/.pnpm/foo@1.2.3/node_modules/foo/index.js')
  * // → '~/foo/index.js'
  */
-export function collapsePnpmPath(path: string): string {
-  return normalizeModulePath(path).replace(/.*\.pnpm\/[^/]+\/node_modules\//, '~/')
+export function collapsePnpmPath(path: string, replacement = '~/'): string {
+  return normalizeModulePath(path).replace(/.*\.pnpm\/[^/]+\/node_modules\//, replacement)
+}
+
+export interface RelativeModulePathOptions {
+  /** Prefix substituted for a `.pnpm` store chunk. Defaults to `'~/'`. */
+  pnpmCollapse?: string
+  /** Beyond this many `../` levels, return the absolute path instead. Defaults to `3`. */
+  maxUp?: number
 }
 
 /**
  * Make a module id readable relative to a project root: trims the root prefix,
  * decodes `.pnpm` to `~`, and keeps absolute past 3 levels of `../`.
  *
- * `.pnpm` paths are collapsed via {@link collapsePnpmPath}; otherwise, if the id
- * lives under `root`, the root prefix is stripped and a `./` prefix added. Paths
- * outside the root are returned normalized but unchanged.
+ * `.pnpm` paths are collapsed via {@link collapsePnpmPath}; if the id lives under
+ * `root`, the root prefix is stripped and a `./` prefix added; otherwise a
+ * `../`-relative path is synthesized, falling back to the absolute path once it
+ * would need more than `maxUp` (default 3) `../` hops.
  *
  * @param id - The module id or file path to make relative.
  * @param root - The project root to make the path relative to.
+ * @param options - See {@link RelativeModulePathOptions}.
  * @returns A readable, root-relative path.
  *
  * @example
  * relativeModulePath('/root/src/a.ts', '/root') // → './src/a.ts'
+ * relativeModulePath('/root/pkg/b.ts', '/root/app') // → '../pkg/b.ts'
  */
-export function relativeModulePath(id: string, root: string): string {
-  let path = normalizeModulePath(id)
+export function relativeModulePath(id: string, root: string, options: RelativeModulePathOptions = {}): string {
+  const { pnpmCollapse = '~/', maxUp = 3 } = options
+  const path = normalizeModulePath(id)
   const normRoot = normalizeModulePath(root).replace(/\/$/, '')
   if (path.includes('.pnpm/'))
-    return collapsePnpmPath(path)
-  if (normRoot && path.startsWith(normRoot)) {
-    path = path.slice(normRoot.length).replace(/^\//, '')
-    return path.startsWith('.') ? path : `./${path}`
+    return collapsePnpmPath(path, pnpmCollapse)
+  if (!normRoot)
+    return path
+  if (path === normRoot)
+    return '.'
+  if (path.startsWith(`${normRoot}/`)) {
+    const rest = path.slice(normRoot.length + 1)
+    return rest.startsWith('.') ? rest : `./${rest}`
   }
-  return path
+  // Outside the root: synthesize `../`, but bail to absolute past `maxUp` hops.
+  const rootParts = normRoot.split('/')
+  const pathParts = path.split('/')
+  let common = 0
+  while (common < rootParts.length && common < pathParts.length && rootParts[common] === pathParts[common])
+    common++
+  const up = rootParts.length - common
+  if (up > maxUp || common === 0)
+    return path
+  return `${'../'.repeat(up)}${pathParts.slice(common).join('/')}`
 }
 
 export interface ReadablePath {
@@ -202,16 +227,17 @@ export interface ReadablePath {
  *
  * @param path - The module id or file path.
  * @param root - The project root used to relativize the display path.
+ * @param options - Forwarded to {@link relativeModulePath}.
  * @returns A {@link ReadablePath} with `path` and, for dependencies, `moduleName`.
  *
  * @example
  * parseReadablePath('/x/node_modules/foo/index.js', '/x')
  * // → { path: './node_modules/foo/index.js', moduleName: 'foo' }
  */
-export function parseReadablePath(path: string, root: string): ReadablePath {
+export function parseReadablePath(path: string, root: string, options?: RelativeModulePathOptions): ReadablePath {
   const moduleName = isNodeModulePath(path) ? getModuleNameFromPath(path) : undefined
   return {
-    path: relativeModulePath(path, root),
+    path: relativeModulePath(path, root, options),
     moduleName,
   }
 }

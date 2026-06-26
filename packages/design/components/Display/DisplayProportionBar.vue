@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useColorScheme } from '../../composables/colorScheme'
 import { getHashColorFromString } from '../../utils/color'
 
 export interface ProportionSegment {
@@ -12,16 +13,17 @@ const props = withDefaults(
   defineProps<{
     segments: ProportionSegment[]
     height?: number
-    /** The app's current color scheme. */
+    /** The app's current color scheme. Falls back to context, then `'light'`. */
     colorScheme?: 'light' | 'dark'
   }>(),
-  { height: 8, colorScheme: 'light' },
+  { height: 8 },
 )
 
+const scheme = useColorScheme(() => props.colorScheme)
 const total = computed(() => props.segments.reduce((sum, s) => sum + s.value, 0) || 1)
 
 function segColor(seg: ProportionSegment, i: number): string {
-  return seg.color ?? getHashColorFromString(seg.label ?? String(i), 1, props.colorScheme === 'dark')
+  return seg.color ?? getHashColorFromString(seg.label ?? String(i), 1, scheme.value === 'dark')
 }
 </script>
 
