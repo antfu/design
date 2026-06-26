@@ -17,10 +17,10 @@ export const InDropdown: Story = {
   render: () => ({
     components: { OverlayDropdown, OverlayDropdownItem, ActionButton },
     template: `<OverlayDropdown>
-      <template #trigger><ActionButton icon="i-catppuccin:settings">Actions</ActionButton></template>
-      <OverlayDropdownItem icon="i-catppuccin:folder">Open</OverlayDropdownItem>
-      <OverlayDropdownItem icon="i-catppuccin:typescript">Rename</OverlayDropdownItem>
-      <OverlayDropdownItem icon="i-catppuccin:trash" disabled>Delete (disabled)</OverlayDropdownItem>
+      <template #trigger><ActionButton icon="i-ph:gear">Actions</ActionButton></template>
+      <OverlayDropdownItem icon="i-ph:folder">Open</OverlayDropdownItem>
+      <OverlayDropdownItem icon="i-ph:pencil-simple">Rename</OverlayDropdownItem>
+      <OverlayDropdownItem icon="i-ph:trash" disabled>Delete (disabled)</OverlayDropdownItem>
     </OverlayDropdown>`,
   }),
 }

@@ -28,6 +28,7 @@ catalogs:
     vite: ^8.0.13
   frontend:
     '@iconify-json/catppuccin': ^1.2.17
+    '@iconify-json/ph': ^1.2.2
     '@tanstack/vue-virtual': ^3.13.29
     '@unocss/core': ^66.7.2
     '@unocss/eslint-plugin': ^66.7.2

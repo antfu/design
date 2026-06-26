@@ -25,7 +25,7 @@ export const Types: Story = {
   render: () => ({
     components: { FeedbackTip },
     template: `<div class="flex flex-col gap-3 w-96">
-      <FeedbackTip type="info" icon="i-catppuccin:folder">An informational note.</FeedbackTip>
+      <FeedbackTip type="info" icon="i-ph:folder">An informational note.</FeedbackTip>
       <FeedbackTip type="success">Saved successfully.</FeedbackTip>
       <FeedbackTip type="warning">Careful with this setting.</FeedbackTip>
       <FeedbackTip type="error">Something went wrong.</FeedbackTip>

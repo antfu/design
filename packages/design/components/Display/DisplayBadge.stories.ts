@@ -19,7 +19,7 @@ export const HashColored: Story = { args: { text: 'unocss' } }
 export const Solid: Story = { args: { text: 'rolldown', variant: 'solid' } }
 export const Palette: Story = { args: { text: 'esm', color: 'green' } }
 export const Muted: Story = { args: { text: 'unknown', color: false } }
-export const WithIcon: Story = { args: { text: 'Vue', icon: 'i-catppuccin:vue' } }
+export const WithIcon: Story = { args: { text: 'stable', icon: 'i-ph:seal-check', color: 'green' } }
 
 export const Gallery: Story = {
   render: () => ({

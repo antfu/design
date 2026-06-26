@@ -49,8 +49,8 @@ export const WithIconAndSizes: Story = {
   render: () => ({
     components: { ActionButton },
     template: `<div class="flex items-center gap-3">
-      <ActionButton icon="i-catppuccin:folder" size="sm">Small</ActionButton>
-      <ActionButton icon="i-catppuccin:folder" size="md">Medium</ActionButton>
+      <ActionButton icon="i-ph:folder" size="sm">Small</ActionButton>
+      <ActionButton icon="i-ph:folder" size="md">Medium</ActionButton>
     </div>`,
   }),
 }

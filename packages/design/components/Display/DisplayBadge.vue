@@ -17,7 +17,7 @@ const props = withDefaults(
     /** `subtle` = tinted background, `solid` = filled. */
     variant?: 'subtle' | 'solid'
     size?: 'sm' | 'md'
-    /** Leading icon class (e.g. `i-catppuccin:vue`). */
+    /** Leading icon class (e.g. `i-ph:seal-check`). */
     icon?: string
     /** Render as another element/component. */
     as?: string

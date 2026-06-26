@@ -8,7 +8,7 @@ export interface ToastItem {
   message: string
   title?: string
   type?: ToastType
-  /** Leading icon class (e.g. `i-catppuccin:check`). */
+  /** Leading icon class (e.g. `i-ph:check-circle`). */
   icon?: string
 }
 </script>

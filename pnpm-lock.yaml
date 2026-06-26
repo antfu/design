@@ -46,6 +46,9 @@ catalogs:
     '@iconify-json/catppuccin':
       specifier: ^1.2.17
       version: 1.2.17
+    '@iconify-json/ph':
+      specifier: ^1.2.2
+      version: 1.2.2
     '@tanstack/vue-virtual':
       specifier: ^3.13.29
       version: 3.13.29
@@ -290,6 +293,9 @@ importers:
       '@iconify-json/catppuccin':
         specifier: catalog:frontend
         version: 1.2.17
+      '@iconify-json/ph':
+        specifier: catalog:frontend
+        version: 1.2.2
       '@unocss/preset-icons':
         specifier: catalog:frontend
         version: 66.7.2
@@ -323,6 +329,9 @@ importers:
       '@iconify-json/catppuccin':
         specifier: catalog:frontend
         version: 1.2.17
+      '@iconify-json/ph':
+        specifier: catalog:frontend
+        version: 1.2.2
       '@storybook/vue3-vite':
         specifier: catalog:storybook
         version: 10.4.6(esbuild@0.28.1)(storybook@10.4.6(@testing-library/dom@10.4.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
@@ -811,6 +820,9 @@ packages:
 
   '@iconify-json/catppuccin@1.2.17':
     resolution: {integrity: sha512-l1pFOADEUlw+j7V+yfFzBowdE4deeMuI4amqfKaN+7uTI9B0Ho24C86DitQk5zb62NkEM9poOyfuG7WS2bw6jg==}
+
+  '@iconify-json/ph@1.2.2':
+    resolution: {integrity: sha512-PgkEZNtqa8hBGjHXQa4pMwZa93hmfu8FUSjs/nv4oUU6yLsgv+gh9nu28Kqi8Fz9CCVu4hj1MZs9/60J57IzFw==}
 
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
@@ -4769,6 +4781,10 @@ snapshots:
   '@humanwhocodes/retry@0.4.3': {}
 
   '@iconify-json/catppuccin@1.2.17':
+    dependencies:
+      '@iconify/types': 2.0.0
+
+  '@iconify-json/ph@1.2.2':
     dependencies:
       '@iconify/types': 2.0.0
 

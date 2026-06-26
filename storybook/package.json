@@ -11,6 +11,7 @@
   "devDependencies": {
     "@antfu/design": "workspace:*",
     "@iconify-json/catppuccin": "catalog:frontend",
+    "@iconify-json/ph": "catalog:frontend",
     "@storybook/vue3-vite": "catalog:storybook",
     "@unocss/preset-icons": "catalog:frontend",
     "@unocss/preset-web-fonts": "catalog:frontend",

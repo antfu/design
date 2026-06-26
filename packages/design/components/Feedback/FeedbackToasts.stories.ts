@@ -27,7 +27,7 @@ export const Default: Story = {
       }
       function show(): void {
         const id = ++counter
-        items.value.push({ id, title: 'Saved', message: 'Your changes were saved.', type: 'success', icon: 'i-catppuccin:folder' })
+        items.value.push({ id, title: 'Saved', message: 'Your changes were saved.', type: 'success', icon: 'i-ph:folder' })
         setTimeout(dismiss, 4000, id)
       }
       return { items, show, dismiss }

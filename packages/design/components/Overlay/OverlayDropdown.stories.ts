@@ -16,10 +16,10 @@ export const Default: Story = {
   render: () => ({
     components: { OverlayDropdown, OverlayDropdownItem, ActionButton },
     template: `<OverlayDropdown>
-      <template #trigger><ActionButton icon="i-catppuccin:settings">Menu</ActionButton></template>
-      <OverlayDropdownItem icon="i-catppuccin:folder">Open</OverlayDropdownItem>
-      <OverlayDropdownItem icon="i-catppuccin:typescript">Rename</OverlayDropdownItem>
-      <OverlayDropdownItem icon="i-catppuccin:trash">Delete</OverlayDropdownItem>
+      <template #trigger><ActionButton icon="i-ph:gear">Menu</ActionButton></template>
+      <OverlayDropdownItem icon="i-ph:folder">Open</OverlayDropdownItem>
+      <OverlayDropdownItem icon="i-ph:pencil-simple">Rename</OverlayDropdownItem>
+      <OverlayDropdownItem icon="i-ph:trash">Delete</OverlayDropdownItem>
     </OverlayDropdown>`,
   }),
 }

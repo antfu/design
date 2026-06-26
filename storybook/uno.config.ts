@@ -8,12 +8,16 @@ import { presetAnthonyDesign } from '../packages/design/unocss'
 // web fonts (which the preset deliberately does not bundle).
 export default defineConfig({
   content: {
-    filesystem: [
-      '../packages/design/components/**/*.vue',
-      '../packages/design/{unocss,utils,a11y}/**/*.ts',
-      './stories/**/*.{ts,vue}',
-      './.storybook/**/*.{ts,vue}',
-    ],
+    pipeline: {
+      // UnoCSS's default scan pipeline covers `.vue`/`.tsx`/etc. but not plain
+      // `.ts` (utility `.ts` files opt in with a `// @unocss-include` mark). The
+      // co-located `*.stories.ts` reference demo icons (e.g. `i-ph:folder`) as
+      // string literals, so add them to the pipeline alongside the defaults.
+      include: [
+        /\.(?:vue|svelte|[jt]sx|mdx?|astro|elm|php|phtml|html)($|\?)/,
+        /\.stories\.[jt]s($|\?)/,
+      ],
+    },
   },
   presets: [
     presetAnthonyDesign(),

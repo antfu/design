@@ -20,7 +20,7 @@ export const Default: Story = {
     setup() {
       return { text: ref('') }
     },
-    template: `<div class="w-72"><FormTextInput v-model="text" placeholder="Your name" icon="i-catppuccin:folder" clearable /></div>`,
+    template: `<div class="w-72"><FormTextInput v-model="text" placeholder="Your name" icon="i-ph:folder" clearable /></div>`,
   }),
 }
 

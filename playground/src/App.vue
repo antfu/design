@@ -92,7 +92,7 @@ const tabs = [
       </LayoutCard>
 
       <LayoutCard class="col-span-2">
-        <FeedbackEmptyState title="No results" icon="i-catppuccin:folder">
+        <FeedbackEmptyState title="No results" icon="i-ph:folder">
           <template #hint>
             Try a different search term.
           </template>
