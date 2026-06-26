@@ -37,7 +37,7 @@
   },
   "files": [
     "a11y",
-    "components",
+    "components/**/*.vue",
     "skills",
     "styles",
     "unocss",
@@ -77,6 +77,7 @@
     "@arethetypeswrong/cli": "catalog:testing",
     "@axe-core/playwright": "catalog:testing",
     "@iconify-json/catppuccin": "catalog:frontend",
+    "@storybook/vue3-vite": "catalog:storybook",
     "@unocss/preset-icons": "catalog:frontend",
     "@unocss/preset-mini": "catalog:frontend",
     "@unocss/preset-web-fonts": "catalog:frontend",

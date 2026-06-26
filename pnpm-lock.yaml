@@ -230,6 +230,9 @@ importers:
       '@iconify-json/catppuccin':
         specifier: catalog:frontend
         version: 1.2.17
+      '@storybook/vue3-vite':
+        specifier: catalog:storybook
+        version: 10.4.6(esbuild@0.28.1)(storybook@10.4.6(@testing-library/dom@10.4.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
       '@unocss/preset-icons':
         specifier: catalog:frontend
         version: 66.7.2

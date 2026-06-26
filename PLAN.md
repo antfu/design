@@ -423,10 +423,13 @@ plus `neutral` / `warning` / `success` / `error`.
 `color-scale-{neutral,low,medium,high,critical}` (gray→lime→amber→orange→red, dark-aware),
 unifying the duplicated severity/freshness/staleness ramps.
 
-### Dynamic rules (`presetAnthonyRules`)
+### Dynamic rules
 
 - `badge-color-(\w+)` → tinted bg/text/border tuple (the shared formula).
 - `bg-glass(:\d+)?` → translucent surface + backdrop-blur.
+- `bg-dots(-\d+)?` / `bg-grid(-\d+)?` → dot-grid / crosshatch background with a
+  variable cell size in px (real UnoCSS `rules` emitting `background-image` +
+  `background-size`; default 16). These replace the former `bg-dots.css`.
 - (No `n-(.*)` context-color rule — removed per decision.)
 
 ### Dark mode
@@ -447,7 +450,6 @@ that imports all of them:
 
 - `base.css` — root `bg-base`/`color-base`, `color-scheme`.
 - `scrollbar.css` — thin scrollbar.
-- `bg-dots.css` — dot-grid background.
 - `animations.css` — spinner keyframes, view-transition reveal.
 - `reka-ui.css`, `floating-vue.css`, `splitpanes.css` — **token-driven overrides** so all
   three overlay engines recolor automatically with the theme (the "overrided css").
@@ -902,7 +904,7 @@ Concrete, ordered tasks to get from empty repo to a passing CI with one real com
 4. **Preset skeleton.** `presetAnthonyTheme` (primary + scales + `micro/mini/compact` + z-layers),
    `presetAnthonyShortcuts` (the §6 token table), `presetAnthonyRules`, `presetAnthonySeverity`,
    and the `presetAnthonyDesign` aggregator. Export all from `./unocss`.
-5. **Composable styles.** `styles/{base,scrollbar,bg-dots,animations,reka-ui,floating-vue,
+5. **Composable styles.** `styles/{base,scrollbar,animations,reka-ui,floating-vue,
    splitpanes}.css` + `index.css`.
 6. **Core utilities.** `utils/color` (`getHashColorFromString`, `getHsla`) + `utils/format`
    first; unit-test them.

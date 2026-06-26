@@ -5,7 +5,6 @@
   },
   "include": [
     ".storybook/**/*.ts",
-    "stories/**/*.ts",
     "uno.config.ts"
   ]
 }

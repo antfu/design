@@ -79,4 +79,4 @@ jobs:
         run: |
           pnpm dlx serve -l 6006 storybook/storybook-static &
           npx --yes wait-on http://localhost:6006
-          pnpm -F @antfu/design exec tsx a11y/cli.ts "http://localhost:6006/iframe.html?id=tier-1-badge--gallery"
+          pnpm -F @antfu/design exec tsx a11y/cli.ts "http://localhost:6006/iframe.html?id=display-displaybadge--gallery"

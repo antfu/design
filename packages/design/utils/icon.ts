@@ -1,3 +1,6 @@
+// @unocss-include — this file embeds `i-catppuccin:*` icon classes that a
+// consumer's UnoCSS must generate; the marker forces full extraction.
+
 /**
  * Map a file path / module id to an icon class. The rule list is configurable
  * — the default targets `@iconify-json/catppuccin`, but a caller can pass a

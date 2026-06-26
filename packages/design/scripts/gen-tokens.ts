@@ -57,6 +57,8 @@ const content = [
   '|---|---|',
   '| `badge-color-<name>` | a chip tinted by any palette color name (dark-aware) |',
   '| `bg-glass` / `bg-glass:<n>` | translucent surface + `backdrop-blur` |',
+  '| `bg-dots` / `bg-dots-<n>` | radial dot-grid background, variable cell size in px (default 16) |',
+  '| `bg-grid` / `bg-grid-<n>` | crosshatch grid-lines background, variable cell size in px (default 16) |',
 ].join('\n')
 
 function inject(file: string): void {

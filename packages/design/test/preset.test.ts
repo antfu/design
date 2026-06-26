@@ -88,6 +88,18 @@ describe('presetAnthonyDesign', () => {
     expect(css).toContain('red')
   })
 
+  it('generates bg-dots / bg-grid pattern rules with a variable size', async () => {
+    const css = await generate(
+      [presetAnthonyDesign(), presetWind4()],
+      'bg-dots bg-dots-24 bg-grid bg-grid-32',
+    )
+    expect(css).toContain('radial-gradient')
+    expect(css).toContain('linear-gradient')
+    expect(css).toContain('16px 16px') // default size
+    expect(css).toContain('24px 24px')
+    expect(css).toContain('32px 32px')
+  })
+
   it('validates option shapes', () => {
     // @ts-expect-error invalid on purpose
     expect(() => presetAnthonyDesign({ primary: 123 })).toThrow(/primary/)

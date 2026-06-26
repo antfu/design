@@ -1,3 +1,6 @@
+// @unocss-include — this file embeds `color-scale-*` utility classes that a
+// consumer's UnoCSS must generate; the marker forces full extraction.
+
 /**
  * Pure formatting helpers shared by the display components, plus the
  * severity/age → `color-scale-*` mappings. Re-implemented once here instead of

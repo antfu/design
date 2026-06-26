@@ -3,6 +3,7 @@ import type { PresetAnthonyDesignOptions } from './options'
 import { definePreset, mergeDeep } from '@unocss/core'
 import { error, resolvePrimary, success, warning } from './colors'
 import { DEFAULT_DARK_BG, DEFAULT_FONTS } from './options'
+import { patternRules } from './patterns'
 import { buildRules } from './rules'
 import { severityShortcuts } from './severity'
 import { buildShortcuts } from './shortcuts'
@@ -76,6 +77,7 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
     name: '@antfu/design',
     extendTheme: theme => mergeDeep(theme as any, themeOverrides as any),
     shortcuts,
+    rules: patternRules,
   }
 })
 

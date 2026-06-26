@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import Badge from '@antfu/design/components/Display/DisplayBadge.vue'
+import DisplayBadge from './DisplayBadge.vue'
 
 const meta = {
-  title: 'Tier 1/Badge',
-  component: Badge,
+  title: 'Display/DisplayBadge',
+  component: DisplayBadge,
   tags: ['autodocs'],
   argTypes: {
     variant: { control: 'inline-radio', options: ['subtle', 'solid'] },
     size: { control: 'inline-radio', options: ['sm', 'md'] },
   },
   args: { text: 'vite', variant: 'subtle', size: 'md' },
-} satisfies Meta<typeof Badge>
+} satisfies Meta<typeof DisplayBadge>
 
 export default meta
 type Story = StoryObj<typeof meta>
@@ -23,18 +23,9 @@ export const WithIcon: Story = { args: { text: 'Vue', icon: 'i-catppuccin:vue' }
 
 export const Gallery: Story = {
   render: () => ({
-    components: { Badge },
+    components: { DisplayBadge },
     template: `<div class="flex flex-wrap gap-2">
-      <Badge v-for="n in ['vue','react','svelte','vite','unocss','nuxt','rolldown','eslint']" :key="n" :text="n" />
-    </div>`,
-  }),
-}
-
-export const PaletteColors: Story = {
-  render: () => ({
-    components: { Badge },
-    template: `<div class="flex flex-wrap gap-2">
-      <Badge v-for="c in ['green','blue','amber','red','purple','teal']" :key="c" :text="c" :color="c" />
+      <DisplayBadge v-for="n in ['vue','react','svelte','vite','unocss','nuxt','rolldown','eslint']" :key="n" :text="n" />
     </div>`,
   }),
 }

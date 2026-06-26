@@ -5,7 +5,8 @@ import Unocss from 'unocss/vite'
 import { mergeConfig } from 'vite'
 
 const config: StorybookConfig = {
-  stories: ['../stories/**/*.stories.@(ts|js)'],
+  // Stories are co-located next to each component in the package.
+  stories: ['../../packages/design/components/**/*.stories.@(ts|js)'],
   addons: [],
   framework: {
     name: '@storybook/vue3-vite',
