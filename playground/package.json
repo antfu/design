@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@antfu/design": "workspace:*",
+    "@iconify-json/catppuccin": "catalog:frontend",
     "@unocss/preset-icons": "catalog:frontend",
     "@unocss/preset-web-fonts": "catalog:frontend",
     "@unocss/preset-wind4": "catalog:frontend",

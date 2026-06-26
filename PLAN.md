@@ -91,6 +91,24 @@ them, and when you do, it's a manual copy of one readable file.
 We inspected all eight source projects plus `starter-ts`, `eslint-config`, and the
 `antfu-design` skill. The load-bearing findings:
 
+### Reference repositories
+
+The source projects studied (token dialect, components, utilities, a11y scan):
+
+- [antfu/node-modules-inspector](https://github.com/antfu/node-modules-inspector)
+- [eslint/config-inspector](https://github.com/eslint/config-inspector)
+- [vitejs/devtools — packages/rolldown](https://github.com/vitejs/devtools/tree/main/packages/rolldown)
+- [antfu-collective/vite-plugin-inspect](https://github.com/antfu-collective/vite-plugin-inspect)
+- [antfu/ghfs](https://github.com/antfu/ghfs)
+- [unocss/unocss — interactive](https://github.com/unocss/unocss/tree/main/interactive)
+- [unocss/unocss — packages-integrations/inspector](https://github.com/unocss/unocss/tree/main/packages-integrations/inspector)
+- [nuxt/devtools](https://github.com/nuxt/devtools)
+
+Plus the direct blueprints: [`@vitejs/devtools-ui`](https://github.com/vitejs/devtools/tree/main/packages/ui)
+(the preset/shortcuts/color "v0"), [`@antfu/eslint-config`](https://github.com/antfu/eslint-config)
+(the options-factory pattern), and [`antfu/starter-ts`](https://github.com/antfu/starter-ts)
+(project setup + CI/release conventions).
+
 ### The closest existing blueprints
 
 - **[`@vitejs/devtools-ui`](https://github.com/vitejs/devtools/tree/main/packages/ui)** — a

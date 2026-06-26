@@ -65,6 +65,7 @@
   },
   "dependencies": {
     "@antfu/utils": "catalog:inlined",
+    "@iconify-json/catppuccin": "catalog:frontend",
     "@tanstack/vue-virtual": "catalog:frontend",
     "@unocss/core": "catalog:frontend",
     "@vueuse/core": "catalog:frontend",
@@ -76,7 +77,6 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:testing",
     "@axe-core/playwright": "catalog:testing",
-    "@iconify-json/catppuccin": "catalog:frontend",
     "@storybook/vue3-vite": "catalog:storybook",
     "@unocss/preset-icons": "catalog:frontend",
     "@unocss/preset-mini": "catalog:frontend",
