@@ -1,0 +1,17 @@
+.cache
+.DS_Store
+.idea
+.githooks
+*.log
+*.tgz
+*.local
+cache
+coverage
+dist
+lib-cov
+logs
+node_modules
+skills/npm-*
+storybook-static
+temp
+*.timestamp-*

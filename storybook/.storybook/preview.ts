@@ -1,0 +1,36 @@
+import type { Preview } from '@storybook/vue3-vite'
+import { h } from 'vue'
+import 'virtual:uno.css'
+import 'floating-vue/dist/style.css'
+import '../../packages/design/styles/index.css'
+
+const preview: Preview = {
+  parameters: {
+    layout: 'centered',
+    controls: { expanded: true },
+  },
+  globalTypes: {
+    theme: {
+      description: 'Color scheme',
+      defaultValue: 'light',
+      toolbar: {
+        title: 'Theme',
+        icon: 'circlehollow',
+        items: [
+          { value: 'light', title: 'Light', icon: 'sun' },
+          { value: 'dark', title: 'Dark', icon: 'moon' },
+        ],
+        dynamicTitle: true,
+      },
+    },
+  },
+  decorators: [
+    (story, context) => {
+      const dark = context.globals.theme === 'dark'
+      document.documentElement.classList.toggle('dark', dark)
+      return () => h('div', { class: 'p-8 bg-base color-base font-sans' }, [h(story())])
+    },
+  ],
+}
+
+export default preview

@@ -16,7 +16,7 @@ Nothing is built yet. Key decisions are now locked (see [§15](#15-decisions-res
 2. [Positioning: library ↔ shadcn](#2-positioning-library--shadcn)
 3. [Research summary (what we vendor from)](#3-research-summary-what-we-vendor-from)
 4. [Package and repo layout](#4-package-and-repo-layout)
-5. [The UnoCSS preset (composable factory)](#5-the-unocss-preset-composable-factory)
+5. [The UnoCSS preset (single, not self-contained)](#5-the-unocss-preset-single-not-self-contained)
 6. [Design tokens and theming](#6-design-tokens-and-theming)
 7. [Component library (primitives)](#7-component-library-primitives)
 8. [Recipes and high-level components (deferred)](#8-recipes-and-high-level-components-deferred)
@@ -152,34 +152,28 @@ playground.
 ```
 porto/                              # repo (working dir; codename "porto")
 ├── packages/
-│   └── design/                     # the published package: @antfu/design
-│       ├── src/
-│       │   ├── index.ts            # components + recipes barrel (main export)
-│       │   ├── components/         # Vue primitives (raw .vue, self-contained)
-│       │   ├── recipes/            # composed patterns (FilePath, StatRow, ...)
-│       │   ├── composables/        # dark, commands, search, zoom, persisted-state, editor, ...
-│       │   ├── utils/              # color, format, path, icon, semver, tree, keybinding, contrast, ...
-│       │   ├── unocss/             # the composable preset (framework-agnostic)
-│       │   │   ├── index.ts        # presetAnthonyDesign(options) — composes sub-presets
-│       │   │   ├── theme.ts        # presetAnthonyTheme  (tokens/scales/fonts/z-layers)
-│       │   │   ├── shortcuts.ts    # presetAnthonyShortcuts (base-agnostic semantic layer)
-│       │   │   ├── rules.ts        # presetAnthonyRules (badge-color-*, bg-glass, ...)
-│       │   │   └── severity.ts     # presetAnthonySeverity (color-scale-*)
-│       │   ├── styles/             # composable CSS files + index.css (imports all)
-│       │   │   ├── index.css       # @import all of the below
-│       │   │   ├── base.css        # root bg-base/color-base, color-scheme
-│       │   │   ├── scrollbar.css   # thin scrollbar
-│       │   │   ├── bg-dots.css     # dot grid
-│       │   │   ├── animations.css  # spinner keyframes, view-transition
-│       │   │   ├── reka-ui.css     # reka-ui token overrides
-│       │   │   ├── floating-vue.css # floating-vue popper token overrides
-│       │   │   └── splitpanes.css  # splitpanes splitter token overrides
-│       │   └── a11y/               # contrast-check script (bin + programmatic)
+│   └── design/                     # the published package: @antfu/design (ships raw source at root, no build)
+│       ├── components/             # Vue primitives in category subfolders, prefixed; NO barrel — full-path imports
+│       │   ├── Action/             # ActionButton.vue, ActionIconButton.vue, ActionDarkToggle.vue
+│       │   ├── Display/            # DisplayBadge.vue, DisplayNumber.vue, DisplayFilePath.vue, …
+│       │   ├── Form/               # FormTextInput.vue, FormSelect.vue, …
+│       │   ├── Overlay/            # OverlayModal.vue, OverlayDropdown.vue, OverlayTooltip.vue, …
+│       │   ├── Layout/             # LayoutCard.vue, LayoutTabs.vue, LayoutSplitPane.vue, …
+│       │   └── Feedback/           # FeedbackSpinner.vue, FeedbackTip.vue, FeedbackToasts.vue (controlled), …
+│       ├── utils/                  # color, format, path, icon, semver, tree, keybinding, contrast, misc (pure, stateless)
+│       ├── unocss/                 # the composable preset (framework-agnostic)
+│       │   ├── index.ts            # presetAnthonyDesign(options) — composes sub-presets
+│       │   ├── theme.ts            # presetAnthonyTheme  (tokens/scales/fonts/z-layers)
+│       │   ├── shortcuts.ts        # presetAnthonyShortcuts (base-agnostic semantic layer)
+│       │   ├── rules.ts            # presetAnthonyRules (badge-color-*, bg-glass, ...)
+│       │   └── severity.ts         # presetAnthonySeverity (color-scale-*)
+│       ├── styles/                 # composable CSS files + index.css (--af-* custom props)
+│       ├── a11y/                   # contrast-check: index.ts (programmatic) + cli.ts (tsx-runnable)
 │       ├── skill/                  # the ground-up skill, shipped via skills-npm
 │       │   └── antfu-design/       # SKILL.md + references/
-│       ├── test/                   # vitest + snapshots + DOM tests
-│       ├── tsdown.config.ts
-│       └── package.json
+│       ├── test/                   # vitest + snapshots + DOM tests (import the source directly)
+│       ├── scripts/gen-tokens.ts   # tokens-table generator (preset → README + skill)
+│       └── package.json            # exports → source; published via `files` glob; no `.` barrel, no `bin`
 ├── storybook/                      # Storybook app (also the a11y scan target)
 ├── playground/                     # tiny Vite+Vue app to dogfood
 ├── pnpm-workspace.yaml             # catalogs (cli/testing/types/inlined)
@@ -190,68 +184,83 @@ porto/                              # repo (working dir; codename "porto")
 
 ### Proposed `package.json` exports
 
+The package **ships raw `.ts` / `.vue` source** (no bundler) — the source lives at
+the package root (not under `src/`) and is published via the `files` glob. There
+is **no `.` root barrel and no components barrel**: components are imported by
+**full path**, so the public interface is just a few subpaths.
+
 ```jsonc
 {
   "name": "@antfu/design",
   "type": "module",
-  "bin": { "antfu-design-a11y": "./dist/a11y/cli.mjs" },
   "exports": {
-    ".": "./dist/index.mjs",                  // components + recipes
-    "./unocss": "./dist/unocss/index.mjs",    // presetAnthonyDesign + sub-presets
-    "./composables": "./dist/composables/index.mjs",
-    "./utils": "./dist/utils/index.mjs",
-    "./a11y": "./dist/a11y/index.mjs",        // programmatic contrast check
-    "./styles.css": "./dist/styles/index.css", // all styles at once
-    "./styles/*": "./dist/styles/*",          // composable individual style files
-    "./components/*": "./dist/components/*",   // granular / readable single-file imports
+    "./unocss": "./unocss/index.ts", // presetAnthonyDesign + sub-presets
+    "./utils": "./utils/index.ts", // pure, stateless helpers
+    "./a11y": "./a11y/index.ts", // programmatic contrast check
+    "./styles.css": "./styles/index.css", // all styles at once
+    "./styles/*": "./styles/*", // composable individual style files
+    "./components/*": "./components/*", // full-path SFC imports, e.g. ./components/Display/DisplayBadge.vue
     "./package.json": "./package.json"
-  }
+  },
+  "files": ["a11y", "components", "styles", "unocss", "utils", "skill"]
 }
 ```
 
-`exports` kept in sync by **tsdown `exports: true`** and validated by **publint** (as in
-`starter-ts`). No `./nuxt`, no `./resolver`, no CLI registry — those are out of scope.
+Components are imported by full path, e.g.
+`import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'`.
+No `.` barrel, no `./composables` (the package holds no state), no `bin` (the a11y
+scan is the programmatic `./a11y` export, plus a `tsx`-runnable `a11y/cli.ts`). No
+`./nuxt`, `./resolver`, or CLI registry — out of scope. The consumer's build
+compiles the `.ts`/`.vue`; UnoCSS must scan the package for the components' classes.
 
 ---
 
-## 5. The UnoCSS preset (composable factory)
+## 5. The UnoCSS preset (single, not self-contained)
 
-Per decision, the preset is **composable, not self-contained**. Two principles:
+> **Updated decision:** the design layer is now a **single preset**
+> `presetAnthonyDesign` — not an umbrella over four sub-presets. (The internal
+> `theme` / `shortcuts` / `rules` / `severity` modules remain, but they are
+> private build helpers, not exported presets.) UnoCSS only generates *used*
+> classes, so there are no `shortcuts`/`rules`/`severity` toggle options — an
+> unused layer costs nothing. Sections below describing the umbrella / à-la-carte
+> sub-presets are superseded by this single-preset shape.
 
-1. **Decomposed into small, independently-usable sub-presets** — theme, shortcuts, rules,
-   severity. Each is a normal UnoCSS `Preset` you can drop into `presets: []` on its own.
-2. **It composes with, rather than swallowing, the base.** The umbrella does not lock you
-   into a bundled `presetWind4`. The base and integrations are **toggleable** (bring your own,
-   or let the umbrella add them), and the design layer (shortcuts/rules) is written to be
-   **base-agnostic** so it works on Wind4, Wind3, or Mini.
+Two principles still hold:
+
+1. **One preset, not self-contained.** It contributes only the antfu design layer
+   (theme tokens + semantic shortcuts + dynamic rules + severity). It bundles
+   **no** base preset, icons, web-fonts or reset.
+2. **It composes with, rather than swallowing, the base.** The design layer
+   (shortcuts/rules) is written **base-agnostic** so it works on Wind4, Wind3, or
+   Mini — the consumer supplies the base preset.
 
 ### Public API — convenience umbrella
 
 ```ts
-import { presetIcons, presetWebFonts, presetWind4 } from 'unocss'
 import { presetAnthonyDesign } from '@antfu/design/unocss'
+import { presetIcons, presetWebFonts, presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
     presetAnthonyDesign({
       // theme overrides
-      primary: '#49833E',     // string | full color scale object
+      primary: '#49833E', // string | full color scale object
       darkBackground: '#111',
 
       // design-layer toggles (default true; for finer control, compose sub-presets)
-      shortcuts: true,        // semantic *-base layer
-      rules: true,            // badge-color-*, bg-glass, ...
-      severity: true,         // color-scale-{neutral..critical}
+      shortcuts: true, // semantic *-base layer
+      rules: true, // badge-color-*, bg-glass, ...
+      severity: true, // color-scale-{neutral..critical}
 
       // escape hatches
       theme: { /* deep-merged */ },
-      extendShortcuts: [ /* appended */ ],
+      extendShortcuts: [],
     }),
 
     // The base preset and integrations are YOURS to compose — presetAnthonyDesign
     // bundles NONE of them. A base preset is required (it provides the underlying
     // utilities the semantic shortcuts expand into).
-    presetWind4(),            // base: wind4 | wind3 | mini
+    presetWind4(), // base: wind4 | wind3 | mini
     presetIcons(),
     presetWebFonts({ fonts: { sans: 'DM Sans', mono: 'DM Mono' } }),
   ],
@@ -266,19 +275,19 @@ of "composable, not self-contained."
 ### Public API — à la carte composition (the "composable" path)
 
 ```ts
-import { presetWind4 } from 'unocss'
 import {
-  presetAnthonyTheme,
-  presetAnthonyShortcuts,
   presetAnthonyRules,
   presetAnthonySeverity,
+  presetAnthonyShortcuts,
+  presetAnthonyTheme,
 } from '@antfu/design/unocss'
+import { presetWind4 } from 'unocss'
 
 export default defineConfig({
   presets: [
-    presetWind4(),               // your own base, your own version/options
+    presetWind4(), // your own base, your own version/options
     presetAnthonyTheme({ primary: '#0969da' }),
-    presetAnthonyShortcuts(),    // base-agnostic; works on wind3/wind4/mini
+    presetAnthonyShortcuts(), // base-agnostic; works on wind3/wind4/mini
     presetAnthonyRules(),
     presetAnthonySeverity(),
   ],
@@ -422,8 +431,14 @@ unifying the duplicated severity/freshness/staleness ramps.
 
 ### Dark mode
 
-Class-based on `<html>` + `color-scheme`. Ship `useDark` and the **view-transition
-circular-reveal toggle** (respecting `prefers-reduced-motion`).
+**Dark mode is the consuming app's to own — the package ships no `isDark` /
+`toggleDark` state.** Class-based on `<html>` + `color-scheme` is the expected
+convention, but the app holds the state. Components that vary by scheme take a
+`colorScheme: 'light' | 'dark'` prop (default `'light'`); `ActionDarkToggle` is a
+**controlled** component (`colorScheme` prop + `update:colorScheme` event) that
+still provides the **view-transition circular-reveal** (respecting
+`prefers-reduced-motion`). Pure color utils (`getHashColorFromString`, `getHsla`,
+`labelStyle`) take an explicit dark flag rather than reading global state.
 
 ### Styles (composable, like the preset)
 
@@ -437,6 +452,12 @@ that imports all of them:
 - `reka-ui.css`, `floating-vue.css`, `splitpanes.css` — **token-driven overrides** so all
   three overlay engines recolor automatically with the theme (the "overrided css").
 
+`base.css` defines a small set of CSS custom properties (prefixed **`--af-`**,
+e.g. `--af-bg-base`, `--af-color-base`, `--af-tooltip-bg`) for light/dark, which
+the overlay-override files reference so they recolor on plain `import` without
+needing UnoCSS to process them. (`splitpanes.css` also carries the minimal base
+layout so `LayoutSplitPane` works without importing the dependency's CSS.)
+
 Consumers either `import '@antfu/design/styles.css'` (everything) or cherry-pick, e.g.
 `import '@antfu/design/styles/floating-vue.css'`. A CSS reset (`@unocss/reset`) is the
 consumer's to add, just like the base/icon/font presets — we do not bundle one.
@@ -446,9 +467,17 @@ consumer's to add, just like the base/icon/font presets — we do not bundle one
 ## 7. Component library (primitives)
 
 Vue 3 `<script setup>` + `defineModel`, token-driven (no hard-coded colors), self-contained,
-explicitly imported (no auto-import, plain PascalCase: `import { Badge, Button } from '@antfu/design'`).
-Overlay/structured behavior comes from **reka-ui**; tooltips and lightweight poppers from
-**floating-vue**; resizable panes from **splitpanes** — all themed via the global CSS overrides.
+explicitly imported (no auto-import). Components are **organized into category subfolders and
+prefixed with the category name** (modeled on `@vitejs/devtools-ui`): `Display/DisplayBadge.vue`,
+`Form/FormTextInput.vue`, `Overlay/OverlayModal.vue`, `Layout/LayoutCard.vue`,
+`Action/ActionButton.vue`, `Feedback/FeedbackTip.vue`. The export name matches the file
+(`import { DisplayBadge, ActionButton } from '@antfu/design'`), and `./components/Display/DisplayBadge.vue`
+is the granular subpath. Categories: **Action, Display, Form, Layout, Overlay, Feedback.**
+Components that vary by color scheme take a **`colorScheme: 'light' | 'dark'`** prop (the
+package owns no dark state). Overlay/structured behavior comes from **reka-ui**; tooltips and
+lightweight poppers from **floating-vue**; resizable panes from **splitpanes** — all themed via
+the global CSS overrides. (The tables below use the original concept names; the shipped export is
+the category-prefixed form, e.g. `Badge` → `DisplayBadge`, `Modal` → `OverlayModal`.)
 
 ### Tier 1 — universal
 
@@ -506,7 +535,8 @@ Overlay/structured behavior comes from **reka-ui**; tooltips and lightweight pop
 
 ### Conventions
 
-- **No prefix, explicit imports.** Tree-shakeable; readable.
+- **Category-prefixed names, explicit imports.** Tree-shakeable; readable. Each component
+  lives in a category subfolder and is prefixed by it (`DisplayBadge`, `OverlayModal`, …).
 - Props/slots designed as a **superset** of existing project variants → migration is
   prop-renames, not rewrites.
 - Token-only styling, dark-mode parity, keyboard/focus handling (largely free via reka-ui),
@@ -575,18 +605,17 @@ reinvent.
 
 - **Version / semver** `PURE` — `parseSemverRange(range)` (cached; splits `||`, normalizes,
   sorts → `{ valid, highest, lowest, parts, bare }`), `compareSemver`, `compareSemverRange`.
-- **Persisted / synced state** `COMP` — `createPersistedState(key, defaults)` (over VueUse
-  `useLocalStorage` + `mergeDefaults`), `usePersistedPaneSize(key)` (split-pane sizes),
-  `useQuerySync(state)`
-  (reactive ⇄ hash `URLSearchParams`, debounced), `useExpandState`.
+- **Persisted / synced state** — **dropped.** No `createPersistedState` /
+  `usePersistedPaneSize` / `useExpandState` wrappers; consumers use VueUse
+  `useLocalStorage` directly (`LayoutSplitPane` does this internally for its
+  optional `storageKey`).
 - **Keybindings / platform** `PURE` + `COMP` — `parseChord` / `parseBinding` / `eventToToken` /
   `chordDisplay` / `bindingDisplay`, `isMac`, and **platform glyph rendering** (⌘/⌃/⌥/⇧ vs
   Ctrl/Alt); `useInputFocus()` (suppress shortcuts while typing). Builds on VueUse
   `useMagicKeys`. (Kept for the `Kbd` component; the `useCommand(id)` registry pairing is
   deferred with the palette, §8.)
-- **Editor / clipboard** `COMP` — `useOpenInEditor({ endpoint })` (configurable RPC /
-  `/__open-in-editor`, vfs fallback), `useCopy()` (clipboard + notification),
-  `useClipboardState` (copy + `copied` flag).
+- **Clipboard** — **no `useCopy` wrapper.** Consumers use VueUse `useClipboard`
+  directly. (`useOpenInEditor` remains deferred with the editor integrations.)
 - **Color (advanced)** `PURE` — `labelStyle(hex, isDark)` (OKLCH contrast-aware fg/bg/border
   from a base hex, cached) complementing the WCAG `utils/contrast` helpers (§11);
   `createSeverityScale` / level→`{icon,color}` lookup helper.
@@ -594,8 +623,10 @@ reinvent.
   tuple), `isNumeric`, `nth(n)` (ordinal), `pluralize(count, one, many?)`, `safeJsonParse`,
   `jsonStringifyCircular`, `stringifyUnquoted` (unquoted-key JSON for config display), `toArray`,
   `clamp`.
-- **Dark mode** `COMP` — `useDark` + `toggleDark`, plus the optional **animated view-transition**
-  `toggleDarkAnimated(event)` (circular clip-path reveal, copy-pasted across antfu projects).
+- **Dark mode** — **not owned by the package.** No `useDark` / `toggleDark` /
+  `toggleDarkAnimated`. The app holds the scheme; components take a `colorScheme`
+  prop, and the animated **view-transition circular reveal** lives inside the
+  controlled `ActionDarkToggle`.
 - **Notifications** `COMP` — `provideNotification` / `useNotification` (toast queue).
 - **Contrast** `PURE` — WCAG relative-luminance + contrast-ratio helpers (shared with §11).
 - **Shiki** `COMP` *(deferred with code/diff, §7 "out")* — `useShikiHighlighter()` (dark-aware
@@ -691,8 +722,8 @@ monorepo.
 | Concern | Choice |
 |---|---|
 | Package manager | pnpm + **catalogs** in `pnpm-workspace.yaml` |
-| Module type | ESM-only (`"type": "module"`, `.mjs`/`.d.mts`) |
-| Build | **tsdown** (`dts: true`, `exports: true`, `publint: true`) + a Vue SFC build step (verify SFC handling — main toolchain unknown, de-risk in M0) |
+| Module type | ESM-only (`"type": "module"`); **raw `.ts` / `.vue` source shipped as-is** |
+| Build | **None.** No bundler/transpile — `exports` point at the source files, published via the `files` glob; the consumer's build compiles them. (Avoids the SFC-build risk entirely.) `vue-tsc` typechecks; `vitest` tests against source. |
 | Lint/format | `@antfu/eslint-config`: `antfu({ type: 'lib', vue: true, unocss: true, pnpm: true })`. No Prettier. |
 | Git hooks | `simple-git-hooks` + `nano-staged` (`eslint --fix`) |
 | Typecheck | `tsc --noEmit`, `moduleResolution: Bundler`, `verbatimModuleSyntax` |
@@ -772,11 +803,30 @@ equivalence test.
 - ✅ `VirtualList` uses **`@tanstack/vue-virtual`**.
 - ✅ **Expanded shared utilities/composables** — mined the source components; prioritized set folded into §9.
 - ✅ Ship **raw `.vue`** source (alongside compiled output).
-- ✅ Use **VueUse** freely — wrap, not reinvent.
+- ✅ Use **VueUse** freely — **directly, not wrapped.** No `useCopy` wrapper (use
+  `useClipboard`), no persisted-state wrappers (`createPersistedState` /
+  `usePersistedPaneSize` / `useExpandState` — use `useLocalStorage`).
 - ✅ **Canonical tokens table** = single source of truth, generated from the preset, embedded in README + skill (§6).
 - ⏳ **Command palette + recipes / high-level components deferred** to a future phase; v1 focuses on primitives (§8).
 - ✅ Added **detailed build steps** (M0 → first green build) in §17.
 - ❌ Dropped `composables/zoom`, `composables/search`, `utils/highlight` — too specific.
+- ✅ **Dark mode is the app's, not the package's** — no `isDark`/`toggleDark`. Scheme-dependent
+  components take a **`colorScheme: 'light' | 'dark'`** prop; `ActionDarkToggle` is controlled
+  (`update:colorScheme`) and keeps the view-transition reveal (§6).
+- ✅ **Components categorized into subfolders + category-prefixed** (`Display/DisplayBadge.vue`,
+  `Overlay/OverlayModal.vue`, …); categories Action / Display / Form / Layout / Overlay / Feedback (§7).
+- ✅ Built-in **CSS custom properties use the `--af-` prefix** (`--af-bg-base`, …) (§6).
+- ✅ **Ship raw `.ts` / `.vue` source as-is** — no bundler/transpile (no tsdown build). Source lives
+  at the **package root** (not `src/`), published via the `files` glob; `exports` point at the source (§4).
+- ✅ **No `.` barrel and no components barrel** — components are imported by **full path**
+  (`@antfu/design/components/Display/DisplayBadge.vue`), keeping the public interface small (§4, §7).
+- ✅ **Package is fully stateless** — removed the notification queue + `useInputFocus`; no `./composables`
+  export. Toasts are a controlled `FeedbackToasts` (app owns the array). Use VueUse directly for state.
+- ✅ **No `bin`** — the a11y scan is the programmatic `@antfu/design/a11y` export (plus a `tsx`-runnable `a11y/cli.ts`).
+- ✅ **Thorough JSDoc** (description + `@param`/`@returns`/`@example`) across the utils and preset public API.
+- ✅ **Single preset** — `presetAnthonyDesign` is one preset (no umbrella, no exported sub-presets, no toggles). (§5)
+- ✅ **Use `@antfu/utils`** for generic helpers (`clamp`, `toArray`, …) instead of shipping our own; re-exported from `./utils`.
+- ✅ **Use `colorjs.io`** for all color manipulation (WCAG contrast/luminance, OKLCH `labelStyle`, ramp generation) instead of hand-rolled math.
 
 ### Assumed unless you object
 

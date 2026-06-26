@@ -1,0 +1,97 @@
+{
+  "name": "@antfu/design",
+  "type": "module",
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.9.0",
+  "description": "A customizable, composable design system for devtools-style Vue apps — a UnoCSS preset, Vue primitives, a design skill, and an a11y contrast check",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "funding": "https://github.com/sponsors/antfu",
+  "homepage": "https://github.com/antfu/design#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/antfu/design.git",
+    "directory": "packages/design"
+  },
+  "bugs": "https://github.com/antfu/design/issues",
+  "keywords": [
+    "unocss",
+    "unocss-preset",
+    "vue",
+    "design-system",
+    "components",
+    "devtools",
+    "antfu"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "exports": {
+    "./unocss": "./unocss/index.ts",
+    "./utils": "./utils/index.ts",
+    "./a11y": "./a11y/index.ts",
+    "./styles.css": "./styles/index.css",
+    "./styles/*": "./styles/*",
+    "./components/*": "./components/*",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "a11y",
+    "components",
+    "skills",
+    "styles",
+    "unocss",
+    "utils"
+  ],
+  "scripts": {
+    "docs:gen": "tsx scripts/gen-tokens.ts",
+    "lint": "eslint",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run"
+  },
+  "peerDependencies": {
+    "@axe-core/playwright": "^4.0.0",
+    "playwright": "^1.0.0",
+    "unocss": ">=66.0.0",
+    "vue": "^3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "@axe-core/playwright": {
+      "optional": true
+    },
+    "playwright": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@antfu/utils": "catalog:inlined",
+    "@tanstack/vue-virtual": "catalog:frontend",
+    "@unocss/core": "catalog:frontend",
+    "@vueuse/core": "catalog:frontend",
+    "colorjs.io": "catalog:frontend",
+    "floating-vue": "catalog:frontend",
+    "reka-ui": "catalog:frontend",
+    "splitpanes": "catalog:frontend"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:testing",
+    "@axe-core/playwright": "catalog:testing",
+    "@iconify-json/catppuccin": "catalog:frontend",
+    "@unocss/preset-icons": "catalog:frontend",
+    "@unocss/preset-mini": "catalog:frontend",
+    "@unocss/preset-web-fonts": "catalog:frontend",
+    "@unocss/preset-wind3": "catalog:frontend",
+    "@unocss/preset-wind4": "catalog:frontend",
+    "@vitejs/plugin-vue": "catalog:frontend",
+    "@vue/test-utils": "catalog:testing",
+    "happy-dom": "catalog:testing",
+    "playwright": "catalog:testing",
+    "tsdown": "catalog:cli",
+    "tsdown-stale-guard": "catalog:testing",
+    "tsnapi": "catalog:testing",
+    "unocss": "catalog:frontend",
+    "unplugin-vue": "catalog:frontend",
+    "vue": "catalog:frontend",
+    "vue-tsc": "catalog:frontend"
+  }
+}

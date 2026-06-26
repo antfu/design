@@ -1,0 +1,47 @@
+/** Spinner keyframes + the dark-mode view-transition circular reveal. */
+
+@keyframes af-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes af-spin-reverse {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.af-spin {
+  animation: af-spin 1s linear infinite;
+}
+
+/* View Transitions for the animated dark toggle (see ActionDarkToggle). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root) {
+  z-index: 1;
+}
+
+::view-transition-new(root) {
+  z-index: 9999;
+}
+
+html.dark::view-transition-old(root) {
+  z-index: 9999;
+}
+
+html.dark::view-transition-new(root) {
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}

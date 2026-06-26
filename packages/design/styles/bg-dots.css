@@ -1,0 +1,11 @@
+/** Dot-grid background utility, used behind empty states and panels. */
+
+.bg-dots {
+  background-image: radial-gradient(rgba(136, 136, 136, 0.25) 1px, transparent 1px);
+  background-size: 16px 16px;
+}
+
+.bg-dots-sm {
+  background-image: radial-gradient(rgba(136, 136, 136, 0.25) 1px, transparent 1px);
+  background-size: 10px 10px;
+}

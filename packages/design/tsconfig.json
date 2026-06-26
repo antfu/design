@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "composite": false,
+    "types": ["node"]
+  },
+  "include": [
+    "components/**/*.ts",
+    "components/**/*.vue",
+    "unocss/**/*.ts",
+    "utils/**/*.ts",
+    "a11y/**/*.ts",
+    "shims.d.ts",
+    "scripts/**/*.ts",
+    "test/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

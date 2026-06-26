@@ -1,0 +1,8 @@
+/* All design-system styles. Cherry-pick individual files instead if preferred. */
+@import './base.css';
+@import './scrollbar.css';
+@import './bg-dots.css';
+@import './animations.css';
+@import './reka-ui.css';
+@import './floating-vue.css';
+@import './splitpanes.css';

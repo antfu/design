@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Lint
+        run: pnpm run lint
+      - name: Typecheck
+        run: pnpm run typecheck
+      - name: Test
+        run: pnpm run test
+      - name: Docs in sync
+        run: |
+          pnpm run docs:gen
+          git diff --exit-code -- packages/design/README.md packages/design/skills
+
+  a11y:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run storybook:build
+      - name: Install Playwright Chromium
+        run: pnpm -F @antfu/design exec playwright install --with-deps chromium
+      - name: Serve Storybook + color-contrast scan (light + dark)
+        run: |
+          pnpm dlx serve -l 6006 storybook/storybook-static &
+          npx --yes wait-on http://localhost:6006
+          pnpm -F @antfu/design exec tsx a11y/cli.ts "http://localhost:6006/iframe.html?id=tier-1-badge--gallery"

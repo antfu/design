@@ -1,0 +1,28 @@
+/**
+ * Recolor floating-vue tooltips/dropdowns to the design tokens. Driven by the
+ * `--af-*` custom properties from `base.css` so they follow light/dark.
+ */
+
+.v-popper__popper .v-popper__inner {
+  background: var(--af-tooltip-bg);
+  color: var(--af-color-base);
+  border: 1px solid var(--af-border-base);
+  border-radius: 6px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+  backdrop-filter: blur(8px);
+  padding: 4px 8px;
+  font-size: 12px;
+}
+
+.v-popper__popper .v-popper__arrow-outer {
+  border-color: var(--af-border-base);
+}
+
+.v-popper__popper .v-popper__arrow-inner {
+  border-color: var(--af-tooltip-bg);
+  visibility: visible;
+}
+
+.v-popper--theme-dropdown .v-popper__inner {
+  padding: 4px;
+}

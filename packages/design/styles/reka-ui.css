@@ -1,0 +1,24 @@
+/**
+ * reka-ui ships headless (unstyled) — most styling lives on the components'
+ * own token classes. This file carries only the shared niceties: open/close
+ * transitions for overlays, and locking background scroll behind modals.
+ */
+
+[data-reka-popper-content-wrapper] {
+  z-index: 70;
+}
+
+[data-state='open'][data-af-animate],
+[data-state='closed'][data-af-animate] {
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
+}
+
+[data-state='closed'][data-af-animate] {
+  opacity: 0;
+}
+
+[data-state='open'][data-af-animate] {
+  opacity: 1;
+}
