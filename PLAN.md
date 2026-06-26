@@ -728,7 +728,7 @@ monorepo.
 | Git hooks | `simple-git-hooks` + `nano-staged` (`eslint --fix`) |
 | Typecheck | `tsc --noEmit`, `moduleResolution: Bundler`, `verbatimModuleSyntax` |
 | Release | `bumpp` + the reusable `sxzz/workflows` release workflow (npm provenance via OIDC) |
-| CI | matrix lint + typecheck + build + test + **a11y contrast scan** |
+| CI | `lint`+`typecheck` job, cross-OS `test` matrix (no build — source-shipped), + an **a11y contrast scan** job (uses `@antfu/ni`, `pnpm/action-setup@v6`) |
 | API safety | `tsnapi` API-snapshot test + `tsdown-stale-guard` (per-entry public-surface snapshot) |
 | Skills install | `skills-npm` wired into `prepare` |
 | Key runtime deps | `reka-ui`, `floating-vue`, `splitpanes`, `@tanstack/vue-virtual`, `@vueuse/core` |
