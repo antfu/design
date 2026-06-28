@@ -52,8 +52,11 @@
     "test": "vitest run"
   },
   "peerDependencies": {
+    "@antfu/utils": "^9.0.0",
     "@axe-core/playwright": "^4.0.0",
+    "@iconify-json/catppuccin": "^1.0.0",
     "@tanstack/vue-virtual": "^3.0.0",
+    "colorjs.io": "^0.6.0",
     "floating-vue": "^5.0.0",
     "playwright": "^1.0.0",
     "reka-ui": "^2.0.0",
@@ -62,10 +65,19 @@
     "vue": "^3.5.0"
   },
   "peerDependenciesMeta": {
+    "@antfu/utils": {
+      "optional": true
+    },
     "@axe-core/playwright": {
       "optional": true
     },
+    "@iconify-json/catppuccin": {
+      "optional": true
+    },
     "@tanstack/vue-virtual": {
+      "optional": true
+    },
+    "colorjs.io": {
       "optional": true
     },
     "floating-vue": {
@@ -82,15 +94,14 @@
     }
   },
   "dependencies": {
-    "@antfu/utils": "catalog:inlined",
-    "@iconify-json/catppuccin": "catalog:frontend",
     "@unocss/core": "catalog:frontend",
-    "@vueuse/core": "catalog:frontend",
-    "colorjs.io": "catalog:frontend"
+    "@vueuse/core": "catalog:frontend"
   },
   "devDependencies": {
+    "@antfu/utils": "catalog:inlined",
     "@arethetypeswrong/cli": "catalog:testing",
     "@axe-core/playwright": "catalog:testing",
+    "@iconify-json/catppuccin": "catalog:frontend",
     "@storybook/vue3-vite": "catalog:storybook",
     "@tanstack/vue-virtual": "catalog:frontend",
     "@unocss/preset-icons": "catalog:frontend",
@@ -101,6 +112,7 @@
     "@unocss/transformer-directives": "catalog:frontend",
     "@vitejs/plugin-vue": "catalog:frontend",
     "@vue/test-utils": "catalog:testing",
+    "colorjs.io": "catalog:frontend",
     "floating-vue": "catalog:frontend",
     "happy-dom": "catalog:testing",
     "magic-string": "catalog:testing",
