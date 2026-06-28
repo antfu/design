@@ -39,6 +39,7 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
  * @example
  * ```ts
  * import { presetAnthonyDesign } from '@antfu/design/unocss'
+ * import transformerDirectives from '@unocss/transformer-directives'
  * import { defineConfig, presetIcons, presetWebFonts, presetWind4 } from 'unocss'
  *
  * export default defineConfig({
@@ -48,6 +49,8 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
  *     presetIcons(),
  *     presetWebFonts({ fonts: { sans: 'DM Sans', mono: 'DM Mono' } }),
  *   ],
+ *   // Required — expands the token `--at-apply` directives in the shipped styles.
+ *   transformers: [transformerDirectives()],
  * })
  * ```
  */

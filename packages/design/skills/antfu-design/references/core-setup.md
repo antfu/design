@@ -75,6 +75,7 @@ numbers to fit your app:
 // uno.config.ts (top-level — NOT inside the preset)
 export default defineConfig({
   presets: [presetAnthonyDesign(), presetWind4()],
+  transformers: [transformerDirectives()],
   shortcuts: {
     'z-nav': 'z-[30]',
     'z-dropdown': 'z-[40]',

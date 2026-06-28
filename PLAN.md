@@ -256,6 +256,7 @@ Two principles still hold:
 
 ```ts
 import { presetAnthonyDesign } from '@antfu/design/unocss'
+import transformerDirectives from '@unocss/transformer-directives'
 import { presetIcons, presetWebFonts, presetWind4 } from 'unocss'
 
 export default defineConfig({
@@ -283,6 +284,8 @@ export default defineConfig({
     presetIcons(),
     presetWebFonts({ fonts: { sans: 'DM Sans', mono: 'DM Mono' } }),
   ],
+  // Required — expands the token `--at-apply` directives in the shipped styles.
+  transformers: [transformerDirectives()],
 })
 ```
 
