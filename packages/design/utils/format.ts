@@ -47,7 +47,7 @@ export function mapSeverity(value: number, scale: SeverityScale): ColorScaleClas
     if (value <= max)
       return cls
   }
-  return scale[scale.length - 1][1]
+  return scale.at(-1)?.[1] ?? colorScale.neutral
 }
 
 // ── Locale ──────────────────────────────────────────────────────────────────
@@ -159,7 +159,7 @@ export function formatBytes(bytes: number, options: FormatBytesOptions = {}): [s
   if (i === 0)
     return [String(bytes), 'B']
   const value = (bytes / base ** i).toFixed(digits).replace(/\.?0+$/, '')
-  return [value, units[i]]
+  return [value, units[i] ?? 'B']
 }
 
 /**

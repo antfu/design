@@ -124,6 +124,26 @@ and each recurred across the audit.
   call this out explicitly in the README/skill so it's the headline, not a footnote.
   *(P2 · S)*
 
+### Live dogfooding feedback (from a real migration)
+
+- **Component source deps break the consumer's `vue-tsc` under strict pnpm.** ✅
+  Resolved in this PR. The per-component UI libs the shipped `.vue` imports —
+  `reka-ui`, `floating-vue`, `splitpanes`, `@tanstack/vue-virtual` — are now
+  **optional `peerDependencies`** (the consumer installs only what they use, and
+  their own TS program resolves them at the top level); they're also `devDependencies`
+  here so the package's own build/typecheck/stories resolve them. The broadly-used
+  `@antfu/utils`, `@vueuse/core` (and `colorjs.io`) stay `dependencies`. Also relaxed
+  `@unocss/core` to `>=66.0.0` so it dedupes with the consumer's UnoCSS.
+- **`content.pipeline.include` was never needed.** ✅ Resolved in this PR — UnoCSS's
+  default pipeline already scans imported `.vue`/`.tsx` from `node_modules` (its only
+  default exclude is `cssIdRE`, not `node_modules`), so the `/@antfu\/design/` include
+  was redundant; dropped it from the docs/playground. Docs keep a one-line note that
+  *if* you set `pipeline.include` it **replaces** (not extends) the default scan.
+- **Bordered, square icon-button variant.** ✅ Added `btn-icon-square` (the existing
+  `btn-icon` is round/borderless) — a toolbar-style affordance the hub kept local.
+- **Safe-area padding.** ✅ Added `pad-safe` + `pad-safe-{t,r,b,l,x,y}`
+  (`env(safe-area-inset-*)`) for notches / home indicators.
+
 ---
 
 ## 5. Bigger / deferred (P3)

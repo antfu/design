@@ -34,10 +34,18 @@ never drift from what the shortcuts actually resolve to.
 | `btn-action-active` | `color-active border-active! bg-active op100!` |
 | `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-icon-square` | `w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |
 | `badge-muted` | `badge bg-#8881 color-muted` |
+| `pad-safe-t` | `pt-[env(safe-area-inset-top)]` |
+| `pad-safe-r` | `pr-[env(safe-area-inset-right)]` |
+| `pad-safe-b` | `pb-[env(safe-area-inset-bottom)]` |
+| `pad-safe-l` | `pl-[env(safe-area-inset-left)]` |
+| `pad-safe-x` | `pad-safe-l pad-safe-r` |
+| `pad-safe-y` | `pad-safe-t pad-safe-b` |
+| `pad-safe` | `pad-safe-x pad-safe-y` |
 
 ### Severity scale
 
@@ -56,19 +64,6 @@ never drift from what the shortcuts actually resolve to.
 | `text-micro` | `text-[10px] leading-[1.4]` |
 | `text-mini` | `text-[11px] leading-[1.45]` |
 | `text-compact` | `text-[12px] leading-[1.5]` |
-
-### Named z-index layers
-
-| Token | Expands to |
-|---|---|
-| `z-nav` | `z-[30]` |
-| `z-dropdown` | `z-[40]` |
-| `z-tooltip` | `z-[45]` |
-| `z-toast` | `z-[50]` |
-| `z-modal-backdrop` | `z-[60]` |
-| `z-modal-content` | `z-[70]` |
-| `z-drawer-backdrop` | `z-[80]` |
-| `z-drawer-content` | `z-[90]` |
 
 ### Dynamic
 
@@ -92,9 +87,10 @@ never drift from what the shortcuts actually resolve to.
 - **Severity** `color-scale-{neutral,low,medium,high,critical}` is the one ramp
   for fresh→stale / fast→slow / small→large. Prefer the `colorize` prop on display
   components over using these directly.
-- **Named z-index layers** (`z-nav` < `z-dropdown` < `z-tooltip` < `z-toast` <
-  `z-modal-backdrop` < `z-modal-content` < `z-drawer-backdrop` < `z-drawer-content`)
-  — never raw `z-<n>`.
+- **z-index**: always a named layer (`z-nav`, `z-dropdown`, `z-modal-content`, …),
+  never plain `z-<n>` — the preset blocks plain z-index. The preset ships **no**
+  values; the app defines the named layers in its own `shortcuts`. See
+  [core-setup.md](core-setup.md#z-index-layers-you-own-them).
 - **Theme**: `font-sans` = DM Sans, `font-mono` = DM Mono; extra sizes
   `text-micro` / `text-mini` / `text-compact`; color ramps `primary` (default
   antfu green), `warning`, `success`, `error`.

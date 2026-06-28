@@ -76,9 +76,20 @@ export const error: ColorRamp = {
   DEFAULT: '#f63d68',
 }
 
-const RAMP_STOPS = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
-/** Target OKLCH lightness (0–1) per stop. */
-const RAMP_LIGHTNESS = [0.97, 0.94, 0.87, 0.78, 0.68, 0.58, 0.50, 0.42, 0.35, 0.28, 0.18] as const
+/** Each stop paired with its target OKLCH lightness (0–1). */
+const RAMP_STEPS = [
+  [50, 0.97],
+  [100, 0.94],
+  [200, 0.87],
+  [300, 0.78],
+  [400, 0.68],
+  [500, 0.58],
+  [600, 0.50],
+  [700, 0.42],
+  [800, 0.35],
+  [900, 0.28],
+  [950, 0.18],
+] as const
 
 /**
  * Generate an 11-stop color ramp (`50`..`950` + `DEFAULT`) from a single color,
@@ -97,8 +108,7 @@ export function generateColorRamp(input: string): ColorRamp {
   const [, chroma, rawHue] = new Color(input).to('oklch').coords
   const hue = Number.isFinite(rawHue) ? rawHue : 0
   const ramp: ColorRamp = { DEFAULT: input }
-  RAMP_STOPS.forEach((stop, i) => {
-    const l = RAMP_LIGHTNESS[i]
+  RAMP_STEPS.forEach(([stop, l]) => {
     // Taper chroma at the lightest/darkest stops so they don't look muddy.
     const c = (chroma || 0) * (l > 0.9 || l < 0.25 ? 0.6 : 1)
     ramp[stop] = new Color('oklch', [l, c, hue]).to('srgb').toGamut({ space: 'srgb' }).toString({ format: 'hex' })

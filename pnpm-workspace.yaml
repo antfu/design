@@ -30,13 +30,14 @@ catalogs:
     '@iconify-json/catppuccin': ^1.2.17
     '@iconify-json/ph': ^1.2.2
     '@tanstack/vue-virtual': ^3.13.29
-    '@unocss/core': ^66.7.2
+    '@unocss/core': '>=66.0.0'
     '@unocss/eslint-plugin': ^66.7.2
     '@unocss/preset-icons': ^66.7.2
     '@unocss/preset-mini': ^66.7.2
     '@unocss/preset-web-fonts': ^66.7.2
     '@unocss/preset-wind3': ^66.7.2
     '@unocss/preset-wind4': ^66.7.2
+    '@unocss/transformer-directives': ^66.7.2
     '@vitejs/plugin-vue': ^6.0.7
     '@vueuse/core': ^14.3.0
     colorjs.io: ^0.6.1
@@ -58,6 +59,7 @@ catalogs:
     '@axe-core/playwright': ^4.12.1
     '@vue/test-utils': ^2.4.11
     happy-dom: ^20.10.6
+    magic-string: ^0.30.21
     playwright: ^1.61.1
     tsdown-stale-guard: ^0.1.2
     tsnapi: ^0.3.3

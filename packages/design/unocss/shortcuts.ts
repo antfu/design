@@ -42,6 +42,9 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'btn-action-active': 'color-active border-active! bg-active op100!',
       'btn-icon': 'w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-icon-compact': 'w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      // Bordered, square counterpart to the round/borderless `btn-icon` — for
+      // toolbar-style icon buttons that read as a distinct affordance.
+      'btn-icon-square': 'w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-primary': 'px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
 
       // ── Badges ────────────────────────────────────────────────────────
@@ -54,15 +57,20 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'text-mini': 'text-[11px] leading-[1.45]',
       'text-compact': 'text-[12px] leading-[1.5]',
 
-      // ── Named z-index layers (ascending) ──────────────────────────────
-      'z-nav': 'z-[30]',
-      'z-dropdown': 'z-[40]',
-      'z-tooltip': 'z-[45]',
-      'z-toast': 'z-[50]',
-      'z-modal-backdrop': 'z-[60]',
-      'z-modal-content': 'z-[70]',
-      'z-drawer-backdrop': 'z-[80]',
-      'z-drawer-content': 'z-[90]',
+      // ── Safe-area padding (notches / home indicators) ─────────────────
+      'pad-safe-t': 'pt-[env(safe-area-inset-top)]',
+      'pad-safe-r': 'pr-[env(safe-area-inset-right)]',
+      'pad-safe-b': 'pb-[env(safe-area-inset-bottom)]',
+      'pad-safe-l': 'pl-[env(safe-area-inset-left)]',
+      'pad-safe-x': 'pad-safe-l pad-safe-r',
+      'pad-safe-y': 'pad-safe-t pad-safe-b',
+      'pad-safe': 'pad-safe-x pad-safe-y',
+
+      // NOTE: the preset deliberately ships **no** z-index scale. Stacking is a
+      // whole-app concern, so the layer values are the app's to own — it defines
+      // the named layers (`z-modal-content`, `z-dropdown`, …) that the overlay
+      // components reference in its own top-level UnoCSS `shortcuts`. The preset
+      // blocks plain `z-<number>` to keep usage semantic (see `./blocklist`).
     },
   ]
 }

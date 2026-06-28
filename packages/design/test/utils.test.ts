@@ -127,8 +127,8 @@ describe('tree', () => {
       i => i.p,
     )
     expect(tree).toHaveLength(1)
-    expect(tree[0].name).toBe('a/b')
-    expect(tree[0].children.map(c => c.name).sort()).toEqual(['c', 'd'])
+    expect(tree[0]!.name).toBe('a/b')
+    expect(tree[0]!.children.map(c => c.name).sort()).toEqual(['c', 'd'])
   })
 })
 

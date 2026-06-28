@@ -16,6 +16,7 @@ pnpm add @antfu/design unocss vue
 ```ts
 // uno.config.ts
 import { presetAnthonyDesign } from '@antfu/design/unocss'
+import transformerDirectives from '@unocss/transformer-directives'
 import { defineConfig, presetIcons, presetWebFonts, presetWind4 } from 'unocss'
 
 export default defineConfig({
@@ -25,9 +26,28 @@ export default defineConfig({
     presetIcons(),
     presetWebFonts({ fonts: { sans: 'DM Sans', mono: 'DM Mono' } }),
   ],
-  content: { pipeline: { include: [/@antfu\/design/] } },
+  // Required — the shipped styles recolor overlays with token `--at-apply`
+  // directives; this transformer expands them (and lets you reuse tokens in CSS).
+  transformers: [transformerDirectives()],
+  // The preset ships no z-index scale (stacking is the app's to own) and blocks
+  // plain `z-<number>`. Define the named layers the overlay components use here —
+  // these values are yours; tune them to fit your app's stack.
+  shortcuts: {
+    'z-nav': 'z-[30]',
+    'z-dropdown': 'z-[40]',
+    'z-tooltip': 'z-[45]',
+    'z-toast': 'z-[50]',
+    'z-modal-backdrop': 'z-[60]',
+    'z-modal-content': 'z-[70]',
+    'z-drawer-backdrop': 'z-[80]',
+    'z-drawer-content': 'z-[90]',
+  },
 })
 ```
+
+> Pair it with [`@unocss/eslint-plugin`](https://unocss.dev/integrations/eslint)
+> for the feedback loop — it surfaces the blocklist hints (e.g. a plain `z-50`) in
+> your editor and CI instead of silently dropping at build time.
 
 ```ts
 // Components are imported by full path (no barrel) — categorized and prefixed:
@@ -38,12 +58,17 @@ import '@antfu/design/styles.css'
 ```
 
 The package ships **raw `.ts` / `.vue` source** (no bundling) — your build
-compiles it. Point UnoCSS at the package so the components' classes are
-generated (`content: { pipeline: { include: [/@antfu\/design/] } }`).
+compiles it. No extra `content` config is needed: UnoCSS's default scan matches
+`.vue`/`.tsx` by extension (its only default exclude is CSS, not `node_modules`),
+so the components you import are picked up automatically. If you *do* set
+`content.pipeline.include`, note it **replaces** the default scan rather than
+extending it — restate the defaults too, or your own sources stop being generated.
 
 It's a **single** preset that is **not self-contained**: it contributes only the
 antfu design layer (theme tokens, semantic shortcuts, dynamic rules, severity).
-You compose the base preset, icons, fonts and reset yourself.
+You compose the base preset, icons, fonts and reset yourself — and add
+`@unocss/transformer-directives` (the shipped styles use token `--at-apply`
+directives) plus, recommended, `@unocss/eslint-plugin` for the feedback loop.
 
 ## Exports
 
@@ -114,10 +139,18 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `btn-action-active` | `color-active border-active! bg-active op100!` |
 | `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-icon-square` | `w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |
 | `badge-muted` | `badge bg-#8881 color-muted` |
+| `pad-safe-t` | `pt-[env(safe-area-inset-top)]` |
+| `pad-safe-r` | `pr-[env(safe-area-inset-right)]` |
+| `pad-safe-b` | `pb-[env(safe-area-inset-bottom)]` |
+| `pad-safe-l` | `pl-[env(safe-area-inset-left)]` |
+| `pad-safe-x` | `pad-safe-l pad-safe-r` |
+| `pad-safe-y` | `pad-safe-t pad-safe-b` |
+| `pad-safe` | `pad-safe-x pad-safe-y` |
 
 ### Severity scale
 
@@ -136,19 +169,6 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `text-micro` | `text-[10px] leading-[1.4]` |
 | `text-mini` | `text-[11px] leading-[1.45]` |
 | `text-compact` | `text-[12px] leading-[1.5]` |
-
-### Named z-index layers
-
-| Token | Expands to |
-|---|---|
-| `z-nav` | `z-[30]` |
-| `z-dropdown` | `z-[40]` |
-| `z-tooltip` | `z-[45]` |
-| `z-toast` | `z-[50]` |
-| `z-modal-backdrop` | `z-[60]` |
-| `z-modal-content` | `z-[70]` |
-| `z-drawer-backdrop` | `z-[80]` |
-| `z-drawer-content` | `z-[90]` |
 
 ### Dynamic
 

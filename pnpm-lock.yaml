@@ -53,7 +53,7 @@ catalogs:
       specifier: ^3.13.29
       version: 3.13.29
     '@unocss/core':
-      specifier: ^66.7.2
+      specifier: '>=66.0.0'
       version: 66.7.2
     '@unocss/eslint-plugin':
       specifier: ^66.7.2
@@ -71,6 +71,9 @@ catalogs:
       specifier: ^66.7.2
       version: 66.7.2
     '@unocss/preset-wind4':
+      specifier: ^66.7.2
+      version: 66.7.2
+    '@unocss/transformer-directives':
       specifier: ^66.7.2
       version: 66.7.2
     '@vitejs/plugin-vue':
@@ -127,6 +130,9 @@ catalogs:
     happy-dom:
       specifier: ^20.10.6
       version: 20.10.6
+    magic-string:
+      specifier: ^0.30.21
+      version: 0.30.21
     playwright:
       specifier: ^1.61.1
       version: 1.61.1
@@ -205,9 +211,6 @@ importers:
       '@iconify-json/catppuccin':
         specifier: catalog:frontend
         version: 1.2.17
-      '@tanstack/vue-virtual':
-        specifier: catalog:frontend
-        version: 3.13.29(vue@3.5.38(typescript@6.0.3))
       '@unocss/core':
         specifier: catalog:frontend
         version: 66.7.2
@@ -217,15 +220,6 @@ importers:
       colorjs.io:
         specifier: catalog:frontend
         version: 0.6.1
-      floating-vue:
-        specifier: catalog:frontend
-        version: 5.2.2(vue@3.5.38(typescript@6.0.3))
-      reka-ui:
-        specifier: catalog:frontend
-        version: 2.10.0(vue@3.5.38(typescript@6.0.3))
-      splitpanes:
-        specifier: catalog:frontend
-        version: 4.1.2(vue@3.5.38(typescript@6.0.3))
     devDependencies:
       '@arethetypeswrong/cli':
         specifier: catalog:testing
@@ -236,6 +230,9 @@ importers:
       '@storybook/vue3-vite':
         specifier: catalog:storybook
         version: 10.4.6(esbuild@0.28.1)(storybook@10.4.6(@testing-library/dom@10.4.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
+      '@tanstack/vue-virtual':
+        specifier: catalog:frontend
+        version: 3.13.29(vue@3.5.38(typescript@6.0.3))
       '@unocss/preset-icons':
         specifier: catalog:frontend
         version: 66.7.2
@@ -251,18 +248,33 @@ importers:
       '@unocss/preset-wind4':
         specifier: catalog:frontend
         version: 66.7.2
+      '@unocss/transformer-directives':
+        specifier: catalog:frontend
+        version: 66.7.2
       '@vitejs/plugin-vue':
         specifier: catalog:frontend
         version: 6.0.7(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
       '@vue/test-utils':
         specifier: catalog:testing
         version: 2.4.11(@vue/compiler-dom@3.5.39)(@vue/server-renderer@3.5.39(vue@3.5.38(typescript@6.0.3)))(vue@3.5.38(typescript@6.0.3))
+      floating-vue:
+        specifier: catalog:frontend
+        version: 5.2.2(vue@3.5.38(typescript@6.0.3))
       happy-dom:
         specifier: catalog:testing
         version: 20.10.6
+      magic-string:
+        specifier: catalog:testing
+        version: 0.30.21
       playwright:
         specifier: catalog:testing
         version: 1.61.1
+      reka-ui:
+        specifier: catalog:frontend
+        version: 2.10.0(vue@3.5.38(typescript@6.0.3))
+      splitpanes:
+        specifier: catalog:frontend
+        version: 4.1.2(vue@3.5.38(typescript@6.0.3))
       tsdown:
         specifier: catalog:cli
         version: 0.22.3(@arethetypeswrong/core@0.18.4)(oxc-resolver@11.21.3)(publint@0.3.21)(tsx@4.22.4)(typescript@6.0.3)(vue-tsc@3.3.5(typescript@6.0.3))
@@ -305,6 +317,9 @@ importers:
       '@unocss/preset-wind4':
         specifier: catalog:frontend
         version: 66.7.2
+      '@unocss/transformer-directives':
+        specifier: catalog:frontend
+        version: 66.7.2
       '@vitejs/plugin-vue':
         specifier: catalog:frontend
         version: 6.0.7(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
@@ -342,6 +357,9 @@ importers:
         specifier: catalog:frontend
         version: 66.7.2
       '@unocss/preset-wind4':
+        specifier: catalog:frontend
+        version: 66.7.2
+      '@unocss/transformer-directives':
         specifier: catalog:frontend
         version: 66.7.2
       '@vitejs/plugin-vue':

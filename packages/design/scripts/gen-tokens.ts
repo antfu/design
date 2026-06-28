@@ -11,8 +11,8 @@ import { DEFAULT_DARK_BG } from '../unocss/options'
 import { severityShortcuts } from '../unocss/severity'
 import { buildShortcuts } from '../unocss/shortcuts'
 
-const shortcuts = (buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0]
-const severity = (severityShortcuts as Record<string, string>[])[0]
+const shortcuts = (buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0] ?? {}
+const severity = (severityShortcuts as Record<string, string>[])[0] ?? {}
 
 function table(rows: [string, string][]): string {
   const head = '| Token | Expands to |\n|---|---|'
@@ -22,13 +22,10 @@ function table(rows: [string, string][]): string {
   return `${head}\n${body}`
 }
 
-const z: [string, string][] = []
 const type: [string, string][] = []
 const semantic: [string, string][] = []
 for (const [k, v] of Object.entries(shortcuts)) {
-  if (k.startsWith('z-'))
-    z.push([k, v])
-  else if (/^text-(?:micro|mini|compact)$/.test(k))
+  if (/^text-(?:micro|mini|compact)$/.test(k))
     type.push([k, v])
   else
     semantic.push([k, v])
@@ -46,10 +43,6 @@ const content = [
   '### Type sizes',
   '',
   table(type),
-  '',
-  '### Named z-index layers',
-  '',
-  table(z),
   '',
   '### Dynamic',
   '',

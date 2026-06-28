@@ -21,13 +21,11 @@ const FIXTURE = [
   'op-mute',
   'btn-action',
   'btn-primary',
+  'btn-icon-square',
   'badge',
   'badge-muted',
   'text-micro',
-  // named z-layers
-  'z-nav',
-  'z-modal-content',
-  'z-drawer-content',
+  'pad-safe',
   // rules
   'badge-color-green',
   'bg-glass',
@@ -42,10 +40,18 @@ const FIXTURE = [
   'text-warning-700',
 ].join(' ')
 
-async function generate(presets: any[], tokens = FIXTURE, preflights = false): Promise<string> {
-  const uno = await createGenerator({ presets })
+async function generate(presets: any[], tokens = FIXTURE, preflights = false, shortcuts?: Record<string, string>): Promise<string> {
+  const uno = await createGenerator({ presets, ...(shortcuts ? { shortcuts } : {}) })
   const { css } = await uno.generate(tokens, { preflights })
   return css
+}
+
+// The named overlay z-index layers the preset leaves to the app to define — here
+// in the *app's own* top-level UnoCSS `shortcuts`, exactly as the docs show.
+const Z_LAYERS = {
+  'z-nav': 'z-[30]',
+  'z-modal-content': 'z-[70]',
+  'z-drawer-content': 'z-[90]',
 }
 
 describe('presetAnthonyDesign', () => {
@@ -86,6 +92,64 @@ describe('presetAnthonyDesign', () => {
       'badge-muted',
     )
     expect(css).toContain('red')
+  })
+
+  it('overrides redefines a built-in shortcut with the highest precedence', async () => {
+    const css = await generate(
+      // `overrides` wins even over `extendShortcuts` that target the same name.
+      [presetAnthonyDesign({
+        extendShortcuts: [{ 'bg-base': 'bg-green-500' }],
+        overrides: { 'bg-base': 'bg-red-500' },
+      }), presetWind4()],
+      'bg-base',
+    )
+    expect(css).toContain('red')
+    expect(css).not.toContain('green')
+  })
+
+  it('ships no z-index scale by default — named layers do not resolve unless the app defines them', async () => {
+    const css = await generate([presetAnthonyDesign(), presetWind4()], 'z-modal-content z-nav z-drawer-content')
+    expect(css).not.toContain('z-index')
+  })
+
+  it('resolves named layers the app defines in its own top-level shortcuts', async () => {
+    const css = await generate(
+      [presetAnthonyDesign(), presetWind4()],
+      'z-modal-content z-nav z-drawer-content',
+      false,
+      Z_LAYERS,
+    )
+    expect(css).toContain('.z-modal-content{z-index:70;}')
+    expect(css).toContain('.z-nav{z-index:30;}')
+    expect(css).toContain('.z-drawer-content{z-index:90;}')
+  })
+
+  it('blocks plain z-index in user code but exempts the same value inside an app shortcut', async () => {
+    const css = await generate(
+      [presetAnthonyDesign(), presetWind4()],
+      // `z-[70]` written directly is blocked; `z-modal-content` expands to `z-[70]`
+      // inside a shortcut, which the blocklist never re-checks.
+      'z-50 z-[70] -z-10 md:z-50 z-modal-content z-auto',
+      false,
+      Z_LAYERS,
+    )
+    // Plain numeric / arbitrary z-index (incl. under a variant) never reaches the output…
+    expect(css).not.toContain('z-index:50')
+    expect(css).not.toContain('z-index:-10')
+    expect(css).not.toMatch(/\.-?z-(?:50|\\\[70\\\])\{/)
+    // …but the named layer (a shortcut expansion) is exempt and `z-auto` is allowed.
+    expect(css).toContain('.z-modal-content{z-index:70;}')
+    expect(css).toContain('z-index:auto')
+  })
+
+  it('blocklists: false disables all guardrails (plain z-index resolves)', async () => {
+    const css = await generate([presetAnthonyDesign({ blocklists: false }), presetWind4()], 'z-50')
+    expect(css).toContain('z-index:50')
+  })
+
+  it('blocklists: { plainZIndex: false } opts out of just the z-index guardrail', async () => {
+    const css = await generate([presetAnthonyDesign({ blocklists: { plainZIndex: false } }), presetWind4()], 'z-50')
+    expect(css).toContain('z-index:50')
   })
 
   it('generates bg-dots / bg-grid pattern rules with a variable size', async () => {

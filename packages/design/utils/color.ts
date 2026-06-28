@@ -243,8 +243,9 @@ export function getPluginColor(
   const hues = map === defaultBrandHues ? defaultBrandHues : { ...defaultBrandHues, ...map }
   const bare = stripPluginPrefix(name).toLowerCase()
   const key = Object.keys(hues).find(k => bare === k || bare.startsWith(`${k}-`) || bare.startsWith(`${k}.`))
-  if (key != null)
-    return getHsla(hues[key], opacity, dark)
+  const hue = key != null ? hues[key] : undefined
+  if (hue != null)
+    return getHsla(hue, opacity, dark)
   return getHashColorFromString(name, opacity, dark)
 }
 

@@ -13,8 +13,8 @@ const example = presetAnthonyDesign({
 })
 
 const tokens = [
-  ...Object.keys((buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0]),
-  ...Object.keys((severityShortcuts as Record<string, string>[])[0]),
+  ...Object.keys((buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0]!),
+  ...Object.keys((severityShortcuts as Record<string, string>[])[0]!),
 ]
 
 function read(rel: string): string {

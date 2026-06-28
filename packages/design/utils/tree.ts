@@ -24,6 +24,8 @@ export interface ToTreeOptions {
 function flattenChain<T>(node: TreeNode<T>, separator: string): void {
   while (node.children.length === 1 && node.item == null) {
     const child = node.children[0]
+    if (child == null)
+      break
     node.name = `${node.name}${separator}${child.name}`
     node.path = child.path
     node.item = child.item

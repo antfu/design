@@ -47,9 +47,10 @@ export function compareSemver(a: string, b: string): number {
   const pb = parseVersion(b)
   if (!pa || !pb)
     return 0
-  for (let i = 0; i < 3; i++) {
-    if (pa[i] !== pb[i])
-      return pa[i] < pb[i] ? -1 : 1
+  const core = [[pa[0], pb[0]], [pa[1], pb[1]], [pa[2], pb[2]]] as const
+  for (const [x, y] of core) {
+    if (x !== y)
+      return x < y ? -1 : 1
   }
   // Equal core: a version without prerelease is greater than one with.
   if (pa[3] === pb[3])
