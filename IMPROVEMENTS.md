@@ -124,6 +124,29 @@ and each recurred across the audit.
   call this out explicitly in the README/skill so it's the headline, not a footnote.
   *(P2 · S)*
 
+### Live dogfooding feedback (from a real migration)
+
+- **Component source deps break the consumer's `vue-tsc` under strict pnpm. (P0 · S)**
+  Importing e.g. `DisplayDonut.vue` fails typecheck with `Cannot find module
+  '@antfu/utils'`: the shipped `.vue` imports `@antfu/utils` (and `@vueuse/core`,
+  `reka-ui`, `floating-vue`, `splitpanes`, `@tanstack/vue-virtual`, `colorjs.io`),
+  which are plain `dependencies`. The bundler resolves them from the nested store,
+  but the consumer's TS program can't under pnpm's strict, non-hoisted
+  `node_modules` — **blocking component adoption**. Fix: declare the libs that
+  appear in shipped component/composable source as `peerDependencies` (the broadly
+  used `@antfu/utils`/`@vueuse/core` required; per-component ones —
+  `reka-ui`/`floating-vue`/`splitpanes`/`@tanstack/vue-virtual` — as optional via
+  `peerDependenciesMeta`), or bundle them. Needs maintainer sign-off on the
+  required-vs-optional split + matching devDeps in playground/storybook.
+- **`content.pipeline.include` replaces, not extends.** ✅ Fixed in this PR —
+  README/skill now caveat that adding `/@antfu\/design/` drops the default `.vue`
+  scan unless app sources are listed alongside it. (An extend-style option upstream
+  in UnoCSS would be the cleaner long-term fix.)
+- **Bordered, square icon-button variant.** ✅ Added `btn-icon-square` (the existing
+  `btn-icon` is round/borderless) — a toolbar-style affordance the hub kept local.
+- **`pad-safe` (safe-area padding?) — needs spec.** The note was truncated; capture
+  the exact intent (likely `env(safe-area-inset-*)` padding utilities) before adding.
+
 ---
 
 ## 5. Bigger / deferred (P3)

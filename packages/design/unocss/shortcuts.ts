@@ -42,6 +42,9 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'btn-action-active': 'color-active border-active! bg-active op100!',
       'btn-icon': 'w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-icon-compact': 'w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      // Bordered, square counterpart to the round/borderless `btn-icon` — for
+      // toolbar-style icon buttons that read as a distinct affordance.
+      'btn-icon-square': 'w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-primary': 'px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
 
       // ── Badges ────────────────────────────────────────────────────────

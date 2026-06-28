@@ -21,6 +21,7 @@ const FIXTURE = [
   'op-mute',
   'btn-action',
   'btn-primary',
+  'btn-icon-square',
   'badge',
   'badge-muted',
   'text-micro',

@@ -29,8 +29,10 @@ export default defineConfig({
   // REQUIRED: the shipped `@antfu/design/styles` recolor third-party overlays with
   // token `--at-apply` directives — this transformer is what expands them.
   transformers: [transformerDirectives()],
-  // Generate the components' classes by scanning the installed package:
-  content: { pipeline: { include: [/@antfu\/design/] } },
+  // Generate the components' classes by scanning the installed package. NOTE:
+  // `pipeline.include` REPLACES the default scan — list your own sources too, or
+  // your app's utilities stop generating: `['src/**/*.{vue,ts,tsx}', /@antfu\/design/]`.
+  content: { pipeline: { include: ['src/**/*.{vue,ts,tsx}', /@antfu\/design/] } },
 })
 ```
 
