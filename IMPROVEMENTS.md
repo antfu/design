@@ -138,10 +138,11 @@ and each recurred across the audit.
   `reka-ui`/`floating-vue`/`splitpanes`/`@tanstack/vue-virtual` — as optional via
   `peerDependenciesMeta`), or bundle them. Needs maintainer sign-off on the
   required-vs-optional split + matching devDeps in playground/storybook.
-- **`content.pipeline.include` replaces, not extends.** ✅ Fixed in this PR —
-  README/skill now caveat that adding `/@antfu\/design/` drops the default `.vue`
-  scan unless app sources are listed alongside it. (An extend-style option upstream
-  in UnoCSS would be the cleaner long-term fix.)
+- **`content.pipeline.include` was never needed.** ✅ Resolved in this PR — UnoCSS's
+  default pipeline already scans imported `.vue`/`.tsx` from `node_modules` (its only
+  default exclude is `cssIdRE`, not `node_modules`), so the `/@antfu\/design/` include
+  was redundant; dropped it from the docs/playground. Docs keep a one-line note that
+  *if* you set `pipeline.include` it **replaces** (not extends) the default scan.
 - **Bordered, square icon-button variant.** ✅ Added `btn-icon-square` (the existing
   `btn-icon` is round/borderless) — a toolbar-style affordance the hub kept local.
 - **`pad-safe` (safe-area padding?) — needs spec.** The note was truncated; capture

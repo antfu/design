@@ -6,8 +6,8 @@ import transformerDirectives from '@unocss/transformer-directives'
 import { defineConfig } from 'unocss'
 
 export default defineConfig({
-  // Scan the installed package so the components' classes are generated.
-  content: { pipeline: { include: [/@antfu\/design/, /\.vue$/] } },
+  // No custom `content` needed — UnoCSS's default scan already matches imported
+  // `.vue`/`.tsx` from node_modules (its only default exclude is CSS).
   presets: [
     presetAnthonyDesign(),
     presetWind4(),

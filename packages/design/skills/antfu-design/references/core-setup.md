@@ -29,10 +29,10 @@ export default defineConfig({
   // REQUIRED: the shipped `@antfu/design/styles` recolor third-party overlays with
   // token `--at-apply` directives — this transformer is what expands them.
   transformers: [transformerDirectives()],
-  // Generate the components' classes by scanning the installed package. NOTE:
-  // `pipeline.include` REPLACES the default scan — list your own sources too, or
-  // your app's utilities stop generating: `['src/**/*.{vue,ts,tsx}', /@antfu\/design/]`.
-  content: { pipeline: { include: ['src/**/*.{vue,ts,tsx}', /@antfu\/design/] } },
+  // No `content.pipeline.include` needed: UnoCSS's default scan matches `.vue`/`.tsx`
+  // by extension (its only default exclude is CSS, not `node_modules`), so imported
+  // components are picked up. If you DO set `include`, it REPLACES the default scan —
+  // restate your own sources or they stop generating.
 })
 ```
 
