@@ -2,7 +2,7 @@
  * Opt-in color-scheme context.
  *
  * The package is stateless: most components flip light/dark automatically from
- * the `html.dark` class + `--af-*` tokens, and the handful that compute colors in
+ * the `html.dark` class + the token shortcuts, and the handful that compute colors in
  * JS (badges/labels/proportion bars) take a `colorScheme` prop. Threading that
  * prop everywhere is tedious, so this provides an *opt-in* context: call
  * {@link provideColorScheme} once near the app root (feeding it your own

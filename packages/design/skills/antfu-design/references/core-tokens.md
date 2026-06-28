@@ -57,19 +57,6 @@ never drift from what the shortcuts actually resolve to.
 | `text-mini` | `text-[11px] leading-[1.45]` |
 | `text-compact` | `text-[12px] leading-[1.5]` |
 
-### Named z-index layers
-
-| Token | Expands to |
-|---|---|
-| `z-nav` | `z-[30]` |
-| `z-dropdown` | `z-[40]` |
-| `z-tooltip` | `z-[45]` |
-| `z-toast` | `z-[50]` |
-| `z-modal-backdrop` | `z-[60]` |
-| `z-modal-content` | `z-[70]` |
-| `z-drawer-backdrop` | `z-[80]` |
-| `z-drawer-content` | `z-[90]` |
-
 ### Dynamic
 
 | Token | Expands to |
@@ -92,9 +79,10 @@ never drift from what the shortcuts actually resolve to.
 - **Severity** `color-scale-{neutral,low,medium,high,critical}` is the one ramp
   for fresh→stale / fast→slow / small→large. Prefer the `colorize` prop on display
   components over using these directly.
-- **Named z-index layers** (`z-nav` < `z-dropdown` < `z-tooltip` < `z-toast` <
-  `z-modal-backdrop` < `z-modal-content` < `z-drawer-backdrop` < `z-drawer-content`)
-  — never raw `z-<n>`.
+- **z-index**: always a named layer (`z-nav`, `z-dropdown`, `z-modal-content`, …),
+  never plain `z-<n>` — the preset blocks plain z-index. The preset ships **no**
+  values; the app defines the named layers in its own `shortcuts`. See
+  [core-setup.md](core-setup.md#z-index-layers-you-own-them).
 - **Theme**: `font-sans` = DM Sans, `font-mono` = DM Mono; extra sizes
   `text-micro` / `text-mini` / `text-compact`; color ramps `primary` (default
   antfu green), `warning`, `success`, `error`.

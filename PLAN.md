@@ -157,7 +157,7 @@ SplitPane, virtual-list wrapper, "show more" expandable list.
 | **Overlays** | floating-vue (5/8), reka-ui (ghfs), self-rolled (nuxt), splitpanes | **reka-ui + floating-vue + splitpanes**, CSS overridden to our tokens |
 | **Dark near-black** | `#111`, `#121212`, `#151515`, `#080808`, `neutral-900` | Theme option; default `#111` |
 | **Icon set** | catppuccin / vscode-icons / octicon / ph / carbon | FileIcon takes a configurable map |
-| **z-index layers** | only ghfs & vite-devtools formalize named layers (conflicting) | Unify into one named scheme in the preset |
+| **z-index layers** | only ghfs & vite-devtools formalize named layers (conflicting) | One named scheme the app owns: preset ships **no** values (stacking is app-global) — the app defines the named layers in its own UnoCSS `shortcuts`; the preset blocks plain `z-<number>` so usage stays semantic (`blocklists.plainZIndex`) |
 
 ---
 
@@ -273,6 +273,7 @@ export default defineConfig({
       // escape hatches
       theme: { /* deep-merged */ },
       extendShortcuts: [],
+      blocklists: true, // best-practice guardrails (e.g. { plainZIndex }); false to disable
     }),
 
     // The base preset and integrations are YOURS to compose — presetAnthonyDesign
@@ -421,7 +422,9 @@ and code can never drift (see §18). Values below are the defaults (overridable 
 | `color-scale-critical` | `red-700` | `red-300` |
 
 **Named z-index layers** (ascending): `z-nav` < `z-dropdown` < `z-tooltip` < `z-toast` <
-`z-modal-backdrop` < `z-modal-content` < `z-drawer-backdrop` < `z-drawer-content`.
+`z-modal-backdrop` < `z-modal-content` < `z-drawer-backdrop` < `z-drawer-content`. The preset
+ships **no** values for these (stacking is app-global); the app defines the named layers in its
+own UnoCSS `shortcuts`, and plain `z-<number>` is blocked so usage stays semantic.
 
 **Typography**: `font-sans` = DM Sans, `font-mono` = DM Mono; extra sizes `text-micro` /
 `text-mini` / `text-compact`. **Color scales**: `primary` (default antfu green `#49833E`),
@@ -434,7 +437,9 @@ plus `neutral` / `warning` / `success` / `error`.
 - **Typography**: skill's extra sizes `micro`, `mini`, `compact`; fonts DM Sans / DM Mono.
 - **Named z-index layers**: one unified scheme (`z-nav`, `z-dropdown`, `z-tooltip`, `z-toast`,
   `z-modal-backdrop`, `z-modal-content`, `z-drawer-backdrop`, `z-drawer-content`) reconciling
-  the conflicting ghfs / vite-devtools sets.
+  the conflicting ghfs / vite-devtools sets — **not** baked into the preset; the app defines
+  these in its own UnoCSS `shortcuts` (the actual values are the app's), with plain
+  `z-<number>` blocked so usage stays semantic.
 
 ### Severity scale (`presetAnthonySeverity`)
 

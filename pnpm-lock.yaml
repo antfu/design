@@ -73,6 +73,9 @@ catalogs:
     '@unocss/preset-wind4':
       specifier: ^66.7.2
       version: 66.7.2
+    '@unocss/transformer-directives':
+      specifier: ^66.7.2
+      version: 66.7.2
     '@vitejs/plugin-vue':
       specifier: ^6.0.7
       version: 6.0.7
@@ -127,6 +130,9 @@ catalogs:
     happy-dom:
       specifier: ^20.10.6
       version: 20.10.6
+    magic-string:
+      specifier: ^0.30.21
+      version: 0.30.21
     playwright:
       specifier: ^1.61.1
       version: 1.61.1
@@ -251,6 +257,9 @@ importers:
       '@unocss/preset-wind4':
         specifier: catalog:frontend
         version: 66.7.2
+      '@unocss/transformer-directives':
+        specifier: catalog:frontend
+        version: 66.7.2
       '@vitejs/plugin-vue':
         specifier: catalog:frontend
         version: 6.0.7(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
@@ -260,6 +269,9 @@ importers:
       happy-dom:
         specifier: catalog:testing
         version: 20.10.6
+      magic-string:
+        specifier: catalog:testing
+        version: 0.30.21
       playwright:
         specifier: catalog:testing
         version: 1.61.1
@@ -305,6 +317,9 @@ importers:
       '@unocss/preset-wind4':
         specifier: catalog:frontend
         version: 66.7.2
+      '@unocss/transformer-directives':
+        specifier: catalog:frontend
+        version: 66.7.2
       '@vitejs/plugin-vue':
         specifier: catalog:frontend
         version: 6.0.7(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))(vue@3.5.38(typescript@6.0.3))
@@ -342,6 +357,9 @@ importers:
         specifier: catalog:frontend
         version: 66.7.2
       '@unocss/preset-wind4':
+        specifier: catalog:frontend
+        version: 66.7.2
+      '@unocss/transformer-directives':
         specifier: catalog:frontend
         version: 66.7.2
       '@vitejs/plugin-vue':

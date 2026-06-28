@@ -1,6 +1,7 @@
 import presetIcons from '@unocss/preset-icons'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind4 from '@unocss/preset-wind4'
+import transformerDirectives from '@unocss/transformer-directives'
 import { defineConfig } from 'unocss'
 import { presetAnthonyDesign } from './unocss'
 
@@ -19,4 +20,16 @@ export default defineConfig({
       fonts: { sans: 'DM Sans', mono: 'DM Mono' },
     }),
   ],
+  // Expands the `--at-apply` token directives in the shipped `styles/*.css`.
+  transformers: [transformerDirectives()],
+  shortcuts: {
+    'z-nav': 'z-[30]',
+    'z-dropdown': 'z-[40]',
+    'z-tooltip': 'z-[45]',
+    'z-toast': 'z-[50]',
+    'z-modal-backdrop': 'z-[60]',
+    'z-modal-content': 'z-[70]',
+    'z-drawer-backdrop': 'z-[80]',
+    'z-drawer-content': 'z-[90]',
+  },
 })

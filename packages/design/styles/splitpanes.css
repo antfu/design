@@ -33,15 +33,16 @@
   pointer-events: none;
 }
 
-/* Splitter — recolored to the design tokens. */
+/* Splitter — divider tinted to the neutral border token (see Setup for the
+ * `@unocss/transformer-directives` requirement). */
 .splitpanes__splitter {
   position: relative;
   touch-action: none;
-  background-color: var(--af-border-base);
+  --at-apply: 'bg-#8882';
   transition: background-color 0.2s;
 }
 .splitpanes__splitter:hover {
-  background-color: rgba(136, 136, 136, 0.4);
+  --at-apply: 'bg-#8886';
 }
 .splitpanes--vertical > .splitpanes__splitter {
   min-width: 1px;

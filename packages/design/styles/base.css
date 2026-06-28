@@ -1,31 +1,19 @@
 /**
- * Root surface + a small set of CSS custom properties mirroring the token
- * defaults. The overlay-engine override files reference these vars, so they
- * recolor with light/dark automatically and work on plain `import` (without
- * needing UnoCSS to process them).
+ * Root surface + text, applied straight from the design tokens. The `--at-apply`
+ * directives below (and in the other style files) need
+ * `@unocss/transformer-directives` in the consuming app's UnoCSS config (see
+ * Setup) — that's what expands `bg-base` / `color-base` etc., so the surface
+ * follows light/dark with no duplicated set of CSS variables to maintain.
  */
 
 :root {
-  --af-bg-base: #ffffff;
-  --af-bg-secondary: #f5f5f5;
-  --af-color-base: #262626; /* neutral-800 */
-  --af-color-muted: #525252; /* neutral-600 */
-  --af-border-base: rgba(136, 136, 136, 0.13); /* ~#8882 */
-  --af-border-mute: rgba(136, 136, 136, 0.07); /* ~#8881 */
-  --af-tooltip-bg: rgba(255, 255, 255, 0.75);
   color-scheme: light;
 }
 
 html.dark {
-  --af-bg-base: #111111;
-  --af-bg-secondary: #1a1a1a;
-  --af-color-base: #e5e5e5; /* neutral-200 */
-  --af-color-muted: #a3a3a3; /* neutral-400 */
-  --af-tooltip-bg: rgba(17, 17, 17, 0.75);
   color-scheme: dark;
 }
 
 html {
-  background-color: var(--af-bg-base);
-  color: var(--af-color-base);
+  --at-apply: 'bg-base color-base';
 }

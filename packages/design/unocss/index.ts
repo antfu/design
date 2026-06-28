@@ -1,6 +1,7 @@
 import type { Preset, UserShortcuts } from '@unocss/core'
 import type { PresetAnthonyDesignOptions } from './options'
 import { definePreset, mergeDeep } from '@unocss/core'
+import { buildBlocklist } from './blocklist'
 import { error, resolvePrimary, success, warning } from './colors'
 import { DEFAULT_DARK_BG, DEFAULT_FONTS } from './options'
 import { patternRules } from './patterns'
@@ -25,6 +26,12 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
  * severity layer. It bundles **no** base preset, icons, web-fonts or reset — the
  * consumer composes those themselves. The semantic layer is base-agnostic, so it
  * resolves under Wind4, Wind3 or Mini.
+ *
+ * It deliberately ships **no z-index scale** — stacking is a whole-app concern.
+ * The overlay components reference named layers (`z-modal-content`, `z-dropdown`,
+ * …); define those in your own UnoCSS `shortcuts` config (see Setup). As a
+ * guardrail the preset blocks plain `z-<number>` utilities so every z-index goes
+ * through a named layer (opt out with `blocklists: { plainZIndex: false }`).
  *
  * @param options - Theme + dark-surface options (see {@link PresetAnthonyDesignOptions}).
  * @returns A single UnoCSS `Preset`.
@@ -71,6 +78,8 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
     ...buildRules(darkBackground),
     ...severityShortcuts,
     ...extend,
+    // Appended last so a same-named entry wins over everything above it.
+    ...(options.overrides ? [options.overrides] : []),
   ]
 
   return {
@@ -78,10 +87,19 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
     extendTheme: theme => mergeDeep(theme as any, themeOverrides as any),
     shortcuts,
     rules: patternRules,
+    // Best-practice guardrails (default all on); see the `blocklists` option.
+    blocklist: buildBlocklist(options.blocklists),
   }
 })
 
 export default presetAnthonyDesign
+
+export {
+  type BlocklistsOption,
+  buildBlocklist,
+  plainZIndexBlocklist,
+  RE_PLAIN_Z_INDEX,
+} from './blocklist'
 
 export {
   type ColorRamp,

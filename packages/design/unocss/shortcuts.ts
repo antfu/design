@@ -54,15 +54,11 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'text-mini': 'text-[11px] leading-[1.45]',
       'text-compact': 'text-[12px] leading-[1.5]',
 
-      // ── Named z-index layers (ascending) ──────────────────────────────
-      'z-nav': 'z-[30]',
-      'z-dropdown': 'z-[40]',
-      'z-tooltip': 'z-[45]',
-      'z-toast': 'z-[50]',
-      'z-modal-backdrop': 'z-[60]',
-      'z-modal-content': 'z-[70]',
-      'z-drawer-backdrop': 'z-[80]',
-      'z-drawer-content': 'z-[90]',
+      // NOTE: the preset deliberately ships **no** z-index scale. Stacking is a
+      // whole-app concern, so the layer values are the app's to own — it defines
+      // the named layers (`z-modal-content`, `z-dropdown`, …) that the overlay
+      // components reference in its own top-level UnoCSS `shortcuts`. The preset
+      // blocks plain `z-<number>` to keep usage semantic (see `./blocklist`).
     },
   ]
 }
