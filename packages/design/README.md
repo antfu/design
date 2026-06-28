@@ -144,6 +144,13 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |
 | `badge-muted` | `badge bg-#8881 color-muted` |
+| `pad-safe-t` | `pt-[env(safe-area-inset-top)]` |
+| `pad-safe-r` | `pr-[env(safe-area-inset-right)]` |
+| `pad-safe-b` | `pb-[env(safe-area-inset-bottom)]` |
+| `pad-safe-l` | `pl-[env(safe-area-inset-left)]` |
+| `pad-safe-x` | `pad-safe-l pad-safe-r` |
+| `pad-safe-y` | `pad-safe-t pad-safe-b` |
+| `pad-safe` | `pad-safe-x pad-safe-y` |
 
 ### Severity scale
 

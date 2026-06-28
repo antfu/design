@@ -25,6 +25,7 @@ const FIXTURE = [
   'badge',
   'badge-muted',
   'text-micro',
+  'pad-safe',
   // rules
   'badge-color-green',
   'bg-glass',

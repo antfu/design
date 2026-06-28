@@ -53,7 +53,11 @@
   },
   "peerDependencies": {
     "@axe-core/playwright": "^4.0.0",
+    "@tanstack/vue-virtual": "^3.0.0",
+    "floating-vue": "^5.0.0",
     "playwright": "^1.0.0",
+    "reka-ui": "^2.0.0",
+    "splitpanes": "^4.0.0",
     "unocss": ">=66.0.0",
     "vue": "^3.5.0"
   },
@@ -61,25 +65,34 @@
     "@axe-core/playwright": {
       "optional": true
     },
+    "@tanstack/vue-virtual": {
+      "optional": true
+    },
+    "floating-vue": {
+      "optional": true
+    },
     "playwright": {
+      "optional": true
+    },
+    "reka-ui": {
+      "optional": true
+    },
+    "splitpanes": {
       "optional": true
     }
   },
   "dependencies": {
     "@antfu/utils": "catalog:inlined",
     "@iconify-json/catppuccin": "catalog:frontend",
-    "@tanstack/vue-virtual": "catalog:frontend",
     "@unocss/core": "catalog:frontend",
     "@vueuse/core": "catalog:frontend",
-    "colorjs.io": "catalog:frontend",
-    "floating-vue": "catalog:frontend",
-    "reka-ui": "catalog:frontend",
-    "splitpanes": "catalog:frontend"
+    "colorjs.io": "catalog:frontend"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:testing",
     "@axe-core/playwright": "catalog:testing",
     "@storybook/vue3-vite": "catalog:storybook",
+    "@tanstack/vue-virtual": "catalog:frontend",
     "@unocss/preset-icons": "catalog:frontend",
     "@unocss/preset-mini": "catalog:frontend",
     "@unocss/preset-web-fonts": "catalog:frontend",
@@ -88,9 +101,12 @@
     "@unocss/transformer-directives": "catalog:frontend",
     "@vitejs/plugin-vue": "catalog:frontend",
     "@vue/test-utils": "catalog:testing",
+    "floating-vue": "catalog:frontend",
     "happy-dom": "catalog:testing",
     "magic-string": "catalog:testing",
     "playwright": "catalog:testing",
+    "reka-ui": "catalog:frontend",
+    "splitpanes": "catalog:frontend",
     "tsdown": "catalog:cli",
     "tsdown-stale-guard": "catalog:testing",
     "tsnapi": "catalog:testing",

@@ -126,18 +126,14 @@ and each recurred across the audit.
 
 ### Live dogfooding feedback (from a real migration)
 
-- **Component source deps break the consumer's `vue-tsc` under strict pnpm. (P0 · S)**
-  Importing e.g. `DisplayDonut.vue` fails typecheck with `Cannot find module
-  '@antfu/utils'`: the shipped `.vue` imports `@antfu/utils` (and `@vueuse/core`,
-  `reka-ui`, `floating-vue`, `splitpanes`, `@tanstack/vue-virtual`, `colorjs.io`),
-  which are plain `dependencies`. The bundler resolves them from the nested store,
-  but the consumer's TS program can't under pnpm's strict, non-hoisted
-  `node_modules` — **blocking component adoption**. Fix: declare the libs that
-  appear in shipped component/composable source as `peerDependencies` (the broadly
-  used `@antfu/utils`/`@vueuse/core` required; per-component ones —
-  `reka-ui`/`floating-vue`/`splitpanes`/`@tanstack/vue-virtual` — as optional via
-  `peerDependenciesMeta`), or bundle them. Needs maintainer sign-off on the
-  required-vs-optional split + matching devDeps in playground/storybook.
+- **Component source deps break the consumer's `vue-tsc` under strict pnpm.** ✅
+  Resolved in this PR. The per-component UI libs the shipped `.vue` imports —
+  `reka-ui`, `floating-vue`, `splitpanes`, `@tanstack/vue-virtual` — are now
+  **optional `peerDependencies`** (the consumer installs only what they use, and
+  their own TS program resolves them at the top level); they're also `devDependencies`
+  here so the package's own build/typecheck/stories resolve them. The broadly-used
+  `@antfu/utils`, `@vueuse/core` (and `colorjs.io`) stay `dependencies`. Also relaxed
+  `@unocss/core` to `>=66.0.0` so it dedupes with the consumer's UnoCSS.
 - **`content.pipeline.include` was never needed.** ✅ Resolved in this PR — UnoCSS's
   default pipeline already scans imported `.vue`/`.tsx` from `node_modules` (its only
   default exclude is `cssIdRE`, not `node_modules`), so the `/@antfu\/design/` include
@@ -145,8 +141,8 @@ and each recurred across the audit.
   *if* you set `pipeline.include` it **replaces** (not extends) the default scan.
 - **Bordered, square icon-button variant.** ✅ Added `btn-icon-square` (the existing
   `btn-icon` is round/borderless) — a toolbar-style affordance the hub kept local.
-- **`pad-safe` (safe-area padding?) — needs spec.** The note was truncated; capture
-  the exact intent (likely `env(safe-area-inset-*)` padding utilities) before adding.
+- **Safe-area padding.** ✅ Added `pad-safe` + `pad-safe-{t,r,b,l,x,y}`
+  (`env(safe-area-inset-*)`) for notches / home indicators.
 
 ---
 

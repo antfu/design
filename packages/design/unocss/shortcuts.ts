@@ -57,6 +57,15 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'text-mini': 'text-[11px] leading-[1.45]',
       'text-compact': 'text-[12px] leading-[1.5]',
 
+      // ── Safe-area padding (notches / home indicators) ─────────────────
+      'pad-safe-t': 'pt-[env(safe-area-inset-top)]',
+      'pad-safe-r': 'pr-[env(safe-area-inset-right)]',
+      'pad-safe-b': 'pb-[env(safe-area-inset-bottom)]',
+      'pad-safe-l': 'pl-[env(safe-area-inset-left)]',
+      'pad-safe-x': 'pad-safe-l pad-safe-r',
+      'pad-safe-y': 'pad-safe-t pad-safe-b',
+      'pad-safe': 'pad-safe-x pad-safe-y',
+
       // NOTE: the preset deliberately ships **no** z-index scale. Stacking is a
       // whole-app concern, so the layer values are the app's to own — it defines
       // the named layers (`z-modal-content`, `z-dropdown`, …) that the overlay

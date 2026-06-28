@@ -30,7 +30,7 @@ catalogs:
     '@iconify-json/catppuccin': ^1.2.17
     '@iconify-json/ph': ^1.2.2
     '@tanstack/vue-virtual': ^3.13.29
-    '@unocss/core': ^66.7.2
+    '@unocss/core': '>=66.0.0'
     '@unocss/eslint-plugin': ^66.7.2
     '@unocss/preset-icons': ^66.7.2
     '@unocss/preset-mini': ^66.7.2
