@@ -11,8 +11,8 @@ import { DEFAULT_DARK_BG } from '../unocss/options'
 import { severityShortcuts } from '../unocss/severity'
 import { buildShortcuts } from '../unocss/shortcuts'
 
-const shortcuts = (buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0]
-const severity = (severityShortcuts as Record<string, string>[])[0]
+const shortcuts = (buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0] ?? {}
+const severity = (severityShortcuts as Record<string, string>[])[0] ?? {}
 
 function table(rows: [string, string][]): string {
   const head = '| Token | Expands to |\n|---|---|'

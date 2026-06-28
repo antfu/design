@@ -191,7 +191,7 @@ describe('new layout components', () => {
     })
     await w.get('th button').trigger('click')
     expect(w.emitted('sort')?.[0]).toEqual([{ key: 'n', dir: 'asc' }])
-    expect(w.findAll('td')[0].text()).toBe('1')
+    expect(w.findAll('td')[0]!.text()).toBe('1')
   })
   it('breadcrumb marks the last crumb as current', () => {
     const w = mount(LayoutBreadcrumb, {

@@ -27,13 +27,15 @@ function parseArgs(argv: string[]): { options: ContrastScanOptions, help: boolea
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i]
+    if (arg == null)
+      continue
     if (arg === '-h' || arg === '--help')
       help = true
-    else if (arg === '--mode')
+    else if (arg === '--mode' && argv[i + 1] != null)
       modes.push(argv[++i] as ColorMode)
-    else if (arg === '--exclude')
-      exclude.push(argv[++i])
-    else if (arg === '--key')
+    else if (arg === '--exclude' && argv[i + 1] != null)
+      exclude.push(argv[++i]!)
+    else if (arg === '--key' && argv[i + 1] != null)
       colorSchemeStorageKey = argv[++i]
     else if (arg === '--headed')
       headless = false

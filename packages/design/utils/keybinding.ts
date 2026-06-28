@@ -78,8 +78,9 @@ export function parseChord(input: string): ParsedChord {
   let key = ''
   for (const token of tokens) {
     const lower = token.toLowerCase()
-    if (lower in MOD_ALIASES)
-      modifiers.add(MOD_ALIASES[lower])
+    const mod = MOD_ALIASES[lower]
+    if (mod != null)
+      modifiers.add(mod)
     else
       key = KEY_ALIASES[lower] ?? (token.length === 1 ? token.toLowerCase() : token)
   }
@@ -177,7 +178,7 @@ const KEY_GLYPHS: Record<string, string> = {
  * // → ['⌃', 'K'] on macOS, ['Ctrl', 'K'] elsewhere
  */
 export function chordDisplay(chord: ParsedChord): string[] {
-  const mods = chord.modifiers.map(m => isMac ? GLYPHS_MAC[m] : LABELS[m])
+  const mods = chord.modifiers.map(m => (isMac ? GLYPHS_MAC[m] : LABELS[m]) ?? m)
   const key = KEY_GLYPHS[chord.key] ?? (chord.key.length === 1 ? chord.key.toUpperCase() : chord.key)
   return [...mods, key]
 }

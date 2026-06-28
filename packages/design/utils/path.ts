@@ -77,7 +77,7 @@ export interface PnpmPackageInfo {
  */
 export function parsePnpmSegment(segment: string): PnpmPackageInfo | undefined {
   // Strip peer-dependency suffix (`_react@18...`).
-  const base = segment.split('_')[0]
+  const base = segment.split('_')[0] ?? ''
   const at = base.lastIndexOf('@')
   if (at <= 0)
     return undefined
@@ -109,7 +109,7 @@ export function parsePnpmSegment(segment: string): PnpmPackageInfo | undefined {
  */
 export function getPnpmPackageInfoFromPath(path: string): PnpmPackageInfo | undefined {
   const match = normalizeModulePath(path).match(/\.pnpm\/([^/]+)/)
-  if (!match)
+  if (match?.[1] == null)
     return undefined
   return parsePnpmSegment(match[1])
 }
@@ -138,8 +138,10 @@ export function getModuleNameFromPath(path: string): string | undefined {
   if (idx === -1)
     return undefined
   const rest = normalized.slice(idx + 'node_modules/'.length)
-  const segments = rest.split('/')
-  return segments[0].startsWith('@') ? `${segments[0]}/${segments[1]}` : segments[0]
+  const [first, second] = rest.split('/')
+  if (first == null)
+    return undefined
+  return first.startsWith('@') && second != null ? `${first}/${second}` : first
 }
 
 /**
