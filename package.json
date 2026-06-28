@@ -25,7 +25,7 @@
     "storybook": "pnpm -F @antfu/design-storybook run dev",
     "storybook:build": "pnpm -F @antfu/design-storybook run build",
     "play": "pnpm -F @antfu/design-playground run dev",
-    "release": "bumpp -r && pnpm -F @antfu/design publish --no-git-checks",
+    "release": "bumpp -r",
     "prepare": "git config core.hooksPath .githooks && simple-git-hooks && skills-npm"
   },
   "devDependencies": {
