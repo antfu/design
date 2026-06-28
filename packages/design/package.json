@@ -23,9 +23,7 @@
     "devtools",
     "antfu"
   ],
-  "sideEffects": [
-    "**/*.css"
-  ],
+  "sideEffects": false,
   "exports": {
     "./unocss": "./unocss/index.ts",
     "./utils": "./utils/index.ts",
@@ -39,7 +37,7 @@
   },
   "files": [
     "a11y",
-    "components/**/*.vue",
+    "components",
     "composables",
     "skills",
     "splitpanes.d.ts",
