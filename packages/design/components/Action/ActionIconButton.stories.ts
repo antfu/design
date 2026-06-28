@@ -29,3 +29,19 @@ export const States: Story = {
     </div>`,
   }),
 }
+
+export const Compact: Story = {
+  args: { icon: 'i-ph:dots-three', tooltip: 'More', compact: true },
+}
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { ActionIconButton },
+    template: `<div class="flex items-center gap-2">
+      <ActionIconButton icon="i-ph:gear" tooltip="sm" size="sm" />
+      <ActionIconButton icon="i-ph:gear" tooltip="md" size="md" />
+      <ActionIconButton icon="i-ph:gear" tooltip="lg" size="lg" />
+      <ActionIconButton icon="i-ph:gear" tooltip="compact" :compact="true" />
+    </div>`,
+  }),
+}

@@ -1,18 +1,30 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { getHashColorFromString } from '../../utils/color'
+import { useColorScheme } from '../../composables/colorScheme'
+import { getHashColorFromString, getPluginColor, stripPluginPrefix } from '../../utils/color'
 
 const props = withDefaults(
   defineProps<{
     name: string
-    /** The app's current color scheme. */
+    /** The app's current color scheme. Falls back to context, then `'light'`. */
     colorScheme?: 'light' | 'dark'
+    /** Strip plugin prefixes (`vite-plugin-`, `unplugin-`, `vite:`, …) from the displayed name. */
+    strip?: boolean
+    /** Color the scope by ecosystem brand hue (vs a plain string hash). */
+    brand?: boolean
+    /** Extra brand hues merged over the defaults (see `getPluginColor`). */
+    brandHues?: Record<string, number>
   }>(),
-  { colorScheme: 'light' },
+  { brand: true },
 )
 
+const scheme = useColorScheme(() => props.colorScheme)
+const dark = computed(() => scheme.value === 'dark')
+
+const display = computed(() => (props.strip ? stripPluginPrefix(props.name) : props.name))
+
 const parts = computed(() => {
-  const n = props.name
+  const n = display.value
   if (n.startsWith('@')) {
     const slash = n.indexOf('/')
     if (slash !== -1)
@@ -21,11 +33,13 @@ const parts = computed(() => {
   return { scope: '', rest: n }
 })
 
-const scopeColor = computed(() =>
-  parts.value.scope
-    ? getHashColorFromString(parts.value.scope, 1, props.colorScheme === 'dark')
-    : undefined,
-)
+const scopeColor = computed(() => {
+  if (!parts.value.scope)
+    return undefined
+  return props.brand
+    ? getPluginColor(props.name, 1, dark.value, props.brandHues)
+    : getHashColorFromString(parts.value.scope, 1, dark.value)
+})
 </script>
 
 <template>

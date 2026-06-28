@@ -107,3 +107,94 @@ export function getFileType(
 export function getFileIcon(path: string, rules?: FileIconRule[]): string {
   return getFileType(path, rules).icon
 }
+
+// ── Folders ──────────────────────────────────────────────────────────────
+
+const FOLDER_ICON = 'i-catppuccin:folder'
+const FOLDER_OPEN_ICON = 'i-catppuccin:folder-open'
+
+/**
+ * Named folder icons (catppuccin), keyed by lower-cased folder basename. Used by
+ * {@link getFolderIcon} so well-known directories get a recognisable glyph.
+ */
+export const defaultFolderIconRules: Record<string, string> = {
+  src: 'i-catppuccin:folder-src',
+  dist: 'i-catppuccin:folder-dist',
+  node_modules: 'i-catppuccin:folder-node',
+  test: 'i-catppuccin:folder-test',
+  tests: 'i-catppuccin:folder-test',
+  public: 'i-catppuccin:folder-public',
+  components: 'i-catppuccin:folder-components',
+  utils: 'i-catppuccin:folder-utils',
+  config: 'i-catppuccin:folder-config',
+  assets: 'i-catppuccin:folder-images',
+  scripts: 'i-catppuccin:folder-scripts',
+  styles: 'i-catppuccin:folder-css',
+}
+
+/**
+ * Icon class for a directory, optionally open and optionally name-aware.
+ *
+ * Well-known folder names (`src`, `dist`, `node_modules`, …) map to a recognisable
+ * glyph; everything else uses the generic folder icon. When `open` is `true`, the
+ * generic open-folder glyph is returned.
+ *
+ * @param name - The folder basename (case-insensitive). Optional.
+ * @param open - Whether the folder is expanded. Defaults to `false`.
+ * @param rules - Named-folder lookup. Defaults to {@link defaultFolderIconRules}.
+ * @returns A UnoCSS icon class.
+ *
+ * @example
+ * getFolderIcon('src') // → 'i-catppuccin:folder-src'
+ * getFolderIcon('anything', true) // → 'i-catppuccin:folder-open'
+ */
+export function getFolderIcon(
+  name?: string,
+  open = false,
+  rules: Record<string, string> = defaultFolderIconRules,
+): string {
+  if (open)
+    return FOLDER_OPEN_ICON
+  const named = name ? rules[name.toLowerCase()] : undefined
+  return named ?? FOLDER_ICON
+}
+
+// ── Alternate icon presets ─────────────────────────────────────────────────
+// Opt-in rule lists for other icon collections. The consumer must install the
+// matching `@iconify-json/*` collection and pass the preset to `getFileType` /
+// the `FileIcon` component's `rules` prop.
+
+/**
+ * File-icon rules targeting `@iconify-json/vscode-icons` (the Seti-style set).
+ * Pass to {@link getFileType}/{@link getFileIcon} or the `FileIcon` `rules` prop.
+ */
+export const vscodeFileIconRules: FileIconRule[] = [
+  { match: /\.vue$/, name: 'vue', icon: 'i-vscode-icons:file-type-vue' },
+  { match: /\.tsx$/, name: 'tsx', icon: 'i-vscode-icons:file-type-reactts' },
+  { match: /\.jsx$/, name: 'jsx', icon: 'i-vscode-icons:file-type-reactjs' },
+  { match: /\.d\.[cm]?ts$/, name: 'dts', icon: 'i-vscode-icons:file-type-typescriptdef' },
+  { match: /\.[cm]?ts$/, name: 'ts', icon: 'i-vscode-icons:file-type-typescript' },
+  { match: /\.[cm]?js$/, name: 'js', icon: 'i-vscode-icons:file-type-js' },
+  { match: /\.json5?$/, name: 'json', icon: 'i-vscode-icons:file-type-json' },
+  { match: /\.ya?ml$/, name: 'yaml', icon: 'i-vscode-icons:file-type-yaml' },
+  { match: /\.toml$/, name: 'toml', icon: 'i-vscode-icons:file-type-toml' },
+  { match: /\.md$/, name: 'markdown', icon: 'i-vscode-icons:file-type-markdown' },
+  { match: /\.html?$/, name: 'html', icon: 'i-vscode-icons:file-type-html' },
+  { match: /\.(?:css|postcss)$/, name: 'css', icon: 'i-vscode-icons:file-type-css' },
+  { match: /\.s[ac]ss$/, name: 'sass', icon: 'i-vscode-icons:file-type-sass' },
+  { match: /\.svg$/, name: 'svg', icon: 'i-vscode-icons:file-type-svg' },
+  { match: /\.(?:png|jpe?g|gif|webp|avif|ico)$/, name: 'image', icon: 'i-vscode-icons:file-type-image' },
+]
+
+/**
+ * Minimal monochrome file-icon rules targeting `@iconify-json/octicon` — handy
+ * for terminals/GitHub-style UIs where a single-color glyph reads better.
+ */
+export const octiconFileIconRules: FileIconRule[] = [
+  { match: /\.json5?$/, name: 'json', icon: 'i-octicon:file-code-16' },
+  { match: /\.md$/, name: 'markdown', icon: 'i-octicon:markdown-16' },
+  { match: /\.(?:png|jpe?g|gif|webp|avif|svg|ico)$/, name: 'image', icon: 'i-octicon:image-16' },
+  { match: /\.(?:zip|tar|gz|tgz)$/, name: 'archive', icon: 'i-octicon:file-zip-16' },
+  { match: /\.[cm]?[jt]sx?$/, name: 'code', icon: 'i-octicon:file-code-16' },
+  { match: /./, name: 'file', icon: 'i-octicon:file-16' },
+]

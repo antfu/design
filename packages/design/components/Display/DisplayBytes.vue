@@ -6,6 +6,8 @@ const props = withDefaults(
   defineProps<{
     bytes: number
     base?: 1024 | 1000
+    /** Maximum decimal places before trailing-zero trimming. */
+    digits?: number
     colorize?: boolean
     /** When given, also show `bytes / total` as a percent. */
     total?: number
@@ -14,7 +16,7 @@ const props = withDefaults(
   { mono: true, base: 1024 },
 )
 
-const parts = computed(() => formatBytes(props.bytes, { base: props.base }))
+const parts = computed(() => formatBytes(props.bytes, { base: props.base, digits: props.digits }))
 const colorClass = computed(() => (props.colorize ? getBytesColor(props.bytes) : ''))
 const percent = computed(() =>
   props.total && props.total > 0 ? (props.bytes / props.total) * 100 : undefined,

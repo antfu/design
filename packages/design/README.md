@@ -52,12 +52,20 @@ You compose the base preset, icons, fonts and reset yourself.
 | `./components/*` | one readable `.vue` per component (e.g. `./components/Display/DisplayBadge.vue`) |
 | `./unocss` | the single `presetAnthonyDesign` preset |
 | `./utils` | color, format, path, semver, contrast, keybinding helpers (pure, stateless) |
+| `./composables/*` | Vue helpers: `colorScheme` (opt-in scheme context) and `toast` (`useToast` queue) |
 | `./a11y` | programmatic color-contrast scan |
 | `./styles.css`, `./styles/*` | all styles, or per-concern files |
+| `./splitpanes.d.ts` | opt-in fallback types for older `splitpanes` (v4.1.2+ ships its own) |
 
 > The package is **stateless** — no dark-mode/clipboard/toast state. Components
 > that vary by scheme take a `colorScheme` prop; toasts are controlled. Use VueUse
 > directly for state.
+>
+> Two **opt-in** helpers reduce the boilerplate without adding global state:
+> `provideColorScheme(() => isDark ? 'dark' : 'light')` (from `@antfu/design/composables/colorScheme`)
+> lets scheme-aware components inherit the scheme instead of threading a prop, and
+> `useToast()` (from `@antfu/design/composables/toast`) owns a toast queue for
+> `FeedbackToasts`. Both only read state you own.
 
 ## Accessibility
 
@@ -89,7 +97,7 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `color-faint` | `color-neutral-500 dark:color-neutral-500` |
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
-| `bg-secondary` | `bg-#eee dark:bg-#222` |
+| `bg-secondary` | `bg-#f5f5f5 dark:bg-#1a1a1a` |
 | `bg-active` | `bg-#8881` |
 | `bg-hover` | `bg-primary/5` |
 | `bg-code` | `bg-gray-500/5` |
@@ -105,8 +113,9 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `btn-action-sm` | `btn-action text-sm` |
 | `btn-action-active` | `color-active border-active! bg-active op100!` |
 | `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
-| `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium leading-none` |
+| `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |
 | `badge-muted` | `badge bg-#8881 color-muted` |
 

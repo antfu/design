@@ -25,10 +25,12 @@ const SIDE_CLASS = {
       <slot name="trigger" />
     </DialogTrigger>
     <DialogPortal>
-      <DialogOverlay class="bg-black/40 inset-0 fixed z-drawer-backdrop" data-af-animate />
+      <DialogOverlay class="bg-black/40 inset-0 fixed z-drawer-backdrop backdrop-blur-sm" data-af-animate />
       <DialogContent
         class="outline-none border-base bg-base flex flex-col shadow-2xl fixed z-drawer-content"
         :class="SIDE_CLASS[side]"
+        data-af-drawer
+        :data-side="side"
       >
         <header class="px-4 py-3 border-b border-base flex shrink-0 gap-4 items-center justify-between">
           <DialogTitle v-if="title" class="color-base font-medium">
@@ -47,6 +49,9 @@ const SIDE_CLASS = {
         <div class="p-4 flex-1 overflow-auto">
           <slot />
         </div>
+        <footer v-if="$slots.footer" class="px-4 py-3 border-t border-base flex shrink-0 gap-2 items-center justify-end">
+          <slot name="footer" />
+        </footer>
       </DialogContent>
     </DialogPortal>
   </DialogRoot>

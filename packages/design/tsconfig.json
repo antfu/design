@@ -7,6 +7,7 @@
   "include": [
     "components/**/*.ts",
     "components/**/*.vue",
+    "composables/**/*.ts",
     "unocss/**/*.ts",
     "utils/**/*.ts",
     "a11y/**/*.ts",

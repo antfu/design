@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useColorScheme } from '../../composables/colorScheme'
 import { getHashColorFromString, getHsla } from '../../utils/color'
 
 const props = withDefaults(
@@ -21,14 +22,16 @@ const props = withDefaults(
     icon?: string
     /** Render as another element/component. */
     as?: string
-    /** The app's current color scheme — tunes hash colors for contrast. */
+    /**
+     * The app's current color scheme — tunes hash colors for contrast. Falls
+     * back to {@link provideColorScheme} context, then `'light'`.
+     */
     colorScheme?: 'light' | 'dark'
   }>(),
   {
     color: true,
     variant: 'subtle',
     size: 'md',
-    colorScheme: 'light',
   },
 )
 
@@ -36,7 +39,8 @@ function isCssColor(value: string): boolean {
   return /^#|^hsl|^rgb|^var\(/.test(value)
 }
 
-const dark = computed(() => props.colorScheme === 'dark')
+const scheme = useColorScheme(() => props.colorScheme)
+const dark = computed(() => scheme.value === 'dark')
 
 const seedColor = computed<string | undefined>(() => {
   const { color, text } = props
