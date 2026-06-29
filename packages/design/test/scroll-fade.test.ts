@@ -26,14 +26,17 @@ describe('scroll-fade (ported from shadcn/ui)', () => {
     expect(css).toContain('.scroll-fade-none{--scroll-fade-mask:none;}')
     expect(css).toContain('--scroll-fade-mask:none')
   })
-  it('preflight ships base/edge classes, @property, keyframes and no-scrollbar', async () => {
-    const css = await generate('', true)
+  it('base/edge classes carry their own keyframes + @supports, gated on use', async () => {
+    const css = await generate('scroll-fade scroll-fade-x scroll-fade-l scroll-fade-r no-scrollbar', true)
     expect(css).toContain('@property --scroll-fade-mask')
     expect(css).toContain('@keyframes scroll-fade-reveal-t')
-    expect(css).toContain('animation-timeline: scroll(self y)')
+    expect(css).toContain('@supports (animation-timeline:scroll())')
     expect(css).toContain('mask-image:')
-    for (const c of ['.scroll-fade-y', '.scroll-fade-x', '.scroll-fade-l', '.scroll-fade-r', '.no-scrollbar'])
+    for (const c of ['.scroll-fade-x', '.scroll-fade-l', '.scroll-fade-r', '.no-scrollbar'])
       expect(css).toContain(c)
+  })
+  it('keyframes are tree-shaken when only the size modifier is used', async () => {
+    expect(await generate('scroll-fade-24')).not.toContain('@keyframes')
   })
 })
 
@@ -53,11 +56,11 @@ describe('shimmer (ported from shadcn/ui)', () => {
     expect(css).toContain('color-mix(in oklch')
     expect(css).toContain('--shimmer-color:#378ADD')
   })
-  it('preflight ships base class, keyframes, dark brightening and reduced-motion', async () => {
-    const css = await generate('', true)
+  it('base class ships keyframes, dark brightening and reduced-motion only when used', async () => {
+    const css = await generate('shimmer', true)
     expect(css).toContain('@keyframes tw-shimmer')
-    expect(css).toContain('background-clip: text')
+    expect(css).toContain('background-clip:text')
     expect(css).toContain('html.dark')
-    expect(css).toContain('prefers-reduced-motion: reduce')
+    expect(css).toContain('prefers-reduced-motion:reduce')
   })
 })

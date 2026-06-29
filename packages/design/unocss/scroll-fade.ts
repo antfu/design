@@ -1,12 +1,14 @@
-import type { Preflight, Rule } from '@unocss/core'
+import type { CSSObject, Preflight, Rule } from '@unocss/core'
 
 /**
  * `scroll-fade` — a scroll-aware fade on the edges of a scroll container.
  *
  * Ported from shadcn/ui's `scroll-fade` utility (MIT, by @shadcn / Vercel):
- * https://ui.shadcn.com/docs/utils/scroll-fade — re-expressed for UnoCSS. The
- * `@property`/`@keyframes` + the base/edge classes ride in a preflight (they
- * need at-rules the rule engine can't nest); depth + `-none` are dynamic rules.
+ * https://ui.shadcn.com/docs/utils/scroll-fade — re-expressed as native UnoCSS.
+ * Each utility is a rule that returns its declarations plus the `@supports`/
+ * `@keyframes` it needs as raw blocks, so those at-rules ship only when the
+ * class is used (the trick wind4's `animate-*` uses for keyframes). Only the
+ * `@property` registrations sit in a preflight — foundational, like a reset.
  *
  * - `scroll-fade` / `scroll-fade-y` / `scroll-fade-x` — vertical / horizontal
  * - `scroll-fade-{t,b,l,r,s,e}` — single edge (logical `s`/`e` mirror in RTL)
@@ -14,70 +16,65 @@ import type { Preflight, Rule } from '@unocss/core'
  * - `scroll-fade-none` — disable (variant-friendly, e.g. `md:scroll-fade-none`)
  */
 
+type Edge = 't' | 'b' | 's' | 'e'
 const SIZE = 'min(12%, calc(var(--spacing) * 10))'
 const REVEAL = 'var(--scroll-fade-reveal, calc(var(--spacing) * 24))'
+const REPEAT: CSSObject = { '-webkit-mask-repeat': 'no-repeat', 'mask-repeat': 'no-repeat' }
+const size = (e: Edge): string => `var(--scroll-fade-${e}-size,var(--scroll-fade-size,${SIZE}))`
+const KF: Record<Edge, string> = {
+  t: `@keyframes scroll-fade-reveal-t{from{--scroll-fade-t:0px}to{--scroll-fade-t:${size('t')}}}`,
+  b: `@keyframes scroll-fade-reveal-b{from{--scroll-fade-b:${size('b')}}to{--scroll-fade-b:0px}}`,
+  s: `@keyframes scroll-fade-reveal-s{from{--scroll-fade-s:0px}to{--scroll-fade-s:${size('s')}}}`,
+  e: `@keyframes scroll-fade-reveal-e{from{--scroll-fade-e:${size('e')}}to{--scroll-fade-e:0px}}`,
+}
+
+/** Both-edge fade on one axis; degrades to a static fade where unsupported. */
+function axis(sel: string, mask: string, [a, b]: [Edge, Edge], tl: string, rtl?: string): Rule {
+  return [sel, [
+    { '-webkit-mask-image': mask, 'mask-image': mask, '-webkit-mask-composite': 'source-in', 'mask-composite': 'intersect', ...REPEAT },
+    rtl && `.${sel}:where([dir="rtl"],[dir="rtl"] *){-webkit-mask-image:${rtl};mask-image:${rtl}}`,
+    `@supports (animation-timeline:scroll()){.${sel}{animation:scroll-fade-reveal-${a} 1ms ease-in-out,scroll-fade-reveal-${b} 1ms ease-in-out;animation-timeline:scroll(self ${tl}),scroll(self ${tl});animation-range:0 ${REVEAL},calc(100% - ${REVEAL}) 100%;animation-fill-mode:both}}`,
+    `@supports not (animation-timeline:scroll()){.${sel}{--scroll-fade-${a}:${size(a)};--scroll-fade-${b}:${size(b)}}}`,
+    KF[a],
+    KF[b],
+  ].filter(Boolean) as string[]]
+}
+
+/** Single-edge fade that tracks one end of the scroll. */
+function edge(sel: string, e: Edge, mask: string, tl: string, range: string, rtl?: string): Rule {
+  return [sel, [
+    { '--scroll-fade-mask': mask, '-webkit-mask-image': 'var(--scroll-fade-mask)', 'mask-image': 'var(--scroll-fade-mask)', ...REPEAT },
+    rtl && `.${sel}:where([dir="rtl"],[dir="rtl"] *){--scroll-fade-mask:${rtl}}`,
+    `@supports (animation-timeline:scroll()){.${sel}{animation:scroll-fade-reveal-${e} 1ms ease-in-out;animation-timeline:scroll(self ${tl});animation-range:${range};animation-fill-mode:both}}`,
+    `@supports not (animation-timeline:scroll()){.${sel}{--scroll-fade-${e}:${size(e)}}}`,
+    KF[e],
+  ].filter(Boolean) as string[]]
+}
+
+const block = `linear-gradient(to bottom,transparent 0,#000 var(--scroll-fade-t,0px),#000 calc(100% - var(--scroll-fade-b,0px)),transparent 100%)`
+const inL = `linear-gradient(to right,transparent 0,#000 var(--scroll-fade-s,0px),#000 calc(100% - var(--scroll-fade-e,0px)),transparent 100%)`
 
 export const scrollFadeRules: Rule[] = [
-  ['scroll-fade-none', { '--scroll-fade-mask': 'none' }, { layer: 'default' }],
-  // Per-edge first, so `t/b/s/e` aren't swallowed by the both-edges rule.
-  [/^scroll-fade-([tbse])-\[(.+)\]$/, ([, e, v]) => ({ [`--scroll-fade-${e}-size`]: v }), { layer: 'default' }],
-  [/^scroll-fade-([tbse])-(\d+)$/, ([, e, n]) => ({ [`--scroll-fade-${e}-size`]: `calc(var(--spacing) * ${n})` }), { layer: 'default' }],
-  [/^scroll-fade-\[(.+)\]$/, ([, v]) => ({ '--scroll-fade-size': v }), { layer: 'default' }],
-  [/^scroll-fade-(\d+)$/, ([, n]) => ({ '--scroll-fade-size': `calc(var(--spacing) * ${n})` }), { layer: 'default' }],
+  axis('scroll-fade', block, ['t', 'b'], 'y'),
+  axis('scroll-fade-y', block, ['t', 'b'], 'y'),
+  axis('scroll-fade-x', inL, ['s', 'e'], 'inline', inL.replace('to right', 'to left')),
+  edge('scroll-fade-t', 't', `linear-gradient(to bottom,transparent 0,#000 var(--scroll-fade-t,0px),#000 100%)`, 'y', `0 ${REVEAL}`),
+  edge('scroll-fade-b', 'b', `linear-gradient(to bottom,#000 0,#000 calc(100% - var(--scroll-fade-b,0px)),transparent 100%)`, 'y', `calc(100% - ${REVEAL}) 100%`),
+  edge('scroll-fade-l', 's', `linear-gradient(to right,transparent 0,#000 var(--scroll-fade-s,0px),#000 100%)`, 'x', `0 ${REVEAL}`),
+  edge('scroll-fade-r', 'e', `linear-gradient(to right,#000 0,#000 calc(100% - var(--scroll-fade-e,0px)),transparent 100%)`, 'x', `calc(100% - ${REVEAL}) 100%`),
+  edge('scroll-fade-s', 's', `linear-gradient(to right,transparent 0,#000 var(--scroll-fade-s,0px),#000 100%)`, 'inline', `0 ${REVEAL}`, `linear-gradient(to left,transparent 0,#000 var(--scroll-fade-s,0px),#000 100%)`),
+  edge('scroll-fade-e', 'e', `linear-gradient(to right,#000 0,#000 calc(100% - var(--scroll-fade-e,0px)),transparent 100%)`, 'inline', `calc(100% - ${REVEAL}) 100%`, `linear-gradient(to left,#000 0,#000 calc(100% - var(--scroll-fade-e,0px)),transparent 100%)`),
+  ['scroll-fade-none', { '--scroll-fade-mask': 'none' }],
+  [/^scroll-fade-([tbse])-\[(.+)\]$/, ([, e, v]) => ({ [`--scroll-fade-${e}-size`]: v })],
+  [/^scroll-fade-([tbse])-(\d+)$/, ([, e, n]) => ({ [`--scroll-fade-${e}-size`]: `calc(var(--spacing) * ${n})` })],
+  [/^scroll-fade-\[(.+)\]$/, ([, v]) => ({ '--scroll-fade-size': v })],
+  [/^scroll-fade-(\d+)$/, ([, n]) => ({ '--scroll-fade-size': `calc(var(--spacing) * ${n})` })],
+  // Companion: hide the scrollbar so a faded scroller shows no stray edge bar.
+  ['no-scrollbar', [{ '-ms-overflow-style': 'none', 'scrollbar-width': 'none' }, `.no-scrollbar::-webkit-scrollbar{display:none}`]],
 ]
 
+/** `--scroll-fade-*` registered so they interpolate; foundational, hence a preflight. */
 export const scrollFadePreflight: Preflight = {
   layer: 'default',
-  getCSS: () => `
-@property --scroll-fade-t { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
-@property --scroll-fade-b { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
-@property --scroll-fade-s { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
-@property --scroll-fade-e { syntax: "<length-percentage>"; inherits: false; initial-value: 0px; }
-@property --scroll-fade-mask { syntax: "*"; inherits: false; }
-@keyframes scroll-fade-reveal-t { from { --scroll-fade-t: 0px; } to { --scroll-fade-t: var(--_scroll-fade-size-t, var(--scroll-fade-size, ${SIZE})); } }
-@keyframes scroll-fade-reveal-b { from { --scroll-fade-b: var(--_scroll-fade-size-b, var(--scroll-fade-size, ${SIZE})); } to { --scroll-fade-b: 0px; } }
-@keyframes scroll-fade-reveal-s { from { --scroll-fade-s: 0px; } to { --scroll-fade-s: var(--_scroll-fade-size-s, var(--scroll-fade-size, ${SIZE})); } }
-@keyframes scroll-fade-reveal-e { from { --scroll-fade-e: var(--_scroll-fade-size-e, var(--scroll-fade-size, ${SIZE})); } to { --scroll-fade-e: 0px; } }
-.scroll-fade, .scroll-fade-y {
-  --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, ${SIZE}));
-  --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, ${SIZE}));
-  --scroll-fade-block: linear-gradient(to bottom, transparent 0, #000 var(--scroll-fade-t, 0px), #000 calc(100% - var(--scroll-fade-b, 0px)), transparent 100%);
-  -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-block)); mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));
-  -webkit-mask-composite: source-in; mask-composite: intersect; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-}
-@supports (animation-timeline: scroll()) { .scroll-fade, .scroll-fade-y { animation: scroll-fade-reveal-t 1ms ease-in-out, scroll-fade-reveal-b 1ms ease-in-out; animation-timeline: scroll(self y), scroll(self y); animation-range: 0 ${REVEAL}, calc(100% - ${REVEAL}) 100%; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade, .scroll-fade-y { --scroll-fade-t: var(--_scroll-fade-size-t); --scroll-fade-b: var(--_scroll-fade-size-b); } }
-.scroll-fade-x {
-  --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, ${SIZE}));
-  --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, ${SIZE}));
-  --scroll-fade-inline: linear-gradient(to right, transparent 0, #000 var(--scroll-fade-s, 0px), #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%);
-  -webkit-mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline)); mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline));
-  -webkit-mask-composite: source-in; mask-composite: intersect; -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat;
-}
-.scroll-fade-x:where([dir="rtl"], [dir="rtl"] *) { --scroll-fade-inline: linear-gradient(to left, transparent 0, #000 var(--scroll-fade-s, 0px), #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%); }
-@supports (animation-timeline: scroll()) { .scroll-fade-x { animation: scroll-fade-reveal-s 1ms ease-in-out, scroll-fade-reveal-e 1ms ease-in-out; animation-timeline: scroll(self inline), scroll(self inline); animation-range: 0 ${REVEAL}, calc(100% - ${REVEAL}) 100%; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-x { --scroll-fade-s: var(--_scroll-fade-size-s); --scroll-fade-e: var(--_scroll-fade-size-e); } }
-.scroll-fade-t { --_scroll-fade-size-t: var(--scroll-fade-t-size, var(--scroll-fade-size, ${SIZE})); --scroll-fade-mask: linear-gradient(to bottom, transparent 0, #000 var(--scroll-fade-t, 0px), #000 100%); -webkit-mask-image: var(--scroll-fade-mask); mask-image: var(--scroll-fade-mask); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-@supports (animation-timeline: scroll()) { .scroll-fade-t { animation: scroll-fade-reveal-t 1ms ease-in-out; animation-timeline: scroll(self y); animation-range: 0 ${REVEAL}; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-t { --scroll-fade-t: var(--_scroll-fade-size-t); } }
-.scroll-fade-b { --_scroll-fade-size-b: var(--scroll-fade-b-size, var(--scroll-fade-size, ${SIZE})); --scroll-fade-mask: linear-gradient(to bottom, #000 0, #000 calc(100% - var(--scroll-fade-b, 0px)), transparent 100%); -webkit-mask-image: var(--scroll-fade-mask); mask-image: var(--scroll-fade-mask); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-@supports (animation-timeline: scroll()) { .scroll-fade-b { animation: scroll-fade-reveal-b 1ms ease-in-out; animation-timeline: scroll(self y); animation-range: calc(100% - ${REVEAL}) 100%; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-b { --scroll-fade-b: var(--_scroll-fade-size-b); } }
-.scroll-fade-l { --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, ${SIZE})); --scroll-fade-mask: linear-gradient(to right, transparent 0, #000 var(--scroll-fade-s, 0px), #000 100%); -webkit-mask-image: var(--scroll-fade-mask); mask-image: var(--scroll-fade-mask); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-@supports (animation-timeline: scroll()) { .scroll-fade-l { animation: scroll-fade-reveal-s 1ms ease-in-out; animation-timeline: scroll(self x); animation-range: 0 ${REVEAL}; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-l { --scroll-fade-s: var(--_scroll-fade-size-s); } }
-.scroll-fade-r { --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, ${SIZE})); --scroll-fade-mask: linear-gradient(to right, #000 0, #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%); -webkit-mask-image: var(--scroll-fade-mask); mask-image: var(--scroll-fade-mask); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-@supports (animation-timeline: scroll()) { .scroll-fade-r { animation: scroll-fade-reveal-e 1ms ease-in-out; animation-timeline: scroll(self x); animation-range: calc(100% - ${REVEAL}) 100%; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-r { --scroll-fade-e: var(--_scroll-fade-size-e); } }
-.scroll-fade-s { --_scroll-fade-size-s: var(--scroll-fade-s-size, var(--scroll-fade-size, ${SIZE})); --scroll-fade-mask: linear-gradient(to right, transparent 0, #000 var(--scroll-fade-s, 0px), #000 100%); -webkit-mask-image: var(--scroll-fade-mask); mask-image: var(--scroll-fade-mask); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-.scroll-fade-s:where([dir="rtl"], [dir="rtl"] *) { --scroll-fade-mask: linear-gradient(to left, transparent 0, #000 var(--scroll-fade-s, 0px), #000 100%); }
-@supports (animation-timeline: scroll()) { .scroll-fade-s { animation: scroll-fade-reveal-s 1ms ease-in-out; animation-timeline: scroll(self inline); animation-range: 0 ${REVEAL}; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-s { --scroll-fade-s: var(--_scroll-fade-size-s); } }
-.scroll-fade-e { --_scroll-fade-size-e: var(--scroll-fade-e-size, var(--scroll-fade-size, ${SIZE})); --scroll-fade-mask: linear-gradient(to right, #000 0, #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%); -webkit-mask-image: var(--scroll-fade-mask); mask-image: var(--scroll-fade-mask); -webkit-mask-repeat: no-repeat; mask-repeat: no-repeat; }
-.scroll-fade-e:where([dir="rtl"], [dir="rtl"] *) { --scroll-fade-mask: linear-gradient(to left, #000 0, #000 calc(100% - var(--scroll-fade-e, 0px)), transparent 100%); }
-@supports (animation-timeline: scroll()) { .scroll-fade-e { animation: scroll-fade-reveal-e 1ms ease-in-out; animation-timeline: scroll(self inline); animation-range: calc(100% - ${REVEAL}) 100%; animation-fill-mode: both; } }
-@supports not (animation-timeline: scroll()) { .scroll-fade-e { --scroll-fade-e: var(--_scroll-fade-size-e); } }
-.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-.no-scrollbar::-webkit-scrollbar { display: none; }
-`,
+  getCSS: () => `@property --scroll-fade-t{syntax:"<length-percentage>";inherits:false;initial-value:0px}@property --scroll-fade-b{syntax:"<length-percentage>";inherits:false;initial-value:0px}@property --scroll-fade-s{syntax:"<length-percentage>";inherits:false;initial-value:0px}@property --scroll-fade-e{syntax:"<length-percentage>";inherits:false;initial-value:0px}@property --scroll-fade-mask{syntax:"*";inherits:false}`,
 }
