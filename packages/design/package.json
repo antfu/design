@@ -27,7 +27,9 @@
   "exports": {
     "./unocss": "./unocss/index.ts",
     "./utils": "./utils/index.ts",
-    "./composables/*": "./composables/*",
+    "./utils/*": "./utils/*.ts",
+    "./composables": "./composables/index.ts",
+    "./composables/*": "./composables/*.ts",
     "./a11y": "./a11y/index.ts",
     "./styles.css": "./styles/index.css",
     "./styles/*": "./styles/*",
@@ -56,6 +58,7 @@
     "@axe-core/playwright": "^4.0.0",
     "@iconify-json/catppuccin": "^1.0.0",
     "@tanstack/vue-virtual": "^3.0.0",
+    "@unocss/core": ">=66.0.0",
     "colorjs.io": "^0.6.0",
     "floating-vue": "^5.0.0",
     "playwright": "^1.0.0",
@@ -77,6 +80,9 @@
     "@tanstack/vue-virtual": {
       "optional": true
     },
+    "@unocss/core": {
+      "optional": true
+    },
     "colorjs.io": {
       "optional": true
     },
@@ -94,7 +100,6 @@
     }
   },
   "dependencies": {
-    "@unocss/core": "catalog:frontend",
     "@vueuse/core": "catalog:frontend"
   },
   "devDependencies": {
@@ -104,6 +109,7 @@
     "@iconify-json/catppuccin": "catalog:frontend",
     "@storybook/vue3-vite": "catalog:storybook",
     "@tanstack/vue-virtual": "catalog:frontend",
+    "@unocss/core": "catalog:frontend",
     "@unocss/preset-icons": "catalog:frontend",
     "@unocss/preset-mini": "catalog:frontend",
     "@unocss/preset-web-fonts": "catalog:frontend",

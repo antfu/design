@@ -4,15 +4,27 @@ import { computed } from 'vue'
 const props = withDefaults(
   defineProps<{
     version: string
-    /** Render with a leading `v`. */
-    prefix?: boolean
+    /**
+     * Leading prefix for a bare version. `true` → `v`, `false` → none, or a
+     * custom string (e.g. `'@'` for `@1.2`). Non-bare specs (`npm:`/`workspace:`
+     * /`catalog:`, ranges like `^1.2`) are always passed through verbatim.
+     */
+    prefix?: boolean | string
   }>(),
   { prefix: true },
 )
 
+// A "bare" version is a plain dotted release (optionally `v`-prefixed). Specs
+// (`workspace:*`, `npm:pkg@1`, `catalog:`, `link:`/`file:`) and ranges
+// (`^`, `~`, `>=`, `||`, `*`) carry meaning, so prefixing them mangles them.
+const isBare = computed(() => /^v?\d[\w.+-]*$/i.test(props.version.trim()))
+
 const display = computed(() => {
+  if (!isBare.value)
+    return props.version
   const v = props.version.replace(/^v/i, '')
-  return props.prefix ? `v${v}` : v
+  const lead = props.prefix === true ? 'v' : props.prefix === false ? '' : props.prefix
+  return `${lead}${v}`
 })
 </script>
 

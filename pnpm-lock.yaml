@@ -205,9 +205,6 @@ importers:
 
   packages/design:
     dependencies:
-      '@unocss/core':
-        specifier: catalog:frontend
-        version: 66.7.2
       '@vueuse/core':
         specifier: catalog:frontend
         version: 14.3.0(vue@3.5.38(typescript@6.0.3))
@@ -230,6 +227,9 @@ importers:
       '@tanstack/vue-virtual':
         specifier: catalog:frontend
         version: 3.13.29(vue@3.5.38(typescript@6.0.3))
+      '@unocss/core':
+        specifier: catalog:frontend
+        version: 66.7.2
       '@unocss/preset-icons':
         specifier: catalog:frontend
         version: 66.7.2

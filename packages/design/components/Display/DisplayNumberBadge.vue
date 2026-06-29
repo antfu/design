@@ -17,6 +17,7 @@ withDefaults(
 
 <template>
   <DisplayBadge :color="color" size="sm">
-    <DisplayNumber :value="value" :prefix="prefix" :suffix="suffix" :options="options" />
+    <!-- Escape hatch: replace the formatted number with custom content. -->
+    <slot><DisplayNumber :value="value" :prefix="prefix" :suffix="suffix" :options="options" /></slot>
   </DisplayBadge>
 </template>

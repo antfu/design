@@ -7,23 +7,38 @@ const props = withDefaults(
     src?: string
     /** Alternative text, forwarded to the `<img>`. */
     alt?: string
+    /** `object-fit`. Unset by default so the caller's own classes win. */
+    fit?: 'cover' | 'contain' | 'fill' | 'none' | 'scale-down'
+    /** Preload the image and keep the fallback until it loads. Off = render immediately. */
+    preload?: boolean
   }>(),
   {},
 )
 
 const errored = ref(false)
+const ready = ref(!props.preload)
 
-watch(() => props.src, () => {
+watch(() => props.src, (src) => {
   errored.value = false
-})
+  if (!props.preload || !src) {
+    ready.value = !props.preload
+    return
+  }
+  ready.value = false
+  const img = new Image()
+  img.onload = () => (ready.value = true)
+  img.onerror = () => (errored.value = true)
+  img.src = src
+}, { immediate: true })
 </script>
 
 <template>
   <img
-    v-if="src && !errored"
+    v-if="src && !errored && ready"
     :src="src"
     :alt="alt"
-    class="h-full w-full block object-cover"
+    class="block"
+    :class="fit && `object-${fit}`"
     @error="errored = true"
   >
   <slot v-else name="fallback" />

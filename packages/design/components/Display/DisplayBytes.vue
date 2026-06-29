@@ -25,6 +25,7 @@ const percent = computed(() =>
 
 <template>
   <span :class="[colorClass, { 'font-mono tabular-nums': mono }]">
-    {{ parts[0] }}<span class="text-xs ml-0.5 op-fade">{{ parts[1] }}</span><span v-if="percent != null" class="text-xs ml-1 op-mute">{{ percent.toFixed(0) }}%</span>
+    <!-- Escape hatch: override the structure entirely with `[value, unit, percent]`. -->
+    <slot :value="parts[0]" :unit="parts[1]" :percent="percent">{{ parts[0] }}<span class="text-xs ml-0.5 op-fade">{{ parts[1] }}</span><span v-if="percent != null" class="text-xs ml-1 op-mute">{{ percent.toFixed(0) }}%</span></slot>
   </span>
 </template>

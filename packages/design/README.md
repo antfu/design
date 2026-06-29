@@ -54,7 +54,16 @@ export default defineConfig({
 import ActionButton from '@antfu/design/components/Action/ActionButton.vue'
 import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'
 import OverlayModal from '@antfu/design/components/Overlay/OverlayModal.vue'
-import '@antfu/design/styles.css'
+import '@antfu/design/styles.css' // everything, incl. splitpanes/reka/floating-vue overrides
+```
+
+`styles.css` bundles every overlay engine's override. If you don't use them all,
+cherry-pick instead so unused (`splitpanes`/`reka-ui`) CSS never ships:
+
+```ts
+import '@antfu/design/styles/base.css'
+import '@antfu/design/styles/scrollbar.css'
+import '@antfu/design/styles/floating-vue.css' // only if you use tooltips
 ```
 
 The package ships **raw `.ts` / `.vue` source** (no bundling) — your build
