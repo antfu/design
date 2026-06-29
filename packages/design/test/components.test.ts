@@ -11,6 +11,7 @@ import EmptyState from '../components/Feedback/FeedbackEmptyState.vue'
 import Skeleton from '../components/Feedback/FeedbackSkeleton.vue'
 import Tip from '../components/Feedback/FeedbackTip.vue'
 import Checkbox from '../components/Form/FormCheckbox.vue'
+import RangeSlider from '../components/Form/FormRangeSlider.vue'
 import Slider from '../components/Form/FormSlider.vue'
 import Accordion from '../components/Layout/LayoutAccordion.vue'
 import Separator from '../components/Layout/LayoutSeparator.vue'
@@ -109,6 +110,16 @@ describe('new primitives', () => {
   it('slider exposes a thumb for a single value', () => {
     const wrapper = mount(Slider, { props: { modelValue: 30 } })
     expect(wrapper.find('[role="slider"]').exists()).toBe(true)
+  })
+  it('rangeSlider renders two thumbs for a tuple and a value readout', () => {
+    const wrapper = mount(RangeSlider, { props: { modelValue: [20, 70], showValue: true } })
+    expect(wrapper.findAll('[role="slider"]')).toHaveLength(2)
+    expect(wrapper.text()).toContain('20–70')
+  })
+  it('rangeSlider toggle collapses a tuple to a single value', async () => {
+    const wrapper = mount(RangeSlider, { props: { modelValue: [20, 80] } })
+    await wrapper.get('button').trigger('click')
+    expect(wrapper.emitted('update:modelValue')!.at(-1)![0]).toBe(50)
   })
   it('toggleGroup renders an item per option', () => {
     const wrapper = mount(ToggleGroup, {

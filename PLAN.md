@@ -103,6 +103,7 @@ The source projects studied (token dialect, components, utilities, a11y scan):
 - [unocss/unocss — interactive](https://github.com/unocss/unocss/tree/main/interactive)
 - [unocss/unocss — packages-integrations/inspector](https://github.com/unocss/unocss/tree/main/packages-integrations/inspector)
 - [nuxt/devtools](https://github.com/nuxt/devtools)
+- [antfu/qrcode-toolkit](https://github.com/antfu/qrcode-toolkit) — DM Sans/Mono + `*-base` shortcuts; source of the collapsible **min↔random-range** slider (`SettingsRandomRange` + `OptionSlider`/`OptionItem` settings rows)
 
 Plus the direct blueprints: [`@vitejs/devtools-ui`](https://github.com/vitejs/devtools/tree/main/packages/ui)
 (the preset/shortcuts/color "v0"), [`@antfu/eslint-config`](https://github.com/antfu/eslint-config)
