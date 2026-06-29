@@ -91,6 +91,7 @@
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:testing",
     "@axe-core/playwright": "catalog:testing",
+    "@storybook/addon-docs": "catalog:storybook",
     "@storybook/vue3-vite": "catalog:storybook",
     "@tanstack/vue-virtual": "catalog:frontend",
     "@unocss/preset-icons": "catalog:frontend",

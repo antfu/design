@@ -5,9 +5,13 @@ import Unocss from 'unocss/vite'
 import { mergeConfig } from 'vite'
 
 const config: StorybookConfig = {
-  // Stories are co-located next to each component in the package.
-  stories: ['../../packages/design/components/**/*.stories.@(ts|js)'],
-  addons: [],
+  // Stories are co-located next to each component in the package; the Overview
+  // is a single MDX page that references all the others via doc blocks.
+  stories: [
+    '../../packages/design/components/**/*.mdx',
+    '../../packages/design/components/**/*.stories.@(ts|js)',
+  ],
+  addons: ['@storybook/addon-docs'],
   framework: {
     name: '@storybook/vue3-vite',
     // Disable Storybook's Vue docgen: it matches `.js` and re-parses our

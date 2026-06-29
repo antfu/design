@@ -8,6 +8,10 @@ const preview: Preview = {
   parameters: {
     layout: 'centered',
     controls: { expanded: true },
+    options: {
+      // Overview lands first; the rest fall back to alphabetical.
+      storySort: { order: ['Overview', 'Action', 'Display', 'Form', 'Feedback', 'Layout', 'Overlay'] },
+    },
   },
   globalTypes: {
     theme: {
