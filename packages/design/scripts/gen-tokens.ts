@@ -52,6 +52,8 @@ const content = [
   '| `bg-glass` / `bg-glass:<n>` | translucent surface + `backdrop-blur` |',
   '| `bg-dots` / `bg-dots-<n>` | radial dot-grid background, variable cell size in px (default 16) |',
   '| `bg-grid` / `bg-grid-<n>` | crosshatch grid-lines background, variable cell size in px (default 16) |',
+  '| `scroll-fade` / `scroll-fade-{x,y,t,b,l,r,s,e}` | scroll-aware edge fade (`scroll-fade-<n>`, `scroll-fade-none`); pairs with `no-scrollbar` |',
+  '| `shimmer` / `shimmer-{once,reverse,none}` | text shimmer over `currentColor` (`shimmer-{color,duration,spread,angle}-*`) |',
 ].join('\n')
 
 function inject(file: string): void {
