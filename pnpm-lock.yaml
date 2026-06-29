@@ -208,28 +208,25 @@ importers:
 
   packages/design:
     dependencies:
-      '@antfu/utils':
-        specifier: catalog:inlined
-        version: 9.3.0
-      '@iconify-json/catppuccin':
-        specifier: catalog:frontend
-        version: 1.2.17
       '@unocss/core':
         specifier: catalog:frontend
         version: 66.7.2
       '@vueuse/core':
         specifier: catalog:frontend
         version: 14.3.0(vue@3.5.38(typescript@6.0.3))
-      colorjs.io:
-        specifier: catalog:frontend
-        version: 0.6.1
     devDependencies:
+      '@antfu/utils':
+        specifier: catalog:inlined
+        version: 9.3.0
       '@arethetypeswrong/cli':
         specifier: catalog:testing
         version: 0.18.4
       '@axe-core/playwright':
         specifier: catalog:testing
         version: 4.12.1(playwright-core@1.61.1)
+      '@iconify-json/catppuccin':
+        specifier: catalog:frontend
+        version: 1.2.17
       '@storybook/addon-docs':
         specifier: catalog:storybook
         version: 10.4.6(@types/react@19.2.17)(esbuild@0.28.1)(storybook@10.4.6(@testing-library/dom@10.4.1)(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(vite@8.1.0(@types/node@26.0.1)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0))
@@ -263,6 +260,9 @@ importers:
       '@vue/test-utils':
         specifier: catalog:testing
         version: 2.4.11(@vue/compiler-dom@3.5.39)(@vue/server-renderer@3.5.39(vue@3.5.38(typescript@6.0.3)))(vue@3.5.38(typescript@6.0.3))
+      colorjs.io:
+        specifier: catalog:frontend
+        version: 0.6.1
       floating-vue:
         specifier: catalog:frontend
         version: 5.2.2(vue@3.5.38(typescript@6.0.3))
