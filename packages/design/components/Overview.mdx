@@ -1,4 +1,4 @@
-import { Meta, Stories } from '@storybook/addon-docs/blocks'
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
 import * as ActionButton from './Action/ActionButton.stories'
 import * as ActionIconButton from './Action/ActionIconButton.stories'
 import * as ActionDarkToggle from './Action/ActionDarkToggle.stories'
@@ -40,60 +40,60 @@ import * as OverlayHoverCard from './Overlay/OverlayHoverCard.stories'
 
 # @antfu/design
 
-A composable, token-driven design system for devtools-style Vue apps. Every
-example below is the live story for that component — open a component in the
-sidebar for its full set of variations and prop controls.
+A composable, token-driven design system for devtools-style Vue apps. Each tile
+is a live story — open a component in the sidebar for its full set of variations
+and prop controls.
 
 ## Action
 
-<Stories of={ActionButton} includePrimary />
-<Stories of={ActionIconButton} includePrimary />
-<Stories of={ActionDarkToggle} includePrimary />
-<Stories of={ActionToggle} includePrimary />
-<Stories of={ActionToggleGroup} includePrimary />
+<Canvas of={ActionButton.Action} />
+<Canvas of={ActionIconButton.Default} />
+<Canvas of={ActionDarkToggle.Default} />
+<Canvas of={ActionToggle.Default} />
+<Canvas of={ActionToggleGroup.SegmentControl} />
 
 ## Display
 
-<Stories of={DisplayBadge} includePrimary />
-<Stories of={DisplayNumber} includePrimary />
-<Stories of={DisplayBytes} includePrimary />
-<Stories of={DisplayDuration} includePrimary />
-<Stories of={DisplayVersion} includePrimary />
-<Stories of={DisplayKbd} includePrimary />
-<Stories of={DisplayLabel} includePrimary />
-<Stories of={DisplayStatusPill} includePrimary />
-<Stories of={DisplayDonut} includePrimary />
+<Canvas of={DisplayBadge.HashColored} />
+<Canvas of={DisplayNumber.Default} />
+<Canvas of={DisplayBytes.Default} />
+<Canvas of={DisplayDuration.Default} />
+<Canvas of={DisplayVersion.WithPrefix} />
+<Canvas of={DisplayKbd.Default} />
+<Canvas of={DisplayLabel.Colored} />
+<Canvas of={DisplayStatusPill.Success} />
+<Canvas of={DisplayDonut.Default} />
 
 ## Form
 
-<Stories of={FormTextInput} includePrimary />
-<Stories of={FormSearchField} includePrimary />
-<Stories of={FormSelect} includePrimary />
-<Stories of={FormSlider} includePrimary />
-<Stories of={FormSwitch} includePrimary />
-<Stories of={FormRadioGroup} includePrimary />
+<Canvas of={FormTextInput.Default} />
+<Canvas of={FormSearchField.Default} />
+<Canvas of={FormSelect.Default} />
+<Canvas of={FormSlider.Default} />
+<Canvas of={FormSwitch.Default} />
+<Canvas of={FormRadioGroup.Default} />
 
 ## Feedback
 
-<Stories of={FeedbackSkeleton} includePrimary />
-<Stories of={FeedbackTip} includePrimary />
-<Stories of={FeedbackEmptyState} includePrimary />
+<Canvas of={FeedbackSkeleton.Text} />
+<Canvas of={FeedbackTip.Info} />
+<Canvas of={FeedbackEmptyState.Default} />
 
 ## Layout
 
-<Stories of={LayoutCard} includePrimary />
-<Stories of={LayoutSeparator} includePrimary />
-<Stories of={LayoutAccordion} includePrimary />
-<Stories of={LayoutTabs} includePrimary />
-<Stories of={LayoutPagination} includePrimary />
-<Stories of={LayoutScrollArea} includePrimary />
-<Stories of={LayoutMenubar} includePrimary />
+<Canvas of={LayoutCard.Default} />
+<Canvas of={LayoutSeparator.Horizontal} />
+<Canvas of={LayoutAccordion.Single} />
+<Canvas of={LayoutTabs.Underline} />
+<Canvas of={LayoutPagination.Default} />
+<Canvas of={LayoutScrollArea.Default} />
+<Canvas of={LayoutMenubar.Default} />
 
 ## Overlay
 
-<Stories of={OverlayTooltip} includePrimary />
-<Stories of={OverlayDropdown} includePrimary />
-<Stories of={OverlayContextMenu} includePrimary />
-<Stories of={OverlayModal} includePrimary />
-<Stories of={OverlayConfirm} includePrimary />
-<Stories of={OverlayHoverCard} includePrimary />
+<Canvas of={OverlayTooltip.Default} />
+<Canvas of={OverlayDropdown.Default} />
+<Canvas of={OverlayContextMenu.Default} />
+<Canvas of={OverlayModal.Default} />
+<Canvas of={OverlayConfirm.Danger} />
+<Canvas of={OverlayHoverCard.Default} />
