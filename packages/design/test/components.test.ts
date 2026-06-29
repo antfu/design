@@ -1,14 +1,19 @@
 import { mount } from '@vue/test-utils'
 import { describe, expect, it } from 'vitest'
 import Button from '../components/Action/ActionButton.vue'
+import ToggleGroup from '../components/Action/ActionToggleGroup.vue'
 import BytesDisplay from '../components/Display/DisplayBytes.vue'
 import DurationDisplay from '../components/Display/DisplayDuration.vue'
 import NumberDisplay from '../components/Display/DisplayNumber.vue'
 import StatusPill from '../components/Display/DisplayStatusPill.vue'
 import Version from '../components/Display/DisplayVersion.vue'
 import EmptyState from '../components/Feedback/FeedbackEmptyState.vue'
+import Skeleton from '../components/Feedback/FeedbackSkeleton.vue'
 import Tip from '../components/Feedback/FeedbackTip.vue'
 import Checkbox from '../components/Form/FormCheckbox.vue'
+import Slider from '../components/Form/FormSlider.vue'
+import Accordion from '../components/Layout/LayoutAccordion.vue'
+import Separator from '../components/Layout/LayoutSeparator.vue'
 import Tabs from '../components/Layout/LayoutTabs.vue'
 
 describe('button', () => {
@@ -86,5 +91,35 @@ describe('misc components', () => {
     expect(triggers).toHaveLength(2)
     expect(wrapper.text()).toContain('A')
     expect(wrapper.text()).toContain('3')
+  })
+})
+
+describe('new primitives', () => {
+  it('separator is decorative by default, labelled when given a label', () => {
+    const plain = mount(Separator)
+    expect(plain.find('[role="none"], [data-orientation]').exists()).toBe(true)
+    const labelled = mount(Separator, { props: { label: 'or' } })
+    expect(labelled.text()).toBe('or')
+  })
+  it('skeleton text variant renders the requested lines', () => {
+    const wrapper = mount(Skeleton, { props: { lines: 3 } })
+    expect(wrapper.attributes('aria-label')).toBe('Loading')
+    expect(wrapper.findAll('span')).toHaveLength(3)
+  })
+  it('slider exposes a thumb for a single value', () => {
+    const wrapper = mount(Slider, { props: { modelValue: 30 } })
+    expect(wrapper.find('[role="slider"]').exists()).toBe(true)
+  })
+  it('toggleGroup renders an item per option', () => {
+    const wrapper = mount(ToggleGroup, {
+      props: { modelValue: 'grid', options: [{ value: 'grid', label: 'Grid' }, { value: 'list', label: 'List' }] },
+    })
+    expect(wrapper.text()).toContain('Grid')
+    expect(wrapper.text()).toContain('List')
+  })
+  it('accordion renders a trigger per item', () => {
+    const wrapper = mount(Accordion, { props: { items: [{ value: 'a', title: 'A' }, { value: 'b', title: 'B' }] } })
+    expect(wrapper.text()).toContain('A')
+    expect(wrapper.text()).toContain('B')
   })
 })
