@@ -1,8 +1,17 @@
 import type { Preview } from '@storybook/vue3-vite'
+import { GLOBALS_UPDATED } from 'storybook/internal/core-events'
+import { addons } from 'storybook/preview-api'
 import { h } from 'vue'
 import 'virtual:uno.css'
 import 'floating-vue/dist/style.css'
 import '../../packages/design/styles/index.css'
+import './docs-dark.css'
+
+// Toggle the preview root's `dark` class from the theme global so the whole
+// surface (docs/MDX pages included, not just decorated stories) follows along.
+addons.getChannel().on(GLOBALS_UPDATED, ({ globals }: { globals?: { theme?: string } }) => {
+  document.documentElement.classList.toggle('dark', globals?.theme === 'dark')
+})
 
 const preview: Preview = {
   parameters: {
