@@ -7,7 +7,9 @@ defineProps<{
 
 <template>
   <div class="px-6 py-10 text-center op-fade flex flex-col gap-2 items-center justify-center">
-    <span v-if="icon" :class="icon" class="text-3xl op-mute" aria-hidden="true" />
+    <slot name="icon">
+      <span v-if="icon" :class="icon" class="text-3xl op-mute" aria-hidden="true" />
+    </slot>
     <div v-if="title || $slots.default" class="text-sm color-base font-medium">
       <slot>{{ title }}</slot>
     </div>

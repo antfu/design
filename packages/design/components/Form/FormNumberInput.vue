@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { clamp } from '@antfu/utils'
 import { computed } from 'vue'
-import { clamp } from '../../utils'
 
 const props = withDefaults(
   defineProps<{

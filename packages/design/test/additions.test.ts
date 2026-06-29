@@ -5,13 +5,16 @@ import { defineComponent, nextTick } from 'vue'
 import ActionButton from '../components/Action/ActionButton.vue'
 import ActionIconButton from '../components/Action/ActionIconButton.vue'
 import DisplayAvatar from '../components/Display/DisplayAvatar.vue'
+import DisplayBytes from '../components/Display/DisplayBytes.vue'
 import DisplayDuration from '../components/Display/DisplayDuration.vue'
 import DisplayKeyValue from '../components/Display/DisplayKeyValue.vue'
 import DisplayPackageName from '../components/Display/DisplayPackageName.vue'
 import DisplaySafeImage from '../components/Display/DisplaySafeImage.vue'
 import DisplayStatusPill from '../components/Display/DisplayStatusPill.vue'
 import DisplayTree from '../components/Display/DisplayTree.vue'
+import DisplayVersion from '../components/Display/DisplayVersion.vue'
 import FeedbackToasts from '../components/Feedback/FeedbackToasts.vue'
+import FormCheckbox from '../components/Form/FormCheckbox.vue'
 import FormField from '../components/Form/FormField.vue'
 import FormNumberInput from '../components/Form/FormNumberInput.vue'
 import LayoutBreadcrumb from '../components/Layout/LayoutBreadcrumb.vue'
@@ -261,6 +264,34 @@ describe('feedback fixes', () => {
     expect(el).not.toBeNull()
     expect(el?.getAttribute('data-side')).toBe('left')
     document.body.innerHTML = ''
+  })
+})
+
+describe('consumer dx — component escape hatches', () => {
+  it('version takes a string prefix and passes specs/ranges through verbatim', () => {
+    expect(mount(DisplayVersion, { props: { version: '1.2.3', prefix: '@' } }).text()).toBe('@1.2.3')
+    expect(mount(DisplayVersion, { props: { version: 'workspace:*' } }).text()).toBe('workspace:*')
+    expect(mount(DisplayVersion, { props: { version: 'npm:foo@1.2' } }).text()).toBe('npm:foo@1.2')
+    expect(mount(DisplayVersion, { props: { version: '^1.2.3' } }).text()).toBe('^1.2.3')
+  })
+  it('checkbox renders bare (no built-in label) and forwards attrs to the control', () => {
+    const w = mount(FormCheckbox, { props: { modelValue: true }, attrs: { 'id': 'ext', 'aria-labelledby': 'lbl' } })
+    expect(w.find('label').exists()).toBe(false)
+    expect(w.get('[role="checkbox"]').attributes('id')).toBe('ext')
+  })
+  it('safeImage applies fit only when set and supports caller sizing via inheritAttrs', () => {
+    const w = mount(DisplaySafeImage, { props: { src: 'x.png', fit: 'contain' }, attrs: { class: 'w6 h6' } })
+    const img = w.get('img')
+    expect(img.classes()).toContain('object-contain')
+    expect(img.classes()).toContain('w6')
+    expect(img.classes()).not.toContain('w-full')
+  })
+  it('bytes exposes [value, unit, percent] for a custom layout', () => {
+    const w = mount(DisplayBytes, {
+      props: { bytes: 512 * 1024, total: 1024 * 1024 },
+      slots: { default: '<span class="x">{{ params.value }}/{{ params.unit }}/{{ params.percent }}</span>' },
+    })
+    expect(w.find('.x').text()).toBe('512/KB/50')
   })
 })
 
