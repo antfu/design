@@ -83,7 +83,7 @@ Recurring "not covered" themes across the eight repos, and what they imply for
 | **Avatar / SafeImage** (image with load/error fallback) | node-modules-inspector, ghfs | Listed in the plan's Tier-3 but **not in the shipped 40** — a real gap worth adding. |
 | **Data table** (build metrics, duplicated packages) | rolldown, nuxt/devtools | No generic `DataTable` in the catalog — recurring app-local table. |
 | **Settings / field row** (label + control + reset-on-dblclick) | node-modules-inspector, config-inspector, qrcode-toolkit | Candidate small `FormFieldRow` / `SettingItem` primitive. |
-| **Range / random-range slider** (single value that expands to a min↔max band) | qrcode-toolkit (`SettingsRandomRange`) | **Shipped** as `FormRangeSlider` — distills the QRT collapsible single↔range pattern, token-driven + reka-ui dual-thumb. |
+| **Range / random-range slider** (single value that expands to a min↔max band) | qrcode-toolkit (`SettingsRandomRange`) | Folded into `FormSlider` (`expandable`) — distills the QRT collapsible single↔range pattern, token-driven + reka-ui dual-thumb. |
 | **Markdown rendering** | nuxt/devtools, ghfs | Out of scope (renderer-bound); stays app-local. |
 | **Icon+title row / sticky search navbar / panel-grid bg** | nuxt/devtools | Trivially recomposed from `ActionButton` / `FormSearchField` + `bg-dots`/`bg-grid` tokens — no 1:1 component needed. |
 

@@ -19,4 +19,27 @@ export const Default: Story = {
   }),
 }
 
-// For min↔max bands use `FormRangeSlider` (the dual-thumb / random-range selector).
+export const Range: Story = {
+  render: () => ({
+    components: { FormSlider },
+    setup: () => ({ value: ref([20, 70]) }),
+    template: `<FormSlider v-model="value" show-value class="w-72" />`,
+  }),
+}
+
+export const WithUnitAndDefault: Story = {
+  render: () => ({
+    components: { FormSlider },
+    setup: () => ({ value: ref(60) }),
+    template: `<FormSlider v-model="value" :default="50" unit="%" show-value class="w-72" />`,
+  }),
+}
+
+// Set `expandable` to offer a toggle between a single value and a min↔max band.
+export const Expandable: Story = {
+  render: () => ({
+    components: { FormSlider },
+    setup: () => ({ value: ref(40) }),
+    template: `<FormSlider v-model="value" expandable show-value class="w-72" />`,
+  }),
+}
