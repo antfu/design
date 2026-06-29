@@ -9,7 +9,7 @@ patterns rather than reaching for a mega-component:
   `color-muted` label, `DisplayNumber`/`DisplayBytes` value.
 - **Toolbar** — a glass sticky bar (`bg-glass z-nav`) with a `FormSearchField` and
   `ActionIconButton`s.
-- **Panel** — `LayoutCard` + `LayoutSectionBlock`s; `FeedbackEmptyState` when there's nothing.
+- **Panel** — `LayoutCard` + `LayoutAccordion` sections; `FeedbackEmptyState` when there's nothing.
 - **Detail list** — `LayoutVirtualList` of rows, each a `DisplayFilePath`/`DisplayPackageName` +
   display badges, colorized by one severity dimension.
 

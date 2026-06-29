@@ -49,6 +49,7 @@
   ],
   "scripts": {
     "docs:gen": "tsx scripts/gen-tokens.ts",
+    "docs:overview": "node scripts/gen-overview.mjs",
     "lint": "eslint",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run"
@@ -107,6 +108,7 @@
     "@arethetypeswrong/cli": "catalog:testing",
     "@axe-core/playwright": "catalog:testing",
     "@iconify-json/catppuccin": "catalog:frontend",
+    "@storybook/addon-docs": "catalog:storybook",
     "@storybook/vue3-vite": "catalog:storybook",
     "@tanstack/vue-virtual": "catalog:frontend",
     "@unocss/core": "catalog:frontend",

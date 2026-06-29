@@ -19,6 +19,7 @@ splitpanes — all themed through the shipped CSS overrides.
 | `ActionButton` | actions. `variant` action/primary/text, polymorphic `href`/`as`, `icon`, `loading`. |
 | `ActionIconButton` | a round icon-only button with a `tooltip`, `active` state, `#badge`. |
 | `ActionDarkToggle` | controlled dark toggle (`v-model:colorScheme`) with a view-transition reveal. |
+| `ActionToggle` / `ActionToggleGroup` | a pressed-state toggle and a segmented control (`options`, single/multi). |
 
 ## Display
 
@@ -41,23 +42,28 @@ splitpanes — all themed through the shipped CSS overrides.
 ## Form
 
 `FormTextInput`, `FormSearchField` (icon + `DisplayKbd` hint + clear),
-`FormCheckbox`, `FormSwitch`, `FormRadioGroup`, `FormSelect`.
+`FormCheckbox`, `FormSwitch`, `FormRadioGroup`, `FormSelect`, `FormSlider`
+(single value or range).
 
 ## Overlay
 
-`OverlayModal`, `OverlayDrawer`, `OverlayDropdown` (+ `OverlayDropdownItem`),
-`OverlayTooltip`.
+`OverlayModal`, `OverlayConfirm` (AlertDialog), `OverlayDrawer`, `OverlayDropdown`
+(+ `OverlayDropdownItem`), `OverlayContextMenu` (+ `OverlayContextMenuItem`),
+`OverlayHoverCard`, `OverlayTooltip`.
 
 ## Layout
 
-`LayoutCard`, `LayoutSectionBlock` (collapsible), `LayoutSplitPane` (+ `Pane`),
-`LayoutTabs` (underline/segment, `count` chips), `LayoutVirtualList`
-(`@tanstack/vue-virtual`), `LayoutExpandableList` ("show N more").
+`LayoutCard`, `LayoutAccordion` (collapsible sections; one item = a single
+section), `LayoutSeparator`, `LayoutScrollArea`, `LayoutPagination`,
+`LayoutMenubar`, `LayoutSplitPane` (+ `Pane`), `LayoutTabs` (underline/segment,
+`count` chips), `LayoutVirtualList` (`@tanstack/vue-virtual`),
+`LayoutExpandableList` ("show N more").
 
 ## Feedback
 
-`FeedbackSpinner`, `FeedbackLoading`, `FeedbackEmptyState`, `FeedbackTip`
-(info/success/warning/error), `FeedbackToastProvider` (+ `useNotification()`).
+`FeedbackSpinner`, `FeedbackLoading`, `FeedbackSkeleton`, `FeedbackEmptyState`,
+`FeedbackTip` (info/success/warning/error), `FeedbackToastProvider`
+(+ `useNotification()`).
 
 ## Composables & utils
 

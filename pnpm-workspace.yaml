@@ -51,6 +51,7 @@ catalogs:
   inlined:
     '@antfu/utils': ^9.3.0
   storybook:
+    '@storybook/addon-docs': ^10.4.6
     '@storybook/vue3-vite': ^10.4.6
     storybook: ^10.4.6
 
