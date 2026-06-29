@@ -6,7 +6,9 @@ import { error, resolvePrimary, success, warning } from './colors'
 import { DEFAULT_DARK_BG, DEFAULT_FONTS } from './options'
 import { patternRules } from './patterns'
 import { buildRules } from './rules'
+import { scrollFadePreflight, scrollFadeRules } from './scroll-fade'
 import { severityShortcuts } from './severity'
+import { shimmerPreflight, shimmerRules } from './shimmer'
 import { buildShortcuts } from './shortcuts'
 
 function assertOptions(options: PresetAnthonyDesignOptions): void {
@@ -89,7 +91,8 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
     name: '@antfu/design',
     extendTheme: theme => mergeDeep(theme as any, themeOverrides as any),
     shortcuts,
-    rules: patternRules,
+    rules: [...patternRules, ...scrollFadeRules, ...shimmerRules],
+    preflights: [scrollFadePreflight, shimmerPreflight],
     // Best-practice guardrails (default all on); see the `blocklists` option.
     blocklist: buildBlocklist(options.blocklists),
   }
