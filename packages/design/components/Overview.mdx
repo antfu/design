@@ -1,99 +1,453 @@
 import { Canvas, Meta } from '@storybook/addon-docs/blocks'
 import * as ActionButton from './Action/ActionButton.stories'
-import * as ActionIconButton from './Action/ActionIconButton.stories'
 import * as ActionDarkToggle from './Action/ActionDarkToggle.stories'
+import * as ActionIconButton from './Action/ActionIconButton.stories'
 import * as ActionToggle from './Action/ActionToggle.stories'
 import * as ActionToggleGroup from './Action/ActionToggleGroup.stories'
+import * as DisplayAvatar from './Display/DisplayAvatar.stories'
 import * as DisplayBadge from './Display/DisplayBadge.stories'
-import * as DisplayNumber from './Display/DisplayNumber.stories'
 import * as DisplayBytes from './Display/DisplayBytes.stories'
-import * as DisplayDuration from './Display/DisplayDuration.stories'
-import * as DisplayVersion from './Display/DisplayVersion.stories'
-import * as DisplayKbd from './Display/DisplayKbd.stories'
-import * as DisplayLabel from './Display/DisplayLabel.stories'
-import * as DisplayStatusPill from './Display/DisplayStatusPill.stories'
+import * as DisplayDate from './Display/DisplayDate.stories'
 import * as DisplayDonut from './Display/DisplayDonut.stories'
-import * as FormTextInput from './Form/FormTextInput.stories'
+import * as DisplayDuration from './Display/DisplayDuration.stories'
+import * as DisplayFileIcon from './Display/DisplayFileIcon.stories'
+import * as DisplayFilePath from './Display/DisplayFilePath.stories'
+import * as DisplayKbd from './Display/DisplayKbd.stories'
+import * as DisplayKeyValue from './Display/DisplayKeyValue.stories'
+import * as DisplayLabel from './Display/DisplayLabel.stories'
+import * as DisplayNumber from './Display/DisplayNumber.stories'
+import * as DisplayNumberBadge from './Display/DisplayNumberBadge.stories'
+import * as DisplayPackageName from './Display/DisplayPackageName.stories'
+import * as DisplayProgressBar from './Display/DisplayProgressBar.stories'
+import * as DisplayProportionBar from './Display/DisplayProportionBar.stories'
+import * as DisplaySafeImage from './Display/DisplaySafeImage.stories'
+import * as DisplayStatusPill from './Display/DisplayStatusPill.stories'
+import * as DisplayTree from './Display/DisplayTree.stories'
+import * as DisplayVersion from './Display/DisplayVersion.stories'
+import * as FormCheckbox from './Form/FormCheckbox.stories'
+import * as FormCombobox from './Form/FormCombobox.stories'
+import * as FormField from './Form/FormField.stories'
+import * as FormNumberInput from './Form/FormNumberInput.stories'
+import * as FormRadioGroup from './Form/FormRadioGroup.stories'
 import * as FormSearchField from './Form/FormSearchField.stories'
 import * as FormSelect from './Form/FormSelect.stories'
 import * as FormSlider from './Form/FormSlider.stories'
 import * as FormSwitch from './Form/FormSwitch.stories'
-import * as FormRadioGroup from './Form/FormRadioGroup.stories'
-import * as FeedbackSkeleton from './Feedback/FeedbackSkeleton.stories'
-import * as FeedbackTip from './Feedback/FeedbackTip.stories'
+import * as FormTextInput from './Form/FormTextInput.stories'
+import * as FormTextarea from './Form/FormTextarea.stories'
 import * as FeedbackEmptyState from './Feedback/FeedbackEmptyState.stories'
-import * as LayoutCard from './Layout/LayoutCard.stories'
-import * as LayoutSeparator from './Layout/LayoutSeparator.stories'
+import * as FeedbackLoading from './Feedback/FeedbackLoading.stories'
+import * as FeedbackSkeleton from './Feedback/FeedbackSkeleton.stories'
+import * as FeedbackSpinner from './Feedback/FeedbackSpinner.stories'
+import * as FeedbackTip from './Feedback/FeedbackTip.stories'
+import * as FeedbackToasts from './Feedback/FeedbackToasts.stories'
 import * as LayoutAccordion from './Layout/LayoutAccordion.stories'
-import * as LayoutTabs from './Layout/LayoutTabs.stories'
-import * as LayoutPagination from './Layout/LayoutPagination.stories'
-import * as LayoutScrollArea from './Layout/LayoutScrollArea.stories'
+import * as LayoutBreadcrumb from './Layout/LayoutBreadcrumb.stories'
+import * as LayoutCard from './Layout/LayoutCard.stories'
+import * as LayoutDataTable from './Layout/LayoutDataTable.stories'
+import * as LayoutExpandableList from './Layout/LayoutExpandableList.stories'
 import * as LayoutMenubar from './Layout/LayoutMenubar.stories'
-import * as OverlayTooltip from './Overlay/OverlayTooltip.stories'
-import * as OverlayDropdown from './Overlay/OverlayDropdown.stories'
-import * as OverlayContextMenu from './Overlay/OverlayContextMenu.stories'
-import * as OverlayModal from './Overlay/OverlayModal.stories'
+import * as LayoutPagination from './Layout/LayoutPagination.stories'
+import * as LayoutPanelGrids from './Layout/LayoutPanelGrids.stories'
+import * as LayoutScrollArea from './Layout/LayoutScrollArea.stories'
+import * as LayoutSeparator from './Layout/LayoutSeparator.stories'
+import * as LayoutSideNav from './Layout/LayoutSideNav.stories'
+import * as LayoutSplitPane from './Layout/LayoutSplitPane.stories'
+import * as LayoutTabs from './Layout/LayoutTabs.stories'
+import * as LayoutToolbar from './Layout/LayoutToolbar.stories'
+import * as LayoutVirtualList from './Layout/LayoutVirtualList.stories'
 import * as OverlayConfirm from './Overlay/OverlayConfirm.stories'
+import * as OverlayContextMenu from './Overlay/OverlayContextMenu.stories'
+import * as OverlayDrawer from './Overlay/OverlayDrawer.stories'
+import * as OverlayDropdown from './Overlay/OverlayDropdown.stories'
+import * as OverlayDropdownItem from './Overlay/OverlayDropdownItem.stories'
 import * as OverlayHoverCard from './Overlay/OverlayHoverCard.stories'
+import * as OverlayModal from './Overlay/OverlayModal.stories'
+import * as OverlayTooltip from './Overlay/OverlayTooltip.stories'
+import * as ScrollFade from './Utility/ScrollFade.stories'
+import * as Shimmer from './Utility/Shimmer.stories'
 
 <Meta title="Overview" />
 
 # @antfu/design
 
-A composable, token-driven design system for devtools-style Vue apps. Each tile
-is a live story — open a component in the sidebar for its full set of variations
-and prop controls.
+A composable, token-driven design system for devtools-style Vue apps. Each tile is a live story; open a component in the sidebar for its full controls.
 
 ## Action
 
+### ActionButton
+
 <Canvas of={ActionButton.Action} />
-<Canvas of={ActionIconButton.Default} />
+<Canvas of={ActionButton.Primary} />
+<Canvas of={ActionButton.Variants} />
+<Canvas of={ActionButton.WithIconAndSizes} />
+
+### ActionDarkToggle
+
 <Canvas of={ActionDarkToggle.Default} />
+
+### ActionIconButton
+
+<Canvas of={ActionIconButton.Default} />
+<Canvas of={ActionIconButton.Active} />
+<Canvas of={ActionIconButton.States} />
+<Canvas of={ActionIconButton.Compact} />
+<Canvas of={ActionIconButton.Sizes} />
+
+### ActionToggle
+
 <Canvas of={ActionToggle.Default} />
+
+### ActionToggleGroup
+
 <Canvas of={ActionToggleGroup.SegmentControl} />
+<Canvas of={ActionToggleGroup.IconOnly} />
 
 ## Display
 
+### DisplayAvatar
+
+<Canvas of={DisplayAvatar.WithImage} />
+<Canvas of={DisplayAvatar.InitialsFallback} />
+<Canvas of={DisplayAvatar.Square} />
+<Canvas of={DisplayAvatar.Gallery} />
+
+### DisplayBadge
+
 <Canvas of={DisplayBadge.HashColored} />
-<Canvas of={DisplayNumber.Default} />
+<Canvas of={DisplayBadge.Solid} />
+<Canvas of={DisplayBadge.Palette} />
+<Canvas of={DisplayBadge.Muted} />
+<Canvas of={DisplayBadge.WithIcon} />
+<Canvas of={DisplayBadge.Gallery} />
+
+### DisplayBytes
+
 <Canvas of={DisplayBytes.Default} />
-<Canvas of={DisplayDuration.Default} />
-<Canvas of={DisplayVersion.WithPrefix} />
-<Canvas of={DisplayKbd.Default} />
-<Canvas of={DisplayLabel.Colored} />
-<Canvas of={DisplayStatusPill.Success} />
+<Canvas of={DisplayBytes.Colorized} />
+<Canvas of={DisplayBytes.WithTotal} />
+<Canvas of={DisplayBytes.Scale} />
+
+### DisplayDate
+
+<Canvas of={DisplayDate.Recent} />
+<Canvas of={DisplayDate.Old} />
+<Canvas of={DisplayDate.Colorized} />
+
+### DisplayDonut
+
 <Canvas of={DisplayDonut.Default} />
+<Canvas of={DisplayDonut.CustomColor} />
+<Canvas of={DisplayDonut.Sizes} />
+
+### DisplayDuration
+
+<Canvas of={DisplayDuration.Default} />
+<Canvas of={DisplayDuration.Colorized} />
+<Canvas of={DisplayDuration.Scale} />
+
+### DisplayFileIcon
+
+<Canvas of={DisplayFileIcon.Default} />
+<Canvas of={DisplayFileIcon.ByType} />
+
+### DisplayFilePath
+
+<Canvas of={DisplayFilePath.WithRoot} />
+<Canvas of={DisplayFilePath.Module} />
+<Canvas of={DisplayFilePath.Examples} />
+
+### DisplayKbd
+
+<Canvas of={DisplayKbd.Default} />
+<Canvas of={DisplayKbd.Chord} />
+<Canvas of={DisplayKbd.Bindings} />
+
+### DisplayKeyValue
+
+<Canvas of={DisplayKeyValue.Inline} />
+<Canvas of={DisplayKeyValue.Stacked} />
+<Canvas of={DisplayKeyValue.DetailRows} />
+<Canvas of={DisplayKeyValue.StatStrip} />
+<Canvas of={DisplayKeyValue.WithBadge} />
+
+### DisplayLabel
+
+<Canvas of={DisplayLabel.Colored} />
+<Canvas of={DisplayLabel.Muted} />
+<Canvas of={DisplayLabel.GitHubLabels} />
+
+### DisplayNumber
+
+<Canvas of={DisplayNumber.Default} />
+<Canvas of={DisplayNumber.WithSuffix} />
+<Canvas of={DisplayNumber.Percent} />
+<Canvas of={DisplayNumber.Formats} />
+
+### DisplayNumberBadge
+
+<Canvas of={DisplayNumberBadge.Default} />
+<Canvas of={DisplayNumberBadge.Colored} />
+<Canvas of={DisplayNumberBadge.Examples} />
+
+### DisplayPackageName
+
+<Canvas of={DisplayPackageName.Scoped} />
+<Canvas of={DisplayPackageName.Unscoped} />
+<Canvas of={DisplayPackageName.Examples} />
+
+### DisplayProgressBar
+
+<Canvas of={DisplayProgressBar.Determinate} />
+<Canvas of={DisplayProgressBar.Indeterminate} />
+<Canvas of={DisplayProgressBar.CustomColor} />
+<Canvas of={DisplayProgressBar.Tall} />
+
+### DisplayProportionBar
+
+<Canvas of={DisplayProportionBar.Default} />
+<Canvas of={DisplayProportionBar.HashColored} />
+
+### DisplaySafeImage
+
+<Canvas of={DisplaySafeImage.Loaded} />
+<Canvas of={DisplaySafeImage.BrokenSrc} />
+<Canvas of={DisplaySafeImage.NoSrc} />
+
+### DisplayStatusPill
+
+<Canvas of={DisplayStatusPill.Success} />
+<Canvas of={DisplayStatusPill.Pulsing} />
+<Canvas of={DisplayStatusPill.Statuses} />
+
+### DisplayTree
+
+<Canvas of={DisplayTree.Default} />
+<Canvas of={DisplayTree.WithFileIcons} />
+<Canvas of={DisplayTree.Collapsed} />
+<Canvas of={DisplayTree.CustomLeaf} />
+
+### DisplayVersion
+
+<Canvas of={DisplayVersion.WithPrefix} />
+<Canvas of={DisplayVersion.NoPrefix} />
+<Canvas of={DisplayVersion.Examples} />
 
 ## Form
 
-<Canvas of={FormTextInput.Default} />
-<Canvas of={FormSearchField.Default} />
-<Canvas of={FormSelect.Default} />
-<Canvas of={FormSlider.Default} />
-<Canvas of={FormSwitch.Default} />
+### FormCheckbox
+
+<Canvas of={FormCheckbox.Default} />
+<Canvas of={FormCheckbox.States} />
+
+### FormCombobox
+
+<Canvas of={FormCombobox.Default} />
+
+### FormField
+
+<Canvas of={FormField.Default} />
+<Canvas of={FormField.Required} />
+<Canvas of={FormField.WithError} />
+
+### FormNumberInput
+
+<Canvas of={FormNumberInput.Default} />
+<Canvas of={FormNumberInput.MinMax} />
+<Canvas of={FormNumberInput.States} />
+
+### FormRadioGroup
+
 <Canvas of={FormRadioGroup.Default} />
+<Canvas of={FormRadioGroup.Horizontal} />
+
+### FormSearchField
+
+<Canvas of={FormSearchField.Default} />
+
+### FormSelect
+
+<Canvas of={FormSelect.Default} />
+<Canvas of={FormSelect.Empty} />
+
+### FormSlider
+
+<Canvas of={FormSlider.Default} />
+<Canvas of={FormSlider.Range} />
+
+### FormSwitch
+
+<Canvas of={FormSwitch.Default} />
+<Canvas of={FormSwitch.States} />
+
+### FormTextInput
+
+<Canvas of={FormTextInput.Default} />
+<Canvas of={FormTextInput.States} />
+
+### FormTextarea
+
+<Canvas of={FormTextarea.Default} />
+<Canvas of={FormTextarea.Invalid} />
+<Canvas of={FormTextarea.States} />
 
 ## Feedback
 
-<Canvas of={FeedbackSkeleton.Text} />
-<Canvas of={FeedbackTip.Info} />
+### FeedbackEmptyState
+
 <Canvas of={FeedbackEmptyState.Default} />
+<Canvas of={FeedbackEmptyState.WithActions} />
+
+### FeedbackLoading
+
+<Canvas of={FeedbackLoading.Default} />
+<Canvas of={FeedbackLoading.Panel} />
+
+### FeedbackSkeleton
+
+<Canvas of={FeedbackSkeleton.Text} />
+<Canvas of={FeedbackSkeleton.Card} />
+
+### FeedbackSpinner
+
+<Canvas of={FeedbackSpinner.Default} />
+<Canvas of={FeedbackSpinner.Sizes} />
+
+### FeedbackTip
+
+<Canvas of={FeedbackTip.Info} />
+<Canvas of={FeedbackTip.Types} />
+
+### FeedbackToasts
+
+<Canvas of={FeedbackToasts.Default} />
 
 ## Layout
 
-<Canvas of={LayoutCard.Default} />
-<Canvas of={LayoutSeparator.Horizontal} />
+### LayoutAccordion
+
 <Canvas of={LayoutAccordion.Single} />
-<Canvas of={LayoutTabs.Underline} />
-<Canvas of={LayoutPagination.Default} />
-<Canvas of={LayoutScrollArea.Default} />
+<Canvas of={LayoutAccordion.Multiple} />
+
+### LayoutBreadcrumb
+
+<Canvas of={LayoutBreadcrumb.Default} />
+<Canvas of={LayoutBreadcrumb.ChevronSeparator} />
+<Canvas of={LayoutBreadcrumb.Truncated} />
+
+### LayoutCard
+
+<Canvas of={LayoutCard.Default} />
+<Canvas of={LayoutCard.Elevated} />
+
+### LayoutDataTable
+
+<Canvas of={LayoutDataTable.Default} />
+<Canvas of={LayoutDataTable.CustomCells} />
+<Canvas of={LayoutDataTable.StickyHeader} />
+
+### LayoutExpandableList
+
+<Canvas of={LayoutExpandableList.Default} />
+
+### LayoutMenubar
+
 <Canvas of={LayoutMenubar.Default} />
+
+### LayoutPagination
+
+<Canvas of={LayoutPagination.Default} />
+
+### LayoutPanelGrids
+
+<Canvas of={LayoutPanelGrids.Dots} />
+<Canvas of={LayoutPanelGrids.Grid} />
+<Canvas of={LayoutPanelGrids.LargeCells} />
+
+### LayoutScrollArea
+
+<Canvas of={LayoutScrollArea.Default} />
+
+### LayoutSeparator
+
+<Canvas of={LayoutSeparator.Horizontal} />
+<Canvas of={LayoutSeparator.WithLabel} />
+<Canvas of={LayoutSeparator.Vertical} />
+
+### LayoutSideNav
+
+<Canvas of={LayoutSideNav.Default} />
+
+### LayoutSplitPane
+
+<Canvas of={LayoutSplitPane.Horizontal} />
+<Canvas of={LayoutSplitPane.Vertical} />
+
+### LayoutTabs
+
+<Canvas of={LayoutTabs.Underline} />
+<Canvas of={LayoutTabs.Segment} />
+
+### LayoutToolbar
+
+<Canvas of={LayoutToolbar.Default} />
+<Canvas of={LayoutToolbar.Opaque} />
+
+### LayoutVirtualList
+
+<Canvas of={LayoutVirtualList.Default} />
 
 ## Overlay
 
-<Canvas of={OverlayTooltip.Default} />
-<Canvas of={OverlayDropdown.Default} />
-<Canvas of={OverlayContextMenu.Default} />
-<Canvas of={OverlayModal.Default} />
+### OverlayConfirm
+
 <Canvas of={OverlayConfirm.Danger} />
+
+### OverlayContextMenu
+
+<Canvas of={OverlayContextMenu.Default} />
+
+### OverlayDrawer
+
+<Canvas of={OverlayDrawer.Default} />
+<Canvas of={OverlayDrawer.LeftSide} />
+
+### OverlayDropdown
+
+<Canvas of={OverlayDropdown.Default} />
+
+### OverlayDropdownItem
+
+<Canvas of={OverlayDropdownItem.InDropdown} />
+
+### OverlayHoverCard
+
 <Canvas of={OverlayHoverCard.Default} />
+
+### OverlayModal
+
+<Canvas of={OverlayModal.Default} />
+
+### OverlayTooltip
+
+<Canvas of={OverlayTooltip.Default} />
+<Canvas of={OverlayTooltip.RichContent} />
+
+## Utility
+
+### ScrollFade
+
+<Canvas of={ScrollFade.Vertical} />
+<Canvas of={ScrollFade.Horizontal} />
+<Canvas of={ScrollFade.SingleEdge} />
+<Canvas of={ScrollFade.FadeSize} />
+<Canvas of={ScrollFade.Disabled} />
+
+### Shimmer
+
+<Canvas of={Shimmer.Default} />
+<Canvas of={Shimmer.Color} />
+<Canvas of={Shimmer.Duration} />
+<Canvas of={Shimmer.SpreadAndAngle} />
+<Canvas of={Shimmer.PlayOnce} />
+<Canvas of={Shimmer.Disabled} />
