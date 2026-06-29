@@ -45,7 +45,7 @@ describe('shipped styles use the design tokens via @unocss/transformer-directive
   })
 
   it('leaves no `--af-*` token-mirror variables behind in any shipped style', () => {
-    for (const f of ['base.css', 'floating-vue.css', 'splitpanes.css', 'reka-ui.css', 'scrollbar.css', 'animations.css', 'scroll-fade.css', 'shimmer.css'])
+    for (const f of ['base.css', 'floating-vue.css', 'splitpanes.css', 'reka-ui.css', 'scrollbar.css', 'animations.css'])
       expect(readStyle(f)).not.toContain('--af-')
   })
 })

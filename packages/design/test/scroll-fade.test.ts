@@ -1,16 +1,11 @@
-import { readFileSync } from 'node:fs'
-import { resolve } from 'node:path'
 import { createGenerator } from '@unocss/core'
 import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 import { presetAnthonyDesign } from '../unocss'
 
-const stylesDir = resolve(import.meta.dirname, '../styles')
-const readStyle = (name: string): string => readFileSync(resolve(stylesDir, name), 'utf8')
-
-async function generate(tokens: string): Promise<string> {
+async function generate(tokens: string, preflights = false): Promise<string> {
   const uno = await createGenerator({ presets: [presetAnthonyDesign(), presetWind4()] })
-  const { css } = await uno.generate(tokens, { preflights: false })
+  const { css } = await uno.generate(tokens, { preflights })
   return css
 }
 
@@ -31,17 +26,14 @@ describe('scroll-fade (ported from shadcn/ui)', () => {
     expect(css).toContain('.scroll-fade-none{--scroll-fade-mask:none;}')
     expect(css).toContain('--scroll-fade-mask:none')
   })
-  it('ships base/edge classes, @property and scroll-driven keyframes', () => {
-    const css = readStyle('scroll-fade.css')
+  it('preflight ships base/edge classes, @property, keyframes and no-scrollbar', async () => {
+    const css = await generate('', true)
     expect(css).toContain('@property --scroll-fade-mask')
     expect(css).toContain('@keyframes scroll-fade-reveal-t')
     expect(css).toContain('animation-timeline: scroll(self y)')
     expect(css).toContain('mask-image:')
-    for (const c of ['.scroll-fade-y', '.scroll-fade-x', '.scroll-fade-l', '.scroll-fade-r'])
+    for (const c of ['.scroll-fade-y', '.scroll-fade-x', '.scroll-fade-l', '.scroll-fade-r', '.no-scrollbar'])
       expect(css).toContain(c)
-  })
-  it('no-scrollbar ships with the scrollbar styles', () => {
-    expect(readStyle('scrollbar.css')).toContain('.no-scrollbar')
   })
 })
 
@@ -61,8 +53,8 @@ describe('shimmer (ported from shadcn/ui)', () => {
     expect(css).toContain('color-mix(in oklch')
     expect(css).toContain('--shimmer-color:#378ADD')
   })
-  it('ships base class, keyframes, dark brightening and reduced-motion', () => {
-    const css = readStyle('shimmer.css')
+  it('preflight ships base class, keyframes, dark brightening and reduced-motion', async () => {
+    const css = await generate('', true)
     expect(css).toContain('@keyframes tw-shimmer')
     expect(css).toContain('background-clip: text')
     expect(css).toContain('html.dark')

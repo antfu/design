@@ -22,13 +22,3 @@
 *::-webkit-scrollbar-thumb:hover {
   background: rgba(136, 136, 136, 0.5);
 }
-
-/* `no-scrollbar` hides the scrollbar entirely — pair with `scroll-fade`. */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
-}
