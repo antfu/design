@@ -47,6 +47,7 @@
   ],
   "scripts": {
     "docs:gen": "tsx scripts/gen-tokens.ts",
+    "docs:overview": "node scripts/gen-overview.mjs",
     "lint": "eslint",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run"
