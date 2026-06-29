@@ -63,3 +63,4 @@ get generated.
 - [best-practices.md](references/best-practices.md) — class-over-attributify, parity, mono values, the dash ban, the "three dials".
 - [features-data-presentation.md](references/features-data-presentation.md) — presenting numbers, sizes, durations, paths.
 - [advanced-patterns.md](references/advanced-patterns.md) — composition patterns and a redesign protocol.
+- [storybook.md](references/storybook.md) — Storybook setup: theme-synced manager+preview, autodocs, a generated Overview.
