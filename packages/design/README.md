@@ -126,6 +126,32 @@ Then follow the **redesign protocol** in the skill (`advanced-patterns`): map ra
 colors → tokens, swap raw elements for primitives one family at a time, and run the
 contrast scan in light + dark after each step.
 
+### Worked example: `qrcode-toolkit`
+
+[`antfu/qrcode-toolkit`](https://github.com/antfu/qrcode-toolkit) — a compact,
+settings-heavy Nuxt SPA — is a good end-to-end illustration of the steps above:
+
+- **Tokens (mostly deletion).** Its whole `uno.config.ts` is ~8 shortcuts, and
+  `bg-base` / `bg-secondary` / `bg-active` / `border-base` already match the preset
+  by name — delete the block and inherit. `text-button` → `btn-action`,
+  `icon-button(-sm)` → `btn-icon-square`; ad-hoc `op50`/`op65`/`op75` and bare
+  `text-sm font-mono` → `op-fade`/`op-mute` + `color-muted`/`color-faint` +
+  `text-mini`. It's on the legacy `presetUno` alias (bump the base), has no brand
+  primary (neutral), and a pure-black dark (`darkBackground: '#000'`).
+- **Chrome → primitives.** `<button text-button>` → `ActionButton`; icon buttons and
+  footer links → `ActionIconButton`; the three hand-rolled native `<dialog>`s →
+  `OverlayModal` (focus-trap + scroll-lock for free, named `z-modal-*` over
+  `z-50000`); the inline orange/red/green notices → `FeedbackTip` + `color-scale-*`;
+  `OptionCheckbox` → `FormCheckbox`, the radio-pill `OptionSelectGroup` → segment
+  `LayoutTabs`; the manual sun/moon toggle → the controlled `ActionDarkToggle` wired
+  to your `useDark`. Its floating-vue popovers already use the `.v-popper__inner`
+  override the package ships — drop the local copy. The QR generate/diff/scan engine
+  stays app-local.
+- **What stays composed locally.** The Form family is the thinnest area: its
+  `OptionItem` settings row (used 40+×), `OptionSlider`, `OptionColor`, and the
+  `ImageDrop`/`ImageUpload` dropzone have no 1:1 primitive yet — build them from
+  `OverlayTooltip` + the existing form controls for now.
+
 ## Accessibility
 
 A color-contrast scan (axe-core + Playwright) runs a URL in light **and** dark
