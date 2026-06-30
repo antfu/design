@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { ref } from 'vue'
 import ActionButton from '../Action/ActionButton.vue'
 import OverlayTooltip from './OverlayTooltip.vue'
 
@@ -29,5 +30,27 @@ export const RichContent: Story = {
         <div class="text-xs op75">A richer popper body.</div>
       </template>
     </OverlayTooltip>`,
+  }),
+}
+
+export const Anchored: Story = {
+  render: () => ({
+    components: { OverlayTooltip },
+    setup() {
+      const at = ref<{ x: number, y: number }>()
+      function move(e: MouseEvent): void {
+        at.value = { x: e.clientX, y: e.clientY }
+      }
+      return { at, move }
+    },
+    // Anchor a popover to an arbitrary point (e.g. a hovered node on a canvas/graph).
+    template: `<div
+      class="text-sm color-muted border border-base rounded-lg bg-secondary h-40 flex items-center justify-center"
+      @mousemove="move"
+      @mouseleave="at = undefined"
+    >
+      Move the cursor here
+      <OverlayTooltip :anchor="at" :shown="!!at" content="Anchored to the cursor" />
+    </div>`,
   }),
 }

@@ -25,3 +25,25 @@ export const ByType: Story = {
     </div>`,
   }),
 }
+
+export const Directory: Story = {
+  render: () => ({
+    components: { DisplayFileIcon },
+    template: `<div class="text-xl flex items-center gap-2">
+      <DisplayFileIcon path="src" directory />
+      <DisplayFileIcon path="src" directory open />
+      <DisplayFileIcon path="node_modules" directory />
+    </div>`,
+  }),
+}
+
+export const Inverted: Story = {
+  render: () => ({
+    components: { DisplayFileIcon },
+    // `invert` flips icon luminance so a dark-designed set stays legible on light surfaces.
+    template: `<div class="text-xl flex items-center gap-2">
+      <DisplayFileIcon path="a.vue" />
+      <DisplayFileIcon path="a.vue" invert />
+    </div>`,
+  }),
+}

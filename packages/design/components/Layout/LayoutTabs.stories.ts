@@ -41,3 +41,25 @@ export const Segment: Story = {
     template: `<LayoutTabs v-model="tab" :tabs="tabs" variant="segment" />`,
   }),
 }
+
+export const Panels: Story = {
+  render: () => ({
+    components: { LayoutTabs },
+    setup() {
+      return {
+        tab: ref('overview'),
+        tabs: [
+          { value: 'overview', label: 'Overview' },
+          { value: 'deps', label: 'Dependencies' },
+          { value: 'settings', label: 'Settings' },
+        ],
+      }
+    },
+    // Per-tab content via named slots keyed by `tab.value`; lazy by default.
+    template: `<LayoutTabs v-model="tab" :tabs="tabs" class="w-96">
+      <template #overview><div class="color-muted">Project overview.</div></template>
+      <template #deps><div class="color-muted">48 dependencies.</div></template>
+      <template #settings><div class="color-muted">Settings panel.</div></template>
+    </LayoutTabs>`,
+  }),
+}

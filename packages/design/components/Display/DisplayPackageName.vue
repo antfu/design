@@ -14,8 +14,15 @@ const props = withDefaults(
     brand?: boolean
     /** Extra brand hues merged over the defaults (see `getPluginColor`). */
     brandHues?: Record<string, number>
+    /**
+     * How to render the `@scope/` namespace:
+     * - `color` (default): tint it by brand/hash color;
+     * - `dim`: de-emphasize it (compact mode — the package name stands out);
+     * - `hide`: drop it entirely, showing only the package name.
+     */
+    namespace?: 'color' | 'dim' | 'hide'
   }>(),
-  { brand: true },
+  { brand: true, namespace: 'color' },
 )
 
 const scheme = useColorScheme(() => props.colorScheme)
@@ -34,16 +41,18 @@ const parts = computed(() => {
 })
 
 const scopeColor = computed(() => {
-  if (!parts.value.scope)
+  if (!parts.value.scope || props.namespace !== 'color')
     return undefined
   return props.brand
     ? getPluginColor(props.name, 1, dark.value, props.brandHues)
     : getHashColorFromString(parts.value.scope, 1, dark.value)
 })
+
+const showScope = computed(() => parts.value.scope && props.namespace !== 'hide')
 </script>
 
 <template>
   <span class="text-sm font-mono">
-    <span v-if="parts.scope" :style="{ color: scopeColor }">{{ parts.scope }}</span><span class="color-base">{{ parts.rest }}</span>
+    <span v-if="showScope" :class="{ 'op-mute': namespace === 'dim' }" :style="{ color: scopeColor }">{{ parts.scope }}</span><span class="color-base">{{ parts.rest }}</span>
   </span>
 </template>

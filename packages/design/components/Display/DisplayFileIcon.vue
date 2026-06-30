@@ -14,6 +14,12 @@ const props = defineProps<{
   open?: boolean
   /** Named-folder lookup for directories. */
   folderRules?: Record<string, string>
+  /**
+   * Invert the icon's luminance (keeping hue) so a set designed for dark
+   * backgrounds (e.g. catppuccin) stays legible on a light surface. The package
+   * is stateless, so drive this from your own scheme: `:invert="scheme === 'light'"`.
+   */
+  invert?: boolean
 }>()
 
 const type = computed(() => {
@@ -26,5 +32,10 @@ const type = computed(() => {
 </script>
 
 <template>
-  <span :class="type.icon" :title="type.name" aria-hidden="true" />
+  <span
+    :class="type.icon"
+    :style="invert ? { filter: 'invert(1) hue-rotate(180deg)' } : undefined"
+    :title="type.name"
+    aria-hidden="true"
+  />
 </template>

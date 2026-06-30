@@ -1,4 +1,6 @@
+import type { SeverityScale } from '../utils/format'
 import { mount } from '@vue/test-utils'
+import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui'
 import { beforeEach, describe, expect, it } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
 
@@ -6,7 +8,9 @@ import ActionButton from '../components/Action/ActionButton.vue'
 import ActionIconButton from '../components/Action/ActionIconButton.vue'
 import DisplayAvatar from '../components/Display/DisplayAvatar.vue'
 import DisplayBytes from '../components/Display/DisplayBytes.vue'
+import DisplayDate from '../components/Display/DisplayDate.vue'
 import DisplayDuration from '../components/Display/DisplayDuration.vue'
+import DisplayFileIcon from '../components/Display/DisplayFileIcon.vue'
 import DisplayKeyValue from '../components/Display/DisplayKeyValue.vue'
 import DisplayPackageName from '../components/Display/DisplayPackageName.vue'
 import DisplaySafeImage from '../components/Display/DisplaySafeImage.vue'
@@ -20,8 +24,16 @@ import FormNumberInput from '../components/Form/FormNumberInput.vue'
 import LayoutBreadcrumb from '../components/Layout/LayoutBreadcrumb.vue'
 import LayoutDataTable from '../components/Layout/LayoutDataTable.vue'
 import LayoutSideNav from '../components/Layout/LayoutSideNav.vue'
+import LayoutTabs from '../components/Layout/LayoutTabs.vue'
 import OverlayDrawer from '../components/Overlay/OverlayDrawer.vue'
+import OverlayDropdownCheckboxItem from '../components/Overlay/OverlayDropdownCheckboxItem.vue'
+import OverlayDropdownGroup from '../components/Overlay/OverlayDropdownGroup.vue'
+import OverlayDropdownItem from '../components/Overlay/OverlayDropdownItem.vue'
+import OverlayDropdownRadioGroup from '../components/Overlay/OverlayDropdownRadioGroup.vue'
+import OverlayDropdownRadioItem from '../components/Overlay/OverlayDropdownRadioItem.vue'
+import OverlayDropdownSub from '../components/Overlay/OverlayDropdownSub.vue'
 import OverlayModal from '../components/Overlay/OverlayModal.vue'
+import OverlayTooltip from '../components/Overlay/OverlayTooltip.vue'
 
 import { provideColorScheme, useColorScheme } from '../composables/colorScheme'
 import { useToast } from '../composables/toast'
@@ -292,6 +304,120 @@ describe('consumer dx — component escape hatches', () => {
       slots: { default: '<span class="x">{{ params.value }}/{{ params.unit }}/{{ params.percent }}</span>' },
     })
     expect(w.find('.x').text()).toBe('512/KB/50')
+  })
+})
+
+describe('component improvements — display severity scales + slots', () => {
+  it('bytes forwards a custom severity scale and renders an icon slot', () => {
+    const scale: SeverityScale = [[100, 'color-scale-low'], [Number.POSITIVE_INFINITY, 'color-scale-critical']]
+    const w = mount(DisplayBytes, {
+      props: { bytes: 50, colorize: true, scale },
+      slots: { icon: '<i class="the-icon" />' },
+    })
+    expect(w.classes()).toContain('color-scale-low')
+    expect(w.find('.the-icon').exists()).toBe(true)
+  })
+  it('duration forwards a custom severity scale (in ms)', () => {
+    const scale: SeverityScale = [[10, 'color-scale-low'], [Number.POSITIVE_INFINITY, 'color-scale-critical']]
+    const w = mount(DisplayDuration, { props: { ms: 5, colorize: true, scale } })
+    expect(w.classes()).toContain('color-scale-low')
+    const w2 = mount(DisplayDuration, { props: { ms: 50, colorize: true, scale } })
+    expect(w2.classes()).toContain('color-scale-critical')
+  })
+  it('date forwards a custom age scale', () => {
+    const scale: SeverityScale = [[Number.POSITIVE_INFINITY, 'color-scale-critical']]
+    const w = mount(DisplayDate, { props: { date: Date.now() - 1000, colorize: true, scale } })
+    expect(w.classes()).toContain('color-scale-critical')
+  })
+})
+
+describe('component improvements — packageName + fileIcon', () => {
+  it('packageName dims or hides the @scope namespace', () => {
+    const dim = mount(DisplayPackageName, { props: { name: '@scope/pkg', namespace: 'dim' } })
+    expect(dim.text()).toBe('@scope/pkg')
+    expect(dim.html()).toContain('op-mute')
+    const hide = mount(DisplayPackageName, { props: { name: '@scope/pkg', namespace: 'hide' } })
+    expect(hide.text()).toBe('pkg')
+  })
+  it('fileIcon inverts luminance when asked', () => {
+    const plain = mount(DisplayFileIcon, { props: { path: 'a.ts' } })
+    expect(plain.attributes('style')).toBeFalsy()
+    const inverted = mount(DisplayFileIcon, { props: { path: 'a.ts', invert: true } })
+    expect(inverted.attributes('style')).toContain('invert(1)')
+  })
+})
+
+describe('component improvements — tabs lazy panels', () => {
+  it('renders only the active panel by default (lazy)', () => {
+    const w = mount(LayoutTabs, {
+      props: { tabs: [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }], modelValue: 'a' },
+      slots: { a: 'Panel A', b: 'Panel B' },
+    })
+    expect(w.text()).toContain('Panel A')
+    expect(w.text()).not.toContain('Panel B')
+  })
+  it('keeps every panel mounted when lazy=false', () => {
+    const w = mount(LayoutTabs, {
+      props: { tabs: [{ value: 'a', label: 'A' }, { value: 'b', label: 'B' }], modelValue: 'a', lazy: false },
+      slots: { a: 'Panel A', b: 'Panel B' },
+    })
+    expect(w.text()).toContain('Panel A')
+    expect(w.text()).toContain('Panel B')
+  })
+})
+
+describe('component improvements — tooltip virtual anchor', () => {
+  it('renders a positioned anchor marker for a coordinate', () => {
+    const w = mount(OverlayTooltip, { props: { content: 'Hi', anchor: { x: 120, y: 64 }, shown: true } })
+    const marker = w.find('span[aria-hidden="true"]')
+    expect(marker.exists()).toBe(true)
+    const style = marker.attributes('style') ?? ''
+    expect(style).toContain('120px')
+    expect(style).toContain('64px')
+  })
+})
+
+describe('component improvements — structured dropdown items', () => {
+  it('renders groups, checkbox, radio and submenu trigger inside an open menu', async () => {
+    const Harness = defineComponent({
+      components: {
+        DropdownMenuRoot,
+        DropdownMenuTrigger,
+        DropdownMenuPortal,
+        DropdownMenuContent,
+        OverlayDropdownGroup,
+        OverlayDropdownItem,
+        OverlayDropdownCheckboxItem,
+        OverlayDropdownRadioGroup,
+        OverlayDropdownRadioItem,
+        OverlayDropdownSub,
+      },
+      template: `
+        <DropdownMenuRoot :open="true">
+          <DropdownMenuTrigger>Open</DropdownMenuTrigger>
+          <DropdownMenuPortal>
+            <DropdownMenuContent>
+              <OverlayDropdownGroup label="View">
+                <OverlayDropdownCheckboxItem :model-value="true">Word wrap</OverlayDropdownCheckboxItem>
+              </OverlayDropdownGroup>
+              <OverlayDropdownRadioGroup model-value="md">
+                <OverlayDropdownRadioItem value="md">Medium</OverlayDropdownRadioItem>
+              </OverlayDropdownRadioGroup>
+              <OverlayDropdownSub label="More tools">
+                <OverlayDropdownItem>Nested</OverlayDropdownItem>
+              </OverlayDropdownSub>
+            </DropdownMenuContent>
+          </DropdownMenuPortal>
+        </DropdownMenuRoot>`,
+    })
+    mount(Harness, { attachTo: document.body })
+    await nextTick()
+    const txt = document.body.textContent ?? ''
+    expect(txt).toContain('View') // group label
+    expect(txt).toContain('Word wrap') // checkbox item
+    expect(txt).toContain('Medium') // radio item
+    expect(txt).toContain('More tools') // submenu trigger
+    document.body.innerHTML = ''
   })
 })
 
