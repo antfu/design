@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { DurationUnit } from '../../utils/format'
+import type { DurationUnit, SeverityScale } from '../../utils/format'
 import { computed } from 'vue'
 import { formatDuration, getDurationColor } from '../../utils/format'
 
@@ -11,6 +11,8 @@ const props = withDefaults(
     unit?: DurationUnit
     /** Tint by severity threshold. */
     colorize?: boolean
+    /** Custom severity thresholds (in ms) forwarded to `getDurationColor` (defaults to `DURATION_SCALE`). */
+    scale?: SeverityScale
     mono?: boolean
   }>(),
   { mono: true, unit: 'ms' },
@@ -18,7 +20,7 @@ const props = withDefaults(
 
 const FACTOR_MS: Record<DurationUnit, number> = { ns: 1e-6, us: 1e-3, ms: 1, s: 1000 }
 const parts = computed(() => formatDuration(props.ms, { unit: props.unit }))
-const colorClass = computed(() => (props.colorize ? getDurationColor(props.ms * FACTOR_MS[props.unit]) : ''))
+const colorClass = computed(() => (props.colorize ? getDurationColor(props.ms * FACTOR_MS[props.unit], props.scale) : ''))
 </script>
 
 <template>

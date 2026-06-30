@@ -26,3 +26,12 @@ export const Scale: Story = {
     </div>`,
   }),
 }
+
+export const WithIcon: Story = {
+  render: () => ({
+    components: { DisplayBytes },
+    template: `<DisplayBytes :bytes="204800">
+      <template #icon><span class="i-ph:database op-fade" /></template>
+    </DisplayBytes>`,
+  }),
+}

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
+import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 
 export interface TabItem {
   value: string
@@ -17,8 +17,14 @@ withDefaults(
     tabs: TabItem[]
     /** `underline` (default) or `segment` (pill switcher). */
     variant?: 'underline' | 'segment'
+    /**
+     * For per-tab content panels (named slots keyed by `tab.value`):
+     * `true` (default) only mounts the active panel (lazy); `false` keeps every
+     * panel in the DOM (`forceMount`).
+     */
+    lazy?: boolean
   }>(),
-  { variant: 'underline' },
+  { variant: 'underline', lazy: true },
 )
 
 const model = defineModel<string>()
@@ -51,6 +57,18 @@ const model = defineModel<string>()
       </TabsTrigger>
       <TabsIndicator v-if="variant === 'underline'" class="rounded-full bg-primary-500 h-0.5 w-[--reka-tabs-indicator-size] translate-x-[--reka-tabs-indicator-position] transition-all duration-200 bottom-0 left-0 absolute" />
     </TabsList>
+    <!-- Inline content (render your own) … -->
     <slot />
+    <!-- … or per-tab lazy panels via named slots keyed by `tab.value`. -->
+    <template v-for="tab in tabs" :key="`panel-${tab.value}`">
+      <TabsContent
+        v-if="$slots[tab.value]"
+        :value="tab.value"
+        :force-mount="lazy ? undefined : true"
+        class="py-3 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
+      >
+        <slot :name="tab.value" />
+      </TabsContent>
+    </template>
   </TabsRoot>
 </template>

@@ -24,3 +24,15 @@ export const Examples: Story = {
     </div>`,
   }),
 }
+
+export const Namespace: Story = {
+  render: () => ({
+    components: { DisplayPackageName },
+    // `namespace` controls how the `@scope/` prefix renders: color · dim · hide.
+    template: `<div class="flex flex-col gap-1">
+      <DisplayPackageName name="@antfu/design" namespace="color" />
+      <DisplayPackageName name="@antfu/design" namespace="dim" />
+      <DisplayPackageName name="@antfu/design" namespace="hide" />
+    </div>`,
+  }),
+}

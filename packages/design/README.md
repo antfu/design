@@ -101,6 +101,31 @@ directives) plus, recommended, `@unocss/eslint-plugin` for the feedback loop.
 > `useToast()` (from `@antfu/design/composables/toast`) owns a toast queue for
 > `FeedbackToasts`. Both only read state you own.
 
+## Migrating an existing app
+
+If your app predates the design system, adoption is mostly **deletion**:
+
+- **Delete your local token shortcuts.** Apps already on the `*-base` dialect
+  (`bg-base`, `color-base`, `border-base`, `op-fade`, `btn-action`,
+  `badge-color-*`, `color-scale-*`, …) can drop those hand-rolled `uno.config.ts`
+  `shortcuts` blocks — often 20–170 lines — and inherit them from
+  `presetAnthonyDesign`. Set `primary` / `darkBackground` / fonts to your existing
+  values for a near-zero visual diff.
+- **Dedupe local utilities** into `@antfu/design/utils`: the duplicated
+  `getHashColorFromString` / `getPluginColor`, the byte / duration / time-ago
+  formatters, module-id / path parsing, and semver-range parsing all live there.
+- **Bump off the legacy `presetUno` alias.** `presetUno` is the old name for
+  `presetWind3`; switch to a current base (`presetWind4` recommended, or
+  `presetWind3`) so the semantic shortcuts have utilities to expand into. You still
+  bring your own icons, fonts, and `@unocss/reset` — the preset bundles none.
+- **Thread the scheme, not state.** The package owns no dark/toast state: pass
+  `:color-scheme` (or call `provideColorScheme()` once at the root) and move
+  imperative toast singletons onto a `useToast()` queue.
+
+Then follow the **redesign protocol** in the skill (`advanced-patterns`): map raw
+colors → tokens, swap raw elements for primitives one family at a time, and run the
+contrast scan in light + dark after each step.
+
 ## Accessibility
 
 A color-contrast scan (axe-core + Playwright) runs a URL in light **and** dark
