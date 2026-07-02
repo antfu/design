@@ -33,7 +33,7 @@ describe('docs / skill sync', () => {
   })
 
   it('skill core-tokens documents every token', () => {
-    const core = read('../skills/antfu-design/references/core-tokens.md')
+    const core = read('../../../skills/antfu-design/references/core-tokens.md')
     for (const token of tokens)
       expect(core, `missing \`${token}\` in core-tokens`).toContain(`\`${token}\``)
   })

@@ -12,6 +12,7 @@ lib-cov
 logs
 node_modules
 skills/npm-*
+/packages/design/skills
 storybook-static
 temp
 *.timestamp-*

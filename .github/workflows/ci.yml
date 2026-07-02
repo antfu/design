@@ -32,7 +32,7 @@ jobs:
       - name: Docs in sync
         run: |
           nr docs:gen
-          git diff --exit-code -- packages/design/README.md packages/design/skills
+          git diff --exit-code -- packages/design/README.md skills
 
   test:
     runs-on: ${{ matrix.os }}
