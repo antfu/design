@@ -71,4 +71,4 @@ function inject(file: string): void {
 
 const here = fileURLToPath(new URL('.', import.meta.url))
 inject(`${here}../README.md`)
-inject(`${here}../skills/antfu-design/references/core-tokens.md`)
+inject(`${here}../../../skills/antfu-design/references/core-tokens.md`)

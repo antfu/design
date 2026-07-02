@@ -11,7 +11,7 @@ export default antfu(
       '**/dist',
       '**/*.snap',
       '**/storybook-static',
-      'packages/design/skills/**/*.md',
+      'skills/**/*.md',
       'README.md',
     ],
   },
