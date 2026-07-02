@@ -45,7 +45,8 @@ export default config
 
 The trap: the **manager** (chrome) and **preview** (iframe) are separate. A
 decorator only themes decorated stories, so the docs/MDX page root stays light.
-Fix it in three places, all driven by one `theme` global.
+Fix it in three places, all driven by one `theme` global — the native
+`color-scheme` then rides along for free.
 
 **preview.ts** — toggle the preview root from the global (covers docs pages),
 plus a decorator for token surfaces:
@@ -97,6 +98,19 @@ addons.register('theme-sync', (api) => {
 .dark .sbdocs-preview, .dark .docs-story { background: #111; border-color: #8882; }
 .dark .sbdocs h1, .dark .sbdocs h2, .dark .sbdocs p, .dark .sbdocs a { color: #ccc; }
 ```
+
+**Native `color-scheme`** — the browser's own scheme (scrollbars, form
+controls, default canvas colors) must follow the same selector too. The package
+styles already map it in `styles/base.css`, so importing them in `preview.ts`
+(as above) is enough; if your global styles don't, add:
+
+```css
+:root { color-scheme: light; }
+html.dark { color-scheme: dark; }
+```
+
+Since everything keys off the one `dark` class the theme global toggles, the
+CSS `color-scheme` can never drift from the toolbar selector.
 
 ## 4. Autodocs + a single Overview page
 
