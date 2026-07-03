@@ -23,7 +23,13 @@ export interface PresetAnthonyDesignOptions {
   primary?: string | ColorRamp
   /** Near-black for dark surfaces (`bg-base`, `bg-tooltip`, `bg-glass`, …). Default `#111`. */
   darkBackground?: string
-  /** Font families. Defaults to DM Sans / DM Mono. The web fonts are the consumer's to load. */
+  /**
+   * Brand font family **names** — not full font stacks. Defaults to `DM Sans` /
+   * `DM Mono`. Whatever name you give (or the default) is composed onto the base
+   * preset's own generic-fallback chain, never used to replace it, so `font-sans`
+   * / `font-mono` stay fallback-safe even before/without a web font loading. The
+   * web font itself is still the consumer's to load (e.g. via `presetWebFonts`).
+   */
   fonts?: PresetAnthonyFonts
   /** Extra theme fields, deep-merged into the generated theme. */
   theme?: Record<string, any>

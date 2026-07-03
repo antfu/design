@@ -1,4 +1,5 @@
 import { createGenerator } from '@unocss/core'
+import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
@@ -169,5 +170,79 @@ describe('presetAnthonyDesign', () => {
     expect(() => presetAnthonyDesign({ primary: 123 })).toThrow(/primary/)
     // @ts-expect-error invalid on purpose
     expect(() => presetAnthonyDesign({ darkBackground: 5 })).toThrow(/darkBackground/)
+  })
+})
+
+describe('font fallback composition (regression for the DM Sans stomping the base preset fallback)', () => {
+  // No network fetch — resolves font names without hitting a provider.
+  const webFonts = () => presetWebFonts({ provider: 'none', fonts: { sans: 'DM Sans', mono: 'DM Mono' } })
+
+  // Wind3/Mini resolve `.font-sans`/`.font-mono` to a literal `font-family` value.
+  function fontFamilyOf(css: string, cls: string): string {
+    const match = css.match(new RegExp(`\\.${cls}\\{font-family:([^;]+);\\}`))
+    expect(match, `expected a \`.${cls}\` rule in:\n${css}`).not.toBeNull()
+    return match![1]!
+  }
+
+  // Wind4 resolves `.font-sans`/`.font-mono` to `var(--font-sans)` /
+  // `var(--font-mono)`, whose value is declared in the `:root, :host` theme
+  // preflight — so the stack has to be read from there instead.
+  function cssVarOf(css: string, name: string): string {
+    const match = css.match(new RegExp(`--${name}:\\s*([^;]+);`))
+    expect(match, `expected a \`--${name}\` custom property in:\n${css}`).not.toBeNull()
+    return match![1]!
+  }
+
+  it.each([
+    ['presetWind3', () => presetWind3()],
+    ['presetWind4', () => presetWind4()],
+  ] as const)('%s + presetAnthonyDesign (declared first) + presetWebFonts composes a fallback-safe stack', async (name, base) => {
+    const uno = await createGenerator({ presets: [presetAnthonyDesign(), base(), webFonts()] })
+    const { css } = await uno.generate('font-sans font-mono', { preflights: true })
+
+    const sans = name === 'presetWind4' ? cssVarOf(css, 'font-sans') : fontFamilyOf(css, 'font-sans')
+    const mono = name === 'presetWind4' ? cssVarOf(css, 'font-mono') : fontFamilyOf(css, 'font-mono')
+
+    expect(sans).toMatch(/sans-serif/)
+    expect(mono).toMatch(/monospace/)
+    // No duplicated leading family (the "DM Sans",DM Sans regression).
+    expect(sans.match(/DM Sans/g)?.length).toBe(1)
+    expect(mono.match(/DM Mono/g)?.length).toBe(1)
+  })
+
+  it.each([
+    ['presetWind3', () => presetWind3()],
+    ['presetWind4', () => presetWind4()],
+  ] as const)('%s + presetAnthonyDesign (declared after) + presetWebFonts composes the same fallback-safe stack', async (name, base) => {
+    // Preset order must not matter — `extendTheme` hooks all see the fully
+    // merged static theme regardless of declaration order.
+    const uno = await createGenerator({ presets: [base(), presetAnthonyDesign(), webFonts()] })
+    const { css } = await uno.generate('font-sans font-mono', { preflights: true })
+
+    const sans = name === 'presetWind4' ? cssVarOf(css, 'font-sans') : fontFamilyOf(css, 'font-sans')
+    const mono = name === 'presetWind4' ? cssVarOf(css, 'font-mono') : fontFamilyOf(css, 'font-mono')
+
+    expect(sans).toMatch(/sans-serif/)
+    expect(mono).toMatch(/monospace/)
+    expect(sans.match(/DM Sans/g)?.length).toBe(1)
+    expect(mono.match(/DM Mono/g)?.length).toBe(1)
+  })
+
+  it('composes onto the base fallback even with no `fonts`/`presetWebFonts` at all (no bare-string replacement)', async () => {
+    const css = await generate([presetAnthonyDesign(), presetWind3()], 'font-sans font-mono')
+    expect(fontFamilyOf(css, 'font-sans')).toBe('DM Sans,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"')
+    expect(fontFamilyOf(css, 'font-mono')).toBe('DM Mono,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace')
+  })
+
+  it('is idempotent when the base theme already has the family leading (no duplication)', async () => {
+    // Simulates the base theme (e.g. the app's own top-level `theme` config,
+    // merged before any `extendTheme` hook runs) already declaring "DM Sans"
+    // as the leading family — composing must not duplicate it.
+    const uno = await createGenerator({
+      presets: [presetAnthonyDesign(), presetWind3()],
+      theme: { fontFamily: { sans: 'DM Sans,ui-sans-serif,sans-serif' } } as any,
+    })
+    const { css } = await uno.generate('font-sans', { preflights: false })
+    expect(fontFamilyOf(css, 'font-sans')).toBe('DM Sans,ui-sans-serif,sans-serif')
   })
 })
