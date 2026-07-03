@@ -109,8 +109,9 @@ If your app predates the design system, adoption is mostly **deletion**:
   (`bg-base`, `color-base`, `border-base`, `op-fade`, `btn-action`,
   `badge-color-*`, `color-scale-*`, …) can drop those hand-rolled `uno.config.ts`
   `shortcuts` blocks — often 20–170 lines — and inherit them from
-  `presetAnthonyDesign`. Set `primary` / `darkBackground` / fonts to your existing
-  values for a near-zero visual diff.
+  `presetAnthonyDesign`. Set `primary` / `darkBackground` to your existing values
+  (and keep your existing `presetWebFonts` config as-is — this preset has no
+  opinion on fonts) for a near-zero visual diff.
 - **Dedupe local utilities** into `@antfu/design/utils`: the duplicated
   `getHashColorFromString` / `getPluginColor`, the byte / duration / time-ago
   formatters, module-id / path parsing, and semver-range parsing all live there.

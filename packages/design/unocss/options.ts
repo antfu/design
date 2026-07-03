@@ -5,11 +5,6 @@ import type { ColorRamp } from './colors'
 /** Default near-black used for dark surfaces. Overridable via `darkBackground`. */
 export const DEFAULT_DARK_BG = '#111'
 
-export interface PresetAnthonyFonts {
-  sans?: string
-  mono?: string
-}
-
 export interface PresetAnthonyDesignOptions {
   /**
    * Primary brand color — a single hex (a ramp is generated) or a full
@@ -18,16 +13,6 @@ export interface PresetAnthonyDesignOptions {
   primary?: string | ColorRamp
   /** Near-black for dark surfaces (`bg-base`, `bg-tooltip`, `bg-glass`, …). Default `#111`. */
   darkBackground?: string
-  /**
-   * Optional brand font family **names** — not full font stacks, and no
-   * default. Left unset, this preset doesn't touch the theme's font family at
-   * all — `font-sans`/`font-mono` resolve to whatever the base preset or
-   * `presetWebFonts` already set. Pass a name and it's *composed* onto
-   * whatever stack is already there, never used to replace it, so
-   * `font-sans`/`font-mono` stay fallback-safe either way. The web font
-   * itself is still the consumer's to load (e.g. via `presetWebFonts`).
-   */
-  fonts?: PresetAnthonyFonts
   /** Extra theme fields, deep-merged into the generated theme. */
   theme?: Record<string, any>
   /** Extra shortcuts appended after the built-in layer (so they can override it). */

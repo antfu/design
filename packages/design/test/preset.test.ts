@@ -173,7 +173,7 @@ describe('presetAnthonyDesign', () => {
   })
 })
 
-describe('font fallback composition (regression for the DM Sans stomping the base preset fallback)', () => {
+describe('fonts (regression: presetAnthonyDesign must never touch theme.fontFamily/theme.font)', () => {
   // No network fetch — resolves font names without hitting a provider.
   const webFonts = () => presetWebFonts({ provider: 'none', fonts: { sans: 'DM Sans', mono: 'DM Mono' } })
 
@@ -192,6 +192,22 @@ describe('font fallback composition (regression for the DM Sans stomping the bas
     expect(match, `expected a \`--${name}\` custom property in:\n${css}`).not.toBeNull()
     return match![1]!
   }
+
+  it.each([
+    ['presetWind3', () => presetWind3()],
+    ['presetWind4', () => presetWind4()],
+  ] as const)('%s alone vs. + presetAnthonyDesign: font-sans/font-mono are byte-identical', async (name, base) => {
+    // presetAnthonyDesign has no opinion on fonts — adding it must not change
+    // the base preset's own font-family output at all (its other preflights,
+    // e.g. scroll-fade/shimmer, are unrelated and expected to still differ).
+    const withDesign = await generate([presetAnthonyDesign(), base()], 'font-sans font-mono', true)
+    const withoutDesign = await generate([base()], 'font-sans font-mono', true)
+
+    const extract = name === 'presetWind4'
+      ? (css: string) => [cssVarOf(css, 'font-sans'), cssVarOf(css, 'font-mono')]
+      : (css: string) => [fontFamilyOf(css, 'font-sans'), fontFamilyOf(css, 'font-mono')]
+    expect(extract(withDesign)).toEqual(extract(withoutDesign))
+  })
 
   it.each([
     ['presetWind3', () => presetWind3()],
@@ -228,32 +244,12 @@ describe('font fallback composition (regression for the DM Sans stomping the bas
     expect(mono.match(/DM Mono/g)?.length).toBe(1)
   })
 
-  it('has no default `fonts` — leaves the base preset\'s own font family entirely untouched', async () => {
-    // `fonts` has no default: with nothing to compose, `presetAnthonyDesign`
-    // shouldn't touch `theme.fontFamily` at all — Wind3's own stack passes
-    // through byte-for-byte.
-    const withDesign = await generate([presetAnthonyDesign(), presetWind3()], 'font-sans font-mono')
-    const withoutDesign = await generate([presetWind3()], 'font-sans font-mono')
-    expect(withDesign).toBe(withoutDesign)
-    expect(fontFamilyOf(withDesign, 'font-sans')).not.toContain('DM Sans')
-  })
-
-  it('`fonts` composes an explicit brand-name override onto the base fallback (no `presetWebFonts` needed)', async () => {
-    const css = await generate([presetAnthonyDesign({ fonts: { sans: 'Inter', mono: 'Fira Code' } }), presetWind3()], 'font-sans font-mono')
+  it('a brand name with no fetching is set via `presetWebFonts({ provider: \'none\' })`, not presetAnthonyDesign', async () => {
+    const css = await generate(
+      [presetAnthonyDesign(), presetWind3(), presetWebFonts({ provider: 'none', fonts: { sans: 'Inter', mono: 'Fira Code' } })],
+      'font-sans font-mono',
+    )
     expect(fontFamilyOf(css, 'font-sans')).toBe('Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"')
     expect(fontFamilyOf(css, 'font-mono')).toBe('Fira Code,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace')
-  })
-
-  it('is idempotent when the base theme already has an explicit `fonts.sans` leading (no duplication)', async () => {
-    // Simulates the base theme (e.g. the app's own top-level `theme` config,
-    // merged before any `extendTheme` hook runs) already declaring "Inter"
-    // as the leading family — composing the same explicit override must not
-    // duplicate it.
-    const uno = await createGenerator({
-      presets: [presetAnthonyDesign({ fonts: { sans: 'Inter' } }), presetWind3()],
-      theme: { fontFamily: { sans: 'Inter,ui-sans-serif,sans-serif' } } as any,
-    })
-    const { css } = await uno.generate('font-sans', { preflights: false })
-    expect(fontFamilyOf(css, 'font-sans')).toBe('Inter,ui-sans-serif,sans-serif')
   })
 })

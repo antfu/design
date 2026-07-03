@@ -19,44 +19,12 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
     throw new TypeError(`[@antfu/design] \`darkBackground\` must be a CSS color string, got ${typeof darkBackground}.`)
 }
 
-const GENERIC_FALLBACK = { sans: 'sans-serif', mono: 'monospace' } as const
-
-function stripQuotes(family: string): string {
-  return family.trim().replace(/^["']|["']$/g, '')
-}
-
-/**
- * Composes a font family onto whatever stack a base preset already declared,
- * instead of replacing it outright.
- *
- * By the time any `extendTheme` hook runs, `@unocss/core` has already merged
- * every preset's static `theme` field — so `existing` reflects the base
- * preset's full fallback chain (e.g. Wind3/Wind4's `ui-sans-serif,system-ui,
- * …,sans-serif,…`). Prepending onto it (rather than overwriting) keeps that
- * chain intact so text never renders in the browser default (often serif)
- * before/if a web font loads. If nothing is there to compose with — a base
- * preset that doesn't declare this theme key at all — append a generic
- * keyword instead so the stack is never bare.
- *
- * Idempotent: if `family` is already the leading entry, `existing` is
- * returned unchanged (no `"DM Sans",DM Sans` duplication on repeated
- * resolves, or when the theme already has the caller's `fonts` value leading).
- */
-function composeFontFamily(existing: string | undefined, family: string, generic: string): string {
-  if (!existing)
-    return `${family},${generic}`
-  const leading = existing.split(',')[0] ?? ''
-  if (stripQuotes(leading).toLowerCase() === stripQuotes(family).toLowerCase())
-    return existing
-  return `${family},${existing}`
-}
-
 /**
  * `presetAnthonyDesign` — the **single** antfu design preset.
  *
  * One preset contributes the whole design layer: the theme scales (a `primary`
- * ramp + `warning`/`success`/`error` + fonts), the semantic `*-base` shortcuts,
- * the dynamic `badge-color-*` / `bg-glass` shortcuts, and the `color-scale-*`
+ * ramp + `warning`/`success`/`error`), the semantic `*-base` shortcuts, the
+ * dynamic `badge-color-*` / `bg-glass` shortcuts, and the `color-scale-*`
  * severity layer. It bundles **no** base preset, icons, web-fonts or reset — the
  * consumer composes those themselves. The semantic layer is base-agnostic, so it
  * resolves under Wind4, Wind3 or Mini.
@@ -67,13 +35,12 @@ function composeFontFamily(existing: string | undefined, family: string, generic
  * guardrail the preset blocks plain `z-<number>` utilities so every z-index goes
  * through a named layer (opt out with `blocklists: { plainZIndex: false }`).
  *
- * `fonts` is an **optional, explicit brand-name override** — there's no
- * default. Left unset, this preset doesn't touch `theme.fontFamily`/`theme.font`
- * at all, so `font-sans`/`font-mono` resolve to whatever the base preset or
- * `presetWebFonts` already established. Pass `fonts` and it *composes* the
- * name onto whatever stack is already there (e.g. Wind3/Wind4's own
- * `ui-sans-serif, system-ui, …, sans-serif, …`) rather than replacing it, so
- * the result is never bare — regardless of preset order.
+ * It also has **no opinion on fonts** — it never touches
+ * `theme.fontFamily`/`theme.font`, so `font-sans`/`font-mono` resolve to
+ * whatever the base preset (or `presetWebFonts`) already established. Want a
+ * brand name composed onto the base preset's own fallback chain without
+ * fetching anything? Use `presetWebFonts({ provider: 'none', fonts: {…} })` —
+ * it already does exactly that.
  *
  * @param options - Theme + dark-surface options (see {@link PresetAnthonyDesignOptions}).
  * @returns A single UnoCSS `Preset`.
@@ -125,30 +92,9 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
 
   return {
     name: '@antfu/design',
-    extendTheme: (theme, config) => {
-      const t = theme as Record<string, any>
-      // No explicit override — leave the theme's font family entirely alone.
-      // The base preset's own default (or `presetWebFonts`, if configured)
-      // stays the sole source of truth, so there's nothing here that could
-      // duplicate or interfere with what it sets.
-      if (options.fonts?.sans == null && options.fonts?.mono == null)
-        return mergeDeep(t as any, themeOverrides as any)
-
-      // Wind4 keys its font stacks under `theme.font`, not `theme.fontFamily`
-      // (which `presetWind4` doesn't declare at all) — mirror the same
-      // detection `presetWebFonts` uses so `fonts` composes correctly and
-      // takes effect under either base preset.
-      const hasWind4 = config.presets?.some(p => p.name === '@unocss/preset-wind4')
-      const fontKey = hasWind4 ? 'font' : 'fontFamily'
-      t[fontKey] = { ...t[fontKey] }
-      ;(['sans', 'mono'] as const).forEach((key) => {
-        const family = options.fonts?.[key]
-        if (family == null)
-          return
-        t[fontKey][key] = composeFontFamily(t[fontKey][key], family, GENERIC_FALLBACK[key])
-      })
-      return mergeDeep(t as any, themeOverrides as any)
-    },
+    // Deliberately doesn't touch `theme.fontFamily`/`theme.font` — the base
+    // preset (or `presetWebFonts`) is the sole source of truth for fonts.
+    extendTheme: theme => mergeDeep(theme as any, themeOverrides as any),
     shortcuts,
     rules: [...patternRules, ...scrollFadeRules, ...shimmerRules],
     preflights: [scrollFadePreflight, shimmerPreflight],
@@ -178,5 +124,4 @@ export {
 
 export type {
   PresetAnthonyDesignOptions,
-  PresetAnthonyFonts,
 } from './options'
