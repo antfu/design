@@ -5,11 +5,6 @@ import type { ColorRamp } from './colors'
 /** Default near-black used for dark surfaces. Overridable via `darkBackground`. */
 export const DEFAULT_DARK_BG = '#111'
 
-export const DEFAULT_FONTS = {
-  sans: 'DM Sans',
-  mono: 'DM Mono',
-} as const
-
 export interface PresetAnthonyFonts {
   sans?: string
   mono?: string
@@ -24,11 +19,13 @@ export interface PresetAnthonyDesignOptions {
   /** Near-black for dark surfaces (`bg-base`, `bg-tooltip`, `bg-glass`, …). Default `#111`. */
   darkBackground?: string
   /**
-   * Brand font family **names** — not full font stacks. Defaults to `DM Sans` /
-   * `DM Mono`. Whatever name you give (or the default) is composed onto the base
-   * preset's own generic-fallback chain, never used to replace it, so `font-sans`
-   * / `font-mono` stay fallback-safe even before/without a web font loading. The
-   * web font itself is still the consumer's to load (e.g. via `presetWebFonts`).
+   * Optional brand font family **names** — not full font stacks, and no
+   * default. Left unset, this preset doesn't touch the theme's font family at
+   * all — `font-sans`/`font-mono` resolve to whatever the base preset or
+   * `presetWebFonts` already set. Pass a name and it's *composed* onto
+   * whatever stack is already there, never used to replace it, so
+   * `font-sans`/`font-mono` stay fallback-safe either way. The web font
+   * itself is still the consumer's to load (e.g. via `presetWebFonts`).
    */
   fonts?: PresetAnthonyFonts
   /** Extra theme fields, deep-merged into the generated theme. */

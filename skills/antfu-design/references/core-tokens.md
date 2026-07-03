@@ -93,6 +93,9 @@ never drift from what the shortcuts actually resolve to.
   never plain `z-<n>` — the preset blocks plain z-index. The preset ships **no**
   values; the app defines the named layers in its own `shortcuts`. See
   [core-setup.md](core-setup.md#z-index-layers-you-own-them).
-- **Theme**: `font-sans` = DM Sans, `font-mono` = DM Mono; extra sizes
-  `text-micro` / `text-mini` / `text-compact`; color ramps `primary` (default
-  antfu green), `warning`, `success`, `error`.
+- **Theme**: `font-sans` / `font-mono` have no preset default — they resolve to
+  whatever `presetWebFonts` (or the base preset) sets; this repo's own apps wire
+  up `DM Sans` / `DM Mono` via `presetWebFonts` (see
+  [core-setup.md](core-setup.md#wiring-the-preset)). Extra sizes `text-micro` /
+  `text-mini` / `text-compact`; color ramps `primary` (default antfu green),
+  `warning`, `success`, `error`.

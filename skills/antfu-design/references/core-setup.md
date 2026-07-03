@@ -40,13 +40,16 @@ export default defineConfig({
 > `presetMini`). Without one, the semantic shortcuts have nothing to expand into.
 > The design layer is **one preset** — there are no sub-presets to compose.
 
-> `presetAnthonyDesign`'s `fonts` option is a **brand-name override**, not a
-> full font stack — you never need to pass the base preset's generic-fallback
-> chain (`ui-sans-serif, system-ui, …, sans-serif, …`) through it just to avoid
-> losing it. Whatever name it resolves to (a custom one, or the `DM Sans` / `DM
-> Mono` default) is composed onto the base preset's own fallback chain, not
-> swapped in for it — `font-sans` / `font-mono` stay fallback-safe out of the
-> box, with or without `presetWebFonts`, regardless of preset order.
+> `presetAnthonyDesign`'s `fonts` option is an **optional, explicit brand-name
+> override** — there's no default, and you never need to pass the base
+> preset's generic-fallback chain (`ui-sans-serif, system-ui, …, sans-serif,
+> …`) through it just to avoid losing it. Left unset, the preset doesn't touch
+> the theme's font family at all — `font-sans`/`font-mono` resolve to whatever
+> the base preset or `presetWebFonts` already set (as in the example above,
+> where `presetWebFonts`'s `DM Sans`/`DM Mono` is the only thing setting the
+> font name). Pass `fonts` and it *composes* the name onto whatever stack is
+> already there instead of replacing it, so `font-sans`/`font-mono` stay
+> fallback-safe either way, regardless of preset order.
 
 > **`@unocss/transformer-directives` is required**, not optional: the design
 > system's own CSS (`base.css`, `floating-vue.css`, `splitpanes.css`) styles

@@ -3,7 +3,7 @@ import type { PresetAnthonyDesignOptions } from './options'
 import { definePreset, mergeDeep } from '@unocss/core'
 import { buildBlocklist } from './blocklist'
 import { error, resolvePrimary, success, warning } from './colors'
-import { DEFAULT_DARK_BG, DEFAULT_FONTS } from './options'
+import { DEFAULT_DARK_BG } from './options'
 import { patternRules } from './patterns'
 import { buildRules } from './rules'
 import { scrollFadePreflight, scrollFadeRules } from './scroll-fade'
@@ -40,7 +40,7 @@ function stripQuotes(family: string): string {
  *
  * Idempotent: if `family` is already the leading entry, `existing` is
  * returned unchanged (no `"DM Sans",DM Sans` duplication on repeated
- * resolves, or when the caller's `fonts` option already matches).
+ * resolves, or when the theme already has the caller's `fonts` value leading).
  */
 function composeFontFamily(existing: string | undefined, family: string, generic: string): string {
   if (!existing)
@@ -67,12 +67,13 @@ function composeFontFamily(existing: string | undefined, family: string, generic
  * guardrail the preset blocks plain `z-<number>` utilities so every z-index goes
  * through a named layer (opt out with `blocklists: { plainZIndex: false }`).
  *
- * `fonts` is a **brand-name override**, not a full stack you must supply —
- * whatever family name it resolves to (custom, or the `DM Sans` / `DM Mono`
- * default) is *composed* onto the base preset's own generic-fallback chain
- * (`ui-sans-serif, system-ui, …, sans-serif, …`), never a replacement of it.
- * `font-sans` / `font-mono` are fallback-safe out of the box, with or without
- * `presetWebFonts` and regardless of preset order.
+ * `fonts` is an **optional, explicit brand-name override** — there's no
+ * default. Left unset, this preset doesn't touch `theme.fontFamily`/`theme.font`
+ * at all, so `font-sans`/`font-mono` resolve to whatever the base preset or
+ * `presetWebFonts` already established. Pass `fonts` and it *composes* the
+ * name onto whatever stack is already there (e.g. Wind3/Wind4's own
+ * `ui-sans-serif, system-ui, …, sans-serif, …`) rather than replacing it, so
+ * the result is never bare — regardless of preset order.
  *
  * @param options - Theme + dark-surface options (see {@link PresetAnthonyDesignOptions}).
  * @returns A single UnoCSS `Preset`.
@@ -100,7 +101,6 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
 
   const darkBackground = options.darkBackground ?? DEFAULT_DARK_BG
   const primary = resolvePrimary(options.primary)
-  const fonts = { ...DEFAULT_FONTS, ...options.fonts }
 
   const themeOverrides = mergeDeep(
     { colors: { primary, warning, success, error } } as Record<string, any>,
@@ -127,25 +127,25 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
     name: '@antfu/design',
     extendTheme: (theme, config) => {
       const t = theme as Record<string, any>
+      // No explicit override — leave the theme's font family entirely alone.
+      // The base preset's own default (or `presetWebFonts`, if configured)
+      // stays the sole source of truth, so there's nothing here that could
+      // duplicate or interfere with what it sets.
+      if (options.fonts?.sans == null && options.fonts?.mono == null)
+        return mergeDeep(t as any, themeOverrides as any)
+
       // Wind4 keys its font stacks under `theme.font`, not `theme.fontFamily`
       // (which `presetWind4` doesn't declare at all) — mirror the same
       // detection `presetWebFonts` uses so `fonts` composes correctly and
       // takes effect under either base preset.
       const hasWind4 = config.presets?.some(p => p.name === '@unocss/preset-wind4')
-      const hasWebFonts = config.presets?.some(p => p.name === '@unocss/preset-web-fonts')
       const fontKey = hasWind4 ? 'font' : 'fontFamily'
       t[fontKey] = { ...t[fontKey] }
       ;(['sans', 'mono'] as const).forEach((key) => {
-        // `presetWebFonts` prepends its own family name onto this same stack
-        // (unconditionally, on every resolve — it has no idempotency guard
-        // of its own). If the consumer configured one and didn't explicitly
-        // override `fonts` here, defer to it entirely instead of composing
-        // our own default in first — otherwise the *same* brand name (the
-        // default `fonts` and `presetWebFonts`'s `fonts` typically match, per
-        // the Setup docs) ends up prepended twice.
-        if (hasWebFonts && options.fonts?.[key] == null)
+        const family = options.fonts?.[key]
+        if (family == null)
           return
-        t[fontKey][key] = composeFontFamily(t[fontKey][key], fonts[key], GENERIC_FALLBACK[key])
+        t[fontKey][key] = composeFontFamily(t[fontKey][key], family, GENERIC_FALLBACK[key])
       })
       return mergeDeep(t as any, themeOverrides as any)
     },
