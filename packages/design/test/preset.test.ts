@@ -1,4 +1,5 @@
 import { createGenerator } from '@unocss/core'
+import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
@@ -169,5 +170,57 @@ describe('presetAnthonyDesign', () => {
     expect(() => presetAnthonyDesign({ primary: 123 })).toThrow(/primary/)
     // @ts-expect-error invalid on purpose
     expect(() => presetAnthonyDesign({ darkBackground: 5 })).toThrow(/darkBackground/)
+  })
+})
+
+describe('fonts (regression: presetAnthonyDesign must never touch theme.fontFamily/theme.font)', () => {
+  // Wind3/Mini resolve `.font-sans`/`.font-mono` to a literal `font-family` value.
+  function fontFamilyOf(css: string, cls: string): string {
+    const match = css.match(new RegExp(`\\.${cls}\\{font-family:([^;]+);\\}`))
+    expect(match, `expected a \`.${cls}\` rule in:\n${css}`).not.toBeNull()
+    return match![1]!
+  }
+
+  // Wind4 resolves `.font-sans`/`.font-mono` to `var(--font-sans)` /
+  // `var(--font-mono)`, whose value is declared in the `:root, :host` theme
+  // preflight instead.
+  function cssVarOf(css: string, name: string): string {
+    const match = css.match(new RegExp(`--${name}:\\s*([^;]+);`))
+    expect(match, `expected a \`--${name}\` custom property in:\n${css}`).not.toBeNull()
+    return match![1]!
+  }
+
+  it.each([
+    ['presetWind3', () => presetWind3()],
+    ['presetWind4', () => presetWind4()],
+  ] as const)('%s alone vs. + presetAnthonyDesign: font-sans/font-mono are byte-identical', async (name, base) => {
+    // presetAnthonyDesign has no opinion on fonts — adding it must not change
+    // the base preset's own font-family output at all (its other preflights,
+    // e.g. scroll-fade/shimmer, are unrelated and expected to still differ).
+    const withDesign = await generate([presetAnthonyDesign(), base()], 'font-sans font-mono', true)
+    const withoutDesign = await generate([base()], 'font-sans font-mono', true)
+
+    const extract = name === 'presetWind4'
+      ? (css: string) => [cssVarOf(css, 'font-sans'), cssVarOf(css, 'font-mono')]
+      : (css: string) => [fontFamilyOf(css, 'font-sans'), fontFamilyOf(css, 'font-mono')]
+    expect(extract(withDesign)).toEqual(extract(withoutDesign))
+  })
+
+  it('coexists with presetWebFonts (the documented Setup pattern) without interfering with its fallback-safe composition', async () => {
+    // This is the exact scenario the original bug broke: presetAnthonyDesign
+    // used to stomp presetWebFonts's fallback chain down to a bare name.
+    // Now it never touches the theme, so presetWebFonts composes normally,
+    // regardless of where presetAnthonyDesign sits in the `presets` array.
+    const css = await generate(
+      [presetAnthonyDesign(), presetWind3(), presetWebFonts({ provider: 'none', fonts: { sans: 'DM Sans', mono: 'DM Mono' } })],
+      'font-sans font-mono',
+    )
+    const sans = fontFamilyOf(css, 'font-sans')
+    const mono = fontFamilyOf(css, 'font-mono')
+    expect(sans).toMatch(/sans-serif/)
+    expect(mono).toMatch(/monospace/)
+    // No duplicated leading family (the original "DM Sans",DM Sans regression).
+    expect(sans.match(/DM Sans/g)?.length).toBe(1)
+    expect(mono.match(/DM Mono/g)?.length).toBe(1)
   })
 })

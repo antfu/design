@@ -40,6 +40,17 @@ export default defineConfig({
 > `presetMini`). Without one, the semantic shortcuts have nothing to expand into.
 > The design layer is **one preset** — there are no sub-presets to compose.
 
+> `presetAnthonyDesign` has **no `fonts` option and no opinion on typography**
+> — it never touches `theme.fontFamily`/`theme.font`, so `font-sans`/
+> `font-mono` resolve to whatever the base preset or `presetWebFonts` already
+> set (as in the example above, where `presetWebFonts`'s `DM Sans`/`DM Mono`
+> is the only thing setting the font name — you never need to pass the base
+> preset's generic-fallback chain through anything to avoid losing it).
+> Want a brand name composed onto the base preset's fallback chain without
+> actually fetching a font (e.g. it's self-hosted or system-installed)? Use
+> `presetWebFonts({ provider: 'none', fonts: { sans: '…', mono: '…' } })` —
+> it already composes correctly instead of replacing.
+
 > **`@unocss/transformer-directives` is required**, not optional: the design
 > system's own CSS (`base.css`, `floating-vue.css`, `splitpanes.css`) styles
 > surfaces with token directives like `--at-apply: 'bg-base color-base'` instead of

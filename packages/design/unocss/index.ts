@@ -3,7 +3,7 @@ import type { PresetAnthonyDesignOptions } from './options'
 import { definePreset, mergeDeep } from '@unocss/core'
 import { buildBlocklist } from './blocklist'
 import { error, resolvePrimary, success, warning } from './colors'
-import { DEFAULT_DARK_BG, DEFAULT_FONTS } from './options'
+import { DEFAULT_DARK_BG } from './options'
 import { patternRules } from './patterns'
 import { buildRules } from './rules'
 import { scrollFadePreflight, scrollFadeRules } from './scroll-fade'
@@ -23,8 +23,8 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
  * `presetAnthonyDesign` — the **single** antfu design preset.
  *
  * One preset contributes the whole design layer: the theme scales (a `primary`
- * ramp + `warning`/`success`/`error` + fonts), the semantic `*-base` shortcuts,
- * the dynamic `badge-color-*` / `bg-glass` shortcuts, and the `color-scale-*`
+ * ramp + `warning`/`success`/`error`), the semantic `*-base` shortcuts, the
+ * dynamic `badge-color-*` / `bg-glass` shortcuts, and the `color-scale-*`
  * severity layer. It bundles **no** base preset, icons, web-fonts or reset — the
  * consumer composes those themselves. The semantic layer is base-agnostic, so it
  * resolves under Wind4, Wind3 or Mini.
@@ -34,6 +34,13 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
  * …); define those in your own UnoCSS `shortcuts` config (see Setup). As a
  * guardrail the preset blocks plain `z-<number>` utilities so every z-index goes
  * through a named layer (opt out with `blocklists: { plainZIndex: false }`).
+ *
+ * It also has **no opinion on fonts** — it never touches
+ * `theme.fontFamily`/`theme.font`, so `font-sans`/`font-mono` resolve to
+ * whatever the base preset (or `presetWebFonts`) already established. Want a
+ * brand name composed onto the base preset's own fallback chain without
+ * fetching anything? Use `presetWebFonts({ provider: 'none', fonts: {…} })` —
+ * it already does exactly that.
  *
  * @param options - Theme + dark-surface options (see {@link PresetAnthonyDesignOptions}).
  * @returns A single UnoCSS `Preset`.
@@ -61,13 +68,9 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
 
   const darkBackground = options.darkBackground ?? DEFAULT_DARK_BG
   const primary = resolvePrimary(options.primary)
-  const fonts = { ...DEFAULT_FONTS, ...options.fonts }
 
   const themeOverrides = mergeDeep(
-    {
-      colors: { primary, warning, success, error },
-      fontFamily: { sans: fonts.sans, mono: fonts.mono },
-    } as Record<string, any>,
+    { colors: { primary, warning, success, error } } as Record<string, any>,
     (options.theme ?? {}) as Record<string, any>,
   )
 
@@ -89,6 +92,8 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
 
   return {
     name: '@antfu/design',
+    // Deliberately doesn't touch `theme.fontFamily`/`theme.font` — the base
+    // preset (or `presetWebFonts`) is the sole source of truth for fonts.
     extendTheme: theme => mergeDeep(theme as any, themeOverrides as any),
     shortcuts,
     rules: [...patternRules, ...scrollFadeRules, ...shimmerRules],
@@ -119,5 +124,4 @@ export {
 
 export type {
   PresetAnthonyDesignOptions,
-  PresetAnthonyFonts,
 } from './options'
