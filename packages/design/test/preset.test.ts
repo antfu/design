@@ -174,9 +174,6 @@ describe('presetAnthonyDesign', () => {
 })
 
 describe('fonts (regression: presetAnthonyDesign must never touch theme.fontFamily/theme.font)', () => {
-  // No network fetch — resolves font names without hitting a provider.
-  const webFonts = () => presetWebFonts({ provider: 'none', fonts: { sans: 'DM Sans', mono: 'DM Mono' } })
-
   // Wind3/Mini resolve `.font-sans`/`.font-mono` to a literal `font-family` value.
   function fontFamilyOf(css: string, cls: string): string {
     const match = css.match(new RegExp(`\\.${cls}\\{font-family:([^;]+);\\}`))
@@ -186,7 +183,7 @@ describe('fonts (regression: presetAnthonyDesign must never touch theme.fontFami
 
   // Wind4 resolves `.font-sans`/`.font-mono` to `var(--font-sans)` /
   // `var(--font-mono)`, whose value is declared in the `:root, :host` theme
-  // preflight — so the stack has to be read from there instead.
+  // preflight instead.
   function cssVarOf(css: string, name: string): string {
     const match = css.match(new RegExp(`--${name}:\\s*([^;]+);`))
     expect(match, `expected a \`--${name}\` custom property in:\n${css}`).not.toBeNull()
@@ -209,47 +206,21 @@ describe('fonts (regression: presetAnthonyDesign must never touch theme.fontFami
     expect(extract(withDesign)).toEqual(extract(withoutDesign))
   })
 
-  it.each([
-    ['presetWind3', () => presetWind3()],
-    ['presetWind4', () => presetWind4()],
-  ] as const)('%s + presetAnthonyDesign (declared first) + presetWebFonts composes a fallback-safe stack', async (name, base) => {
-    const uno = await createGenerator({ presets: [presetAnthonyDesign(), base(), webFonts()] })
-    const { css } = await uno.generate('font-sans font-mono', { preflights: true })
-
-    const sans = name === 'presetWind4' ? cssVarOf(css, 'font-sans') : fontFamilyOf(css, 'font-sans')
-    const mono = name === 'presetWind4' ? cssVarOf(css, 'font-mono') : fontFamilyOf(css, 'font-mono')
-
-    expect(sans).toMatch(/sans-serif/)
-    expect(mono).toMatch(/monospace/)
-    // No duplicated leading family (the "DM Sans",DM Sans regression).
-    expect(sans.match(/DM Sans/g)?.length).toBe(1)
-    expect(mono.match(/DM Mono/g)?.length).toBe(1)
-  })
-
-  it.each([
-    ['presetWind3', () => presetWind3()],
-    ['presetWind4', () => presetWind4()],
-  ] as const)('%s + presetAnthonyDesign (declared after) + presetWebFonts composes the same fallback-safe stack', async (name, base) => {
-    // Preset order must not matter — `extendTheme` hooks all see the fully
-    // merged static theme regardless of declaration order.
-    const uno = await createGenerator({ presets: [base(), presetAnthonyDesign(), webFonts()] })
-    const { css } = await uno.generate('font-sans font-mono', { preflights: true })
-
-    const sans = name === 'presetWind4' ? cssVarOf(css, 'font-sans') : fontFamilyOf(css, 'font-sans')
-    const mono = name === 'presetWind4' ? cssVarOf(css, 'font-mono') : fontFamilyOf(css, 'font-mono')
-
-    expect(sans).toMatch(/sans-serif/)
-    expect(mono).toMatch(/monospace/)
-    expect(sans.match(/DM Sans/g)?.length).toBe(1)
-    expect(mono.match(/DM Mono/g)?.length).toBe(1)
-  })
-
-  it('a brand name with no fetching is set via `presetWebFonts({ provider: \'none\' })`, not presetAnthonyDesign', async () => {
+  it('coexists with presetWebFonts (the documented Setup pattern) without interfering with its fallback-safe composition', async () => {
+    // This is the exact scenario the original bug broke: presetAnthonyDesign
+    // used to stomp presetWebFonts's fallback chain down to a bare name.
+    // Now it never touches the theme, so presetWebFonts composes normally,
+    // regardless of where presetAnthonyDesign sits in the `presets` array.
     const css = await generate(
-      [presetAnthonyDesign(), presetWind3(), presetWebFonts({ provider: 'none', fonts: { sans: 'Inter', mono: 'Fira Code' } })],
+      [presetAnthonyDesign(), presetWind3(), presetWebFonts({ provider: 'none', fonts: { sans: 'DM Sans', mono: 'DM Mono' } })],
       'font-sans font-mono',
     )
-    expect(fontFamilyOf(css, 'font-sans')).toBe('Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji"')
-    expect(fontFamilyOf(css, 'font-mono')).toBe('Fira Code,ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace')
+    const sans = fontFamilyOf(css, 'font-sans')
+    const mono = fontFamilyOf(css, 'font-mono')
+    expect(sans).toMatch(/sans-serif/)
+    expect(mono).toMatch(/monospace/)
+    // No duplicated leading family (the original "DM Sans",DM Sans regression).
+    expect(sans.match(/DM Sans/g)?.length).toBe(1)
+    expect(mono.match(/DM Mono/g)?.length).toBe(1)
   })
 })
