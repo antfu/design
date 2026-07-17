@@ -7,18 +7,18 @@ are grouped into categories and **prefixed with their category** (e.g.
 from reka-ui; tooltips/poppers from floating-vue; resizable panes from
 splitpanes — all themed through the shipped CSS overrides.
 
-> **Dark mode is the app's to own.** The package does not ship `isDark`/`toggleDark`.
-> Components that vary by scheme (e.g. hash-colored `DisplayBadge`, `DisplayLabel`,
-> `DisplayPackageName`, `DisplayProportionBar`) take a `colorScheme: 'light' | 'dark'`
-> prop. `ActionDarkToggle` is **controlled**: `colorScheme` prop + `update:colorScheme`.
+> **Dark mode is the app's to own.** The package does not ship `isDark`/`toggleDark`
+> or a dark-toggle component. Components that vary by scheme (e.g. hash-colored
+> `DisplayBadge`, `DisplayLabel`, `DisplayPackageName`, `DisplayProportionBar`) take a
+> `colorScheme: 'light' | 'dark'` prop. For a toggle, compose `ActionIconButton` with
+> VueUse's `useDark` — see [recipes.md](recipes.md).
 
 ## Action
 
 | Component | Use it for |
 |---|---|
 | `ActionButton` | actions. `variant` action/primary/text, polymorphic `href`/`as`, `icon`, `loading`. |
-| `ActionIconButton` | a round icon-only button with a `tooltip`, `active` state, `#badge`. |
-| `ActionDarkToggle` | controlled dark toggle (`v-model:colorScheme`) with a view-transition reveal. |
+| `ActionIconButton` | a round icon-only button with a `tooltip`, `active` state, `#badge`. Compose with VueUse's `useDark` for a dark toggle ([recipes.md](recipes.md)). |
 | `ActionToggle` / `ActionToggleGroup` | a pressed-state toggle and a segmented control (`options`, single/multi). |
 
 ## Display
