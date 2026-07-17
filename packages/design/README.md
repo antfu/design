@@ -157,7 +157,7 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `color-faint` | `color-neutral-500 dark:color-neutral-500` |
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
-| `bg-secondary` | `bg-#f5f5f5 dark:bg-#1a1a1a` |
+| `bg-secondary` | `bg-#fdfdfd dark:bg-#101010` |
 | `bg-active` | `bg-#8881` |
 | `bg-hover` | `bg-primary/5` |
 | `bg-code` | `bg-gray-500/5` |

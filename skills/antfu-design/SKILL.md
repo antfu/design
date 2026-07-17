@@ -58,8 +58,9 @@ inline DOM elements.
 
 Components are categorized and prefixed by category (`Display*`, `Form*`,
 `Overlay*`, `Layout*`, `Action*`, `Feedback*`). Dark mode is the app's to own —
-the package ships no `isDark`/`toggleDark`; components that vary by scheme take a
-`colorScheme: 'light' | 'dark'` prop, and `ActionDarkToggle` is controlled.
+the package ships no `isDark`/`toggleDark` (nor a dark-toggle component); components
+that vary by scheme take a `colorScheme: 'light' | 'dark'` prop. For a toggle, compose
+`ActionIconButton` with VueUse's `useDark`.
 
 Full catalog: [references/core-components.md](references/core-components.md).
 
@@ -76,6 +77,7 @@ get generated.
 - [core-setup.md](references/core-setup.md) — install + wire the preset, import styles.
 - [core-tokens.md](references/core-tokens.md) — the canonical token table (generated from the preset).
 - [core-components.md](references/core-components.md) — the component catalog with import paths.
+- [recipes.md](references/recipes.md) — small compositions the package doesn't ship (e.g. a dark-mode toggle).
 - [best-practices.md](references/best-practices.md) — class-over-attributify, parity, mono values, the dash ban, the "three dials".
 - [features-data-presentation.md](references/features-data-presentation.md) — presenting numbers, sizes, durations, paths.
 - [advanced-patterns.md](references/advanced-patterns.md) — composition patterns and a redesign protocol.

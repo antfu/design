@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import ActionButton from '@antfu/design/components/Action/ActionButton.vue'
-import ActionDarkToggle from '@antfu/design/components/Action/ActionDarkToggle.vue'
+import ActionIconButton from '@antfu/design/components/Action/ActionIconButton.vue'
 import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'
 import DisplayBytes from '@antfu/design/components/Display/DisplayBytes.vue'
 import DisplayDuration from '@antfu/design/components/Display/DisplayDuration.vue'
@@ -10,10 +10,16 @@ import FeedbackEmptyState from '@antfu/design/components/Feedback/FeedbackEmptyS
 import FormCheckbox from '@antfu/design/components/Form/FormCheckbox.vue'
 import LayoutCard from '@antfu/design/components/Layout/LayoutCard.vue'
 import LayoutTabs from '@antfu/design/components/Layout/LayoutTabs.vue'
-import { ref, watchEffect } from 'vue'
+import { computed, ref, watchEffect } from 'vue'
 
 // The app owns the color scheme — the design package does not.
+// There is no dark-toggle component; compose ActionIconButton with your own
+// state (VueUse's `useDark` in a real app; a plain ref here to stay dep-light).
 const colorScheme = ref<'light' | 'dark'>('light')
+const isDark = computed(() => colorScheme.value === 'dark')
+function toggleDark(): void {
+  colorScheme.value = isDark.value ? 'light' : 'dark'
+}
 watchEffect(() => {
   document.documentElement.classList.toggle('dark', colorScheme.value === 'dark')
 })
@@ -32,7 +38,11 @@ const tabs = [
       <h1 class="text-xl font-semibold">
         <span class="color-active">@antfu/design</span> playground
       </h1>
-      <ActionDarkToggle v-model:color-scheme="colorScheme" />
+      <ActionIconButton
+        :icon="isDark ? 'i-ph:sun-duotone' : 'i-ph:moon-duotone'"
+        :tooltip="isDark ? 'Switch to light mode' : 'Switch to dark mode'"
+        @click="toggleDark"
+      />
     </header>
 
     <div class="gap-4 grid max-w-2xl" style="grid-template-columns: repeat(2, 1fr)">
