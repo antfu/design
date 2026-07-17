@@ -35,11 +35,34 @@ export const Sizes: Story = {
   }),
 }
 
+export const HexColored: Story = {
+  render: () => ({
+    components: { DisplayBadge },
+    template: `<div class="flex flex-wrap items-center gap-2">
+      <DisplayBadge text="hex subtle" color="#d73a4a" />
+      <DisplayBadge text="hex solid" color="#d73a4a" variant="solid" />
+    </div>`,
+  }),
+}
+
 export const Gallery: Story = {
   render: () => ({
     components: { DisplayBadge },
     template: `<div class="flex flex-wrap gap-2">
       <DisplayBadge v-for="n in ['vue','react','svelte','vite','unocss','nuxt','rolldown','eslint']" :key="n" :text="n" />
+    </div>`,
+  }),
+}
+
+export const RoundedAndPadding: Story = {
+  render: () => ({
+    components: { DisplayBadge },
+    template: `<div class="flex flex-wrap items-center gap-2">
+      <DisplayBadge text="md (default)" color="green" />
+      <DisplayBadge text="full" color="green" rounded="full" />
+      <DisplayBadge text="0.75em" color="green" :rounded="0.75" />
+      <DisplayBadge text="tight" color="green" rounded="full" :padding-x="0.65" :padding-y="0.15" />
+      <DisplayBadge text="roomy" color="green" :padding-x="1" :padding-y="0.5" />
     </div>`,
   }),
 }

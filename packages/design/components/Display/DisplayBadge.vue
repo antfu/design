@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorScheme } from '../../composables/colorScheme'
-import { getHashColorFromString, getHsla } from '../../utils/color'
+import { getHashColorFromString, getHsla, withAlpha } from '../../utils/color'
 
 const props = withDefaults(
   defineProps<{
@@ -26,10 +26,23 @@ const props = withDefaults(
      * back to {@link provideColorScheme} context, then `'light'`.
      */
     colorScheme?: 'light' | 'dark'
+    /**
+     * - `'md'` (default): the token radius
+     * - `'full'`: pill-shaped
+     * - `number`: an explicit radius, in `em` (scales with font-size)
+     */
+    rounded?: 'md' | 'full' | number
+    /** Horizontal padding, in `em` (scales with font-size). */
+    paddingX?: number
+    /** Vertical padding, in `em` (scales with font-size). */
+    paddingY?: number
   }>(),
   {
     color: true,
     variant: 'subtle',
+    rounded: 'md',
+    paddingX: 0.5,
+    paddingY: 0.25,
   },
 )
 
@@ -39,6 +52,10 @@ function isCssColor(value: string): boolean {
 
 const scheme = useColorScheme(() => props.colorScheme)
 const dark = computed(() => scheme.value === 'dark')
+
+const isPaletteColor = computed(() =>
+  typeof props.color === 'string' && !isCssColor(props.color),
+)
 
 const seedColor = computed<string | undefined>(() => {
   const { color, text } = props
@@ -56,7 +73,7 @@ const seedBg = computed<string | undefined>(() => {
   if (typeof color === 'number')
     return getHsla(color, props.variant === 'solid' ? 1 : 0.12, dark.value)
   if (typeof color === 'string' && isCssColor(color))
-    return color
+    return props.variant === 'solid' ? color : withAlpha(color, 0.12)
   if (color === true && text)
     return getHashColorFromString(text, props.variant === 'solid' ? 1 : 0.12, dark.value)
   return undefined
@@ -67,21 +84,22 @@ const seedBorder = computed<string | undefined>(() => {
   if (typeof color === 'number')
     return getHsla(color, 0.2, dark.value)
   if (typeof color === 'string' && isCssColor(color))
-    return color
+    return props.variant === 'solid' ? color : withAlpha(color, 0.2)
   if (color === true && text)
     return getHashColorFromString(text, 0.2, dark.value)
   return undefined
 })
 
-const isPaletteColor = computed(() =>
-  typeof props.color === 'string' && !isCssColor(props.color),
-)
-
 // Padding scales off whatever `font-size` is in effect on the badge itself —
 // inherited from context by default, or set directly (e.g. a `text-sm`
 // class) to resize the badge. No `size` prop: the font size *is* the size.
+// `paddingX`/`paddingY` override the ratio applied to that font-size; a
+// numeric `rounded` does the same for the radius.
 const style = computed(() => {
-  const base = { padding: '0.25em 0.5em' }
+  const base = {
+    padding: `${props.paddingY}em ${props.paddingX}em`,
+    ...(typeof props.rounded === 'number' ? { borderRadius: `${props.rounded}em` } : {}),
+  }
   if (!seedColor.value)
     return base
   return props.variant === 'solid'
@@ -98,13 +116,17 @@ const paletteClass = computed(() =>
       ? 'bg-#8881 color-muted'
       : '',
 )
+
+const radiusClass = computed(() =>
+  typeof props.rounded === 'number' ? '' : props.rounded === 'full' ? 'rounded-full' : 'rounded-md',
+)
 </script>
 
 <template>
   <component
     :is="as || 'span'"
-    class="leading-none font-medium rounded-md inline-flex gap-1 items-center"
-    :class="paletteClass"
+    class="leading-none font-medium inline-flex gap-1 items-center"
+    :class="[radiusClass, paletteClass]"
     :style="style"
   >
     <span v-if="icon" :class="icon" aria-hidden="true" />

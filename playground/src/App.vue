@@ -5,7 +5,6 @@ import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'
 import DisplayBytes from '@antfu/design/components/Display/DisplayBytes.vue'
 import DisplayDuration from '@antfu/design/components/Display/DisplayDuration.vue'
 import DisplayNumber from '@antfu/design/components/Display/DisplayNumber.vue'
-import DisplayStatusPill from '@antfu/design/components/Display/DisplayStatusPill.vue'
 import FeedbackEmptyState from '@antfu/design/components/Feedback/FeedbackEmptyState.vue'
 import FormCheckbox from '@antfu/design/components/Form/FormCheckbox.vue'
 import LayoutCard from '@antfu/design/components/Layout/LayoutCard.vue'
@@ -90,7 +89,7 @@ const tabs = [
         </div>
         <div class="flex flex-col gap-2">
           <FormCheckbox v-model="checked" label="Enable telemetry" />
-          <DisplayStatusPill status="success" label="Online" />
+          <DisplayBadge text="Online" color="green" />
         </div>
       </LayoutCard>
 

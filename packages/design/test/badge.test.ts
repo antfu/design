@@ -14,6 +14,26 @@ describe('badge', () => {
     expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.25em 0\.5em/)
   })
 
+  it('overrides the padding ratio via paddingX/paddingY', () => {
+    const wrapper = mount(Badge, { props: { text: 'hello', paddingX: 0.65, paddingY: 0.15 } })
+    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.15em 0\.65em/)
+  })
+
+  it('defaults to a md radius, switches to full when rounded="full"', () => {
+    const md = mount(Badge, { props: { text: 'x' } })
+    expect(md.classes()).toContain('rounded-md')
+    const full = mount(Badge, { props: { text: 'x', rounded: 'full' } })
+    expect(full.classes()).toContain('rounded-full')
+    expect(full.classes()).not.toContain('rounded-md')
+  })
+
+  it('accepts a numeric rounded as an explicit em radius', () => {
+    const wrapper = mount(Badge, { props: { text: 'x', rounded: 0.75 } })
+    expect(wrapper.classes()).not.toContain('rounded-md')
+    expect(wrapper.classes()).not.toContain('rounded-full')
+    expect(wrapper.attributes('style')).toMatch(/border-radius:\s*0\.75em/)
+  })
+
   it('renders slot over text', () => {
     const wrapper = mount(Badge, { props: { text: 'x' }, slots: { default: 'slotted' } })
     expect(wrapper.text()).toBe('slotted')
@@ -32,6 +52,19 @@ describe('badge', () => {
   it('applies an inline hash color style by default', () => {
     const wrapper = mount(Badge, { props: { text: 'vite' } })
     expect(wrapper.attributes('style')).toMatch(/hsla/)
+  })
+
+  it('tints a literal hex color for the subtle background instead of using it opaque', () => {
+    const wrapper = mount(Badge, { props: { text: 'x', color: '#213234' } })
+    const style = wrapper.attributes('style')!
+    expect(style).toContain('color: #213234')
+    expect(style).not.toContain('background: #213234')
+    expect(style).toMatch(/background:\s*rgba\(\d+, \d+, \d+, 0\.12\)/)
+  })
+
+  it('keeps a literal hex color opaque for the solid variant', () => {
+    const wrapper = mount(Badge, { props: { text: 'x', color: '#213234', variant: 'solid' } })
+    expect(wrapper.attributes('style')).toContain('background: #213234')
   })
 
   it('renders an icon element', () => {

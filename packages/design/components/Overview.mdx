@@ -21,7 +21,6 @@ import * as DisplayPackageName from './Display/DisplayPackageName.stories'
 import * as DisplayProgressBar from './Display/DisplayProgressBar.stories'
 import * as DisplayProportionBar from './Display/DisplayProportionBar.stories'
 import * as DisplaySafeImage from './Display/DisplaySafeImage.stories'
-import * as DisplayStatusPill from './Display/DisplayStatusPill.stories'
 import * as DisplayTree from './Display/DisplayTree.stories'
 import * as DisplayVersion from './Display/DisplayVersion.stories'
 import * as FormCheckbox from './Form/FormCheckbox.stories'
@@ -32,7 +31,6 @@ import * as FormRadioGroup from './Form/FormRadioGroup.stories'
 import * as FormSearchField from './Form/FormSearchField.stories'
 import * as FormSegmentedControl from './Form/FormSegmentedControl.stories'
 import * as FormSelect from './Form/FormSelect.stories'
-import * as FormSlider from './Form/FormSlider.stories'
 import * as FormSwitch from './Form/FormSwitch.stories'
 import * as FormTextInput from './Form/FormTextInput.stories'
 import * as FormTextarea from './Form/FormTextarea.stories'
@@ -119,7 +117,9 @@ A composable, token-driven design system for devtools-style Vue apps. Each tile 
 <Canvas of={DisplayBadge.Muted} />
 <Canvas of={DisplayBadge.WithIcon} />
 <Canvas of={DisplayBadge.Sizes} />
+<Canvas of={DisplayBadge.HexColored} />
 <Canvas of={DisplayBadge.Gallery} />
+<Canvas of={DisplayBadge.RoundedAndPadding} />
 
 ### [DisplayBytes](/?path=/docs/display-displaybytes--docs)
 
@@ -224,12 +224,6 @@ A composable, token-driven design system for devtools-style Vue apps. Each tile 
 <Canvas of={DisplaySafeImage.BrokenSrc} />
 <Canvas of={DisplaySafeImage.NoSrc} />
 
-### [DisplayStatusPill](/?path=/docs/display-displaystatuspill--docs)
-
-<Canvas of={DisplayStatusPill.Success} />
-<Canvas of={DisplayStatusPill.Pulsing} />
-<Canvas of={DisplayStatusPill.Statuses} />
-
 ### [DisplayTree](/?path=/docs/display-displaytree--docs)
 
 <Canvas of={DisplayTree.Default} />
@@ -285,11 +279,6 @@ A composable, token-driven design system for devtools-style Vue apps. Each tile 
 
 <Canvas of={FormSelect.Default} />
 <Canvas of={FormSelect.Empty} />
-
-### [FormSlider](/?path=/docs/form-formslider--docs)
-
-<Canvas of={FormSlider.Default} />
-<Canvas of={FormSlider.Range} />
 
 ### [FormSwitch](/?path=/docs/form-formswitch--docs)
 

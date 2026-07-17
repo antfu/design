@@ -5,14 +5,12 @@ import ToggleGroup from '../components/Action/ActionToggleGroup.vue'
 import BytesDisplay from '../components/Display/DisplayBytes.vue'
 import DurationDisplay from '../components/Display/DisplayDuration.vue'
 import NumberDisplay from '../components/Display/DisplayNumber.vue'
-import StatusPill from '../components/Display/DisplayStatusPill.vue'
 import Version from '../components/Display/DisplayVersion.vue'
 import EmptyState from '../components/Feedback/FeedbackEmptyState.vue'
 import Skeleton from '../components/Feedback/FeedbackSkeleton.vue'
 import Tip from '../components/Feedback/FeedbackTip.vue'
 import Checkbox from '../components/Form/FormCheckbox.vue'
 import SegmentedControl from '../components/Form/FormSegmentedControl.vue'
-import Slider from '../components/Form/FormSlider.vue'
 import Accordion from '../components/Layout/LayoutAccordion.vue'
 import Separator from '../components/Layout/LayoutSeparator.vue'
 import Tabs from '../components/Layout/LayoutTabs.vue'
@@ -65,10 +63,6 @@ describe('number / unit displays', () => {
 })
 
 describe('misc components', () => {
-  it('statusPill renders a label', () => {
-    const wrapper = mount(StatusPill, { props: { status: 'success', label: 'Online' } })
-    expect(wrapper.text()).toBe('Online')
-  })
   it('tip applies a type-based palette', () => {
     const wrapper = mount(Tip, { props: { type: 'warning' }, slots: { default: 'Heads up' } })
     expect(wrapper.text()).toBe('Heads up')
@@ -106,10 +100,6 @@ describe('new primitives', () => {
     const wrapper = mount(Skeleton, { props: { lines: 3 } })
     expect(wrapper.attributes('aria-label')).toBe('Loading')
     expect(wrapper.findAll('span')).toHaveLength(3)
-  })
-  it('slider exposes a thumb for a single value', () => {
-    const wrapper = mount(Slider, { props: { modelValue: 30 } })
-    expect(wrapper.find('[role="slider"]').exists()).toBe(true)
   })
   it('toggleGroup renders an item per option', () => {
     const wrapper = mount(ToggleGroup, {

@@ -25,7 +25,7 @@ splitpanes — all themed through the shipped CSS overrides.
 
 | Component | Use it for |
 |---|---|
-| `DisplayBadge` | a status/type/tag chip — hash-colored from text, a palette name (`color="green"`), a hue, or muted. `colorScheme`, `variant`, `icon`; sized by its own `font-size` (padding is `em`-relative — no `size` prop). |
+| `DisplayBadge` | a status/type/tag chip — hash-colored from text, a palette name (`color="green"`), a hue, or muted. `colorScheme`, `variant`, `icon`; sized by its own `font-size` (padding is `em`-relative — no `size` prop); `rounded` (`md`/`full`/em number) and `paddingX`/`paddingY` override the shape. |
 | `DisplayNumber` / `DisplayNumberBadge` | formatted numbers (`Intl`), mono + tabular, `prefix`/`suffix`. |
 | `DisplayDuration` | ms → human, `colorize` by severity. |
 | `DisplayBytes` | humanized size, `colorize`, percent of `total`. |
@@ -34,16 +34,15 @@ splitpanes — all themed through the shipped CSS overrides.
 | `DisplayPackageName` | scope colored by hash (`colorScheme`). |
 | `DisplayFilePath` | truncates, dims directories, decodes `.pnpm`, icon, link. |
 | `DisplayFileIcon` | ext → icon via a configurable rule list. |
-| `DisplayLabel` | hex → contrast-aware tinted chip (`colorScheme`). |
-| `DisplayStatusPill` | severity dot + label, `pulse`. |
+| `DisplayLabel` | a fully-rounded `DisplayBadge` (tighter padding) for GitHub-style tags (`colorScheme`). |
 | `DisplayDonut` / `DisplayProportionBar` | progress ring / stacked proportion bar. |
 | `DisplayKbd` | renders `mod+k` as platform glyphs. |
 
 ## Form
 
 `FormTextInput`, `FormSearchField` (icon + `DisplayKbd` hint + clear),
-`FormCheckbox`, `FormSwitch`, `FormRadioGroup`, `FormSelect`, `FormSlider`
-(single value or range).
+`FormCheckbox`, `FormSwitch`, `FormRadioGroup`, `FormSelect`,
+`FormSegmentedControl`.
 
 ## Overlay
 

@@ -14,7 +14,6 @@ import DisplayFileIcon from '../components/Display/DisplayFileIcon.vue'
 import DisplayKeyValue from '../components/Display/DisplayKeyValue.vue'
 import DisplayPackageName from '../components/Display/DisplayPackageName.vue'
 import DisplaySafeImage from '../components/Display/DisplaySafeImage.vue'
-import DisplayStatusPill from '../components/Display/DisplayStatusPill.vue'
 import DisplayTree from '../components/Display/DisplayTree.vue'
 import DisplayVersion from '../components/Display/DisplayVersion.vue'
 import FeedbackToasts from '../components/Feedback/FeedbackToasts.vue'
@@ -37,7 +36,7 @@ import OverlayTooltip from '../components/Overlay/OverlayTooltip.vue'
 
 import { provideColorScheme, useColorScheme } from '../composables/colorScheme'
 import { useToast } from '../composables/toast'
-import { darken, getPluginColor, lighten, stripPluginPrefix, toHex } from '../utils/color'
+import { darken, getPluginColor, lighten, stripPluginPrefix, toHex, withAlpha } from '../utils/color'
 import { formatDuration, formatNumber, getBytesColor, getDefaultLocale, setDefaultLocale } from '../utils/format'
 import { getFolderIcon } from '../utils/icon'
 import { relativeModulePath } from '../utils/path'
@@ -85,6 +84,9 @@ describe('utils additions — color', () => {
     expect(lighten('#336699')).toMatch(/^#[0-9a-f]{6}$/i)
     expect(darken('#336699')).toMatch(/^#[0-9a-f]{6}$/i)
     expect(lighten('#000000', 0.5)).not.toBe('#000000')
+  })
+  it('withAlpha uses the legacy comma rgba() syntax (cross-environment CSS parser support)', () => {
+    expect(withAlpha('#ff0000', 0.5)).toBe('rgba(255, 0, 0, 0.5)')
   })
 })
 
@@ -162,10 +164,6 @@ describe('new display components', () => {
   it('packageName strips prefixes on demand', () => {
     const w = mount(DisplayPackageName, { props: { name: 'vite-plugin-inspect', strip: true } })
     expect(w.text()).toBe('inspect')
-  })
-  it('statusPill accepts a custom dot color', () => {
-    const w = mount(DisplayStatusPill, { props: { color: '#ff0000', label: 'x' } })
-    expect(w.html()).toContain('background: #ff0000')
   })
   it('tree renders branch + leaf names', () => {
     const w = mount(DisplayTree, {

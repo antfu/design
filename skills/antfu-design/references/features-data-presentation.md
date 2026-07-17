@@ -13,7 +13,7 @@ they encode the formatting + severity decisions consistently.
 | a package name | `DisplayPackageName` | scope colored by hash |
 | a version | `DisplayVersion` | `vX.Y.Z` prefix logic |
 | a proportion | `DisplayProportionBar` / `DisplayDonut` | stacked % bar / progress ring |
-| a status / health | `DisplayStatusPill` | severity dot + label, `pulse` |
+| a status / health | `DisplayBadge` | a palette/hue color for the status (`variant="solid"` for emphasis) |
 | a long list | `LayoutVirtualList` / `LayoutExpandableList` | virtualize, or "show N more" with a fade |
 
 ## Rules of thumb
