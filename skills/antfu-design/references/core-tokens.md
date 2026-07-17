@@ -29,6 +29,7 @@ never drift from what the shortcuts actually resolve to.
 | `ring-base` | `ring-#8882` |
 | `op-fade` | `op65 dark:op55` |
 | `op-mute` | `op30 dark:op25` |
+| `icon-catppuccin` | `invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100` |
 | `btn-action` | `border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-active transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-action-sm` | `btn-action text-sm` |
 | `btn-action-active` | `color-active border-active! bg-active op100!` |

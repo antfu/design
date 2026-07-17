@@ -338,11 +338,9 @@ describe('component improvements — packageName + fileIcon', () => {
     const hide = mount(DisplayPackageName, { props: { name: '@scope/pkg', namespace: 'hide' } })
     expect(hide.text()).toBe('pkg')
   })
-  it('fileIcon inverts luminance when asked', () => {
-    const plain = mount(DisplayFileIcon, { props: { path: 'a.ts' } })
-    expect(plain.attributes('style')).toBeFalsy()
-    const inverted = mount(DisplayFileIcon, { props: { path: 'a.ts', invert: true } })
-    expect(inverted.attributes('style')).toContain('invert(1)')
+  it('fileIcon bakes in icon-catppuccin so contrast adapts to color mode via CSS, not a prop', () => {
+    const w = mount(DisplayFileIcon, { props: { path: 'a.ts' } })
+    expect(w.classes()).toContain('icon-catppuccin')
   })
 })
 

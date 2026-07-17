@@ -37,13 +37,24 @@ export const Directory: Story = {
   }),
 }
 
-export const Inverted: Story = {
+export const AdaptsToColorMode: Story = {
   render: () => ({
     components: { DisplayFileIcon },
-    // `invert` flips icon luminance so a dark-designed set stays legible on light surfaces.
-    template: `<div class="text-xl flex items-center gap-2">
-      <DisplayFileIcon path="a.vue" />
-      <DisplayFileIcon path="a.vue" invert />
+    // The icon bakes in `icon-catppuccin` (see the design preset), which
+    // inverts/rehues/dims the dark-tuned catppuccin set on a light surface
+    // and cancels back to native color under `.dark` — no prop needed, it
+    // just tracks the ambient color mode.
+    template: `<div class="flex gap-4">
+      <div class="text-xl flex items-center gap-2 p-4 rounded bg-white">
+        <DisplayFileIcon path="a.vue" />
+        <DisplayFileIcon path="b.ts" />
+        <DisplayFileIcon path="c.json" />
+      </div>
+      <div class="dark text-xl flex items-center gap-2 p-4 rounded bg-#111">
+        <DisplayFileIcon path="a.vue" />
+        <DisplayFileIcon path="b.ts" />
+        <DisplayFileIcon path="c.json" />
+      </div>
     </div>`,
   }),
 }
