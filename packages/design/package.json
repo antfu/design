@@ -1,7 +1,7 @@
 {
   "name": "@antfu/design",
   "type": "module",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "packageManager": "pnpm@11.9.0",
   "description": "A customizable, composable design system for devtools-style Vue apps — a UnoCSS preset, Vue primitives, a design skill, and an a11y contrast check",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
