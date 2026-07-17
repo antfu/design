@@ -15,20 +15,13 @@ const props = withDefaults(
     disabled?: boolean
     /** Accessible label when the button has no visible text. */
     label?: string
-    size?: 'sm' | 'md' | 'lg'
     /** Compact, square (non-circular) icon button for dense toolbars. */
     compact?: boolean
     /** Class(es) applied when `active` — overrides the default `color-active bg-active` tint. */
     activeClass?: string
   }>(),
-  { size: 'md' },
+  {},
 )
-
-const SIZE: Record<NonNullable<typeof props.size>, string> = {
-  sm: 'w-7! h-7! text-sm',
-  md: '',
-  lg: 'w-11! h-11! text-lg',
-}
 
 const tag = computed(() => {
   if (props.as)
@@ -42,7 +35,12 @@ const isLink = computed(() => tag.value === 'a')
 const isButton = computed(() => tag.value === 'button')
 
 const baseClass = computed(() => (props.compact ? 'btn-icon-compact' : 'btn-icon'))
-const sizeClass = computed(() => (props.compact ? '' : SIZE[props.size]))
+// No `size` prop: the button's own `font-size` is the size. Width/height come
+// purely from the icon glyph (sized in `em` by the icon preset) plus em-based
+// padding, so a `text-sm`/`text-lg`/etc. class (or any font-size) resizes the
+// whole button — same convention as DisplayBadge. `!` overrides the shared
+// `btn-icon(-compact)` shortcut's fixed `w-*`/`h-*`.
+const sizeClass = computed(() => (props.compact ? 'w-auto! h-auto! p-[0.25em]' : 'w-auto! h-auto! p-[0.5em]'))
 const activeStateClass = computed(() => (props.active ? (props.activeClass || 'color-active bg-active op100') : ''))
 </script>
 

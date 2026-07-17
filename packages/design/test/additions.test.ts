@@ -225,9 +225,10 @@ describe('new layout components', () => {
 })
 
 describe('component edits', () => {
-  it('iconButton supports size + custom active class', () => {
-    const w = mount(ActionIconButton, { props: { icon: 'i-catppuccin:vue', size: 'sm', active: true, activeClass: 'text-green-400' } })
-    expect(w.classes()).toContain('w-7!')
+  it('iconButton sizes off font-size (no size prop) + custom active class', () => {
+    const w = mount(ActionIconButton, { props: { icon: 'i-catppuccin:vue', active: true, activeClass: 'text-green-400' }, attrs: { class: 'text-sm' } })
+    expect(w.classes()).toContain('p-[0.5em]')
+    expect(w.classes()).toContain('text-sm')
     expect(w.classes()).toContain('text-green-400')
   })
   it('button applies size to the primary variant', () => {
