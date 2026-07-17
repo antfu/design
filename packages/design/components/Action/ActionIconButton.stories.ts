@@ -44,11 +44,16 @@ export const AsLink: Story = {
 export const Sizes: Story = {
   render: () => ({
     components: { ActionIconButton },
+    // No `size` prop — the button's own `font-size` is the size, just like
+    // DisplayBadge. Resize it with any font-size class (or utility).
     template: `<div class="flex items-center gap-2">
-      <ActionIconButton icon="i-ph:gear" tooltip="sm" size="sm" />
-      <ActionIconButton icon="i-ph:gear" tooltip="md" size="md" />
-      <ActionIconButton icon="i-ph:gear" tooltip="lg" size="lg" />
-      <ActionIconButton icon="i-ph:gear" tooltip="compact" :compact="true" />
+      <ActionIconButton icon="i-ph:gear" tooltip="micro" class="text-micro" />
+      <ActionIconButton icon="i-ph:gear" tooltip="mini" class="text-mini" />
+      <ActionIconButton icon="i-ph:gear" tooltip="compact" class="text-compact" />
+      <ActionIconButton icon="i-ph:gear" tooltip="sm" class="text-sm" />
+      <ActionIconButton icon="i-ph:gear" tooltip="base" class="text-base" />
+      <ActionIconButton icon="i-ph:gear" tooltip="lg" class="text-lg" />
+      <ActionIconButton icon="i-ph:gear" tooltip="xl" class="text-xl" />
     </div>`,
   }),
 }
