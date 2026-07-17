@@ -53,6 +53,10 @@ function isCssColor(value: string): boolean {
 const scheme = useColorScheme(() => props.colorScheme)
 const dark = computed(() => scheme.value === 'dark')
 
+const isPaletteColor = computed(() =>
+  typeof props.color === 'string' && !isCssColor(props.color),
+)
+
 const seedColor = computed<string | undefined>(() => {
   const { color, text } = props
   if (typeof color === 'number')
@@ -85,10 +89,6 @@ const seedBorder = computed<string | undefined>(() => {
     return getHashColorFromString(text, 0.2, dark.value)
   return undefined
 })
-
-const isPaletteColor = computed(() =>
-  typeof props.color === 'string' && !isCssColor(props.color),
-)
 
 // Padding scales off whatever `font-size` is in effect on the badge itself —
 // inherited from context by default, or set directly (e.g. a `text-sm`

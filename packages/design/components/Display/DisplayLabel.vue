@@ -7,7 +7,7 @@ defineProps<{
   /** Display text. */
   text?: string
   /** Base hex/CSS color (wins over the default muted look). */
-  color?: string
+  color?: string | number | boolean
   /** The app's current color scheme. Falls back to context, then `'light'`. */
   colorScheme?: 'light' | 'dark'
 }>()
@@ -16,13 +16,12 @@ defineProps<{
 <template>
   <DisplayBadge
     :text="text"
-    :color="color || false"
+    :color="color"
     :color-scheme="colorScheme"
     rounded="full"
+    variant="subtle"
     :padding-x="0.65"
     :padding-y="0.15"
     class="text-xs"
-  >
-    <slot>{{ text }}</slot>
-  </DisplayBadge>
+  />
 </template>
