@@ -53,9 +53,7 @@ const atMax = computed(() => props.max != null && model.value != null && model.v
       aria-label="Decrement"
       @click="stepBy(-1)"
     >
-      <svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M5 12h14" />
-      </svg>
+      <span class="i-ph:minus" aria-hidden="true" />
     </button>
     <input
       :value="model"
@@ -77,9 +75,7 @@ const atMax = computed(() => props.max != null && model.value != null && model.v
       aria-label="Increment"
       @click="stepBy(1)"
     >
-      <svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M12 5v14M5 12h14" />
-      </svg>
+      <span class="i-ph:plus" aria-hidden="true" />
     </button>
   </div>
 </template>

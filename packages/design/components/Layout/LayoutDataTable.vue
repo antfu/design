@@ -106,17 +106,12 @@ function rowKeyOf(row: T, index: number): string | number {
               @click="toggleSort(col)"
             >
               <span class="truncate">{{ col.label ?? col.key }}</span>
-              <svg
-                viewBox="0 0 16 16"
-                width="12"
-                height="12"
-                aria-hidden="true"
-                class="shrink-0 transition"
+              <span
+                class="i-ph:caret-up-fill text-xs shrink-0 transition"
                 :class="sortBy === col.key ? 'color-active' : 'op-mute'"
                 :style="sortBy === col.key && sortDir === 'desc' ? 'transform: rotate(180deg)' : undefined"
-              >
-                <path fill="currentColor" d="M8 4l3.5 5h-7z" />
-              </svg>
+                aria-hidden="true"
+              />
             </button>
             <span v-else class="max-w-full inline-block truncate">{{ col.label ?? col.key }}</span>
           </slot>

@@ -9,6 +9,10 @@ still apply).
   by its category (`DisplayBadge`, `OverlayModal`, …), with a co-located
   `*.stories.ts`. Keep styling token-driven (no hard-coded colors) and reka-ui for
   overlay behavior.
+- Never inline `<svg>` markup for icons. Always use a UnoCSS icon class (`i-ph:*`,
+  the Phosphor set already installed via `presetIcons`) on a `<span class="i-ph:..." aria-hidden="true" />`.
+  Exception: purely data-driven/generative vector graphics (e.g. `DisplayDonut`'s
+  progress ring) aren't icons and stay inline `<svg>`.
 
 ## Keep the Storybook Overview up to date
 

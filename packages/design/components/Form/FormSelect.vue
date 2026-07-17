@@ -23,9 +23,7 @@ const model = defineModel<string>()
     >
       <SelectValue :placeholder="placeholder ?? 'Select…'" />
       <SelectIcon class="op-fade">
-        <svg width="1em" height="1em" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" d="m6 9l6 6l6-6" />
-        </svg>
+        <span class="i-ph:caret-down" aria-hidden="true" />
       </SelectIcon>
     </SelectTrigger>
     <SelectPortal>
@@ -43,9 +41,7 @@ const model = defineModel<string>()
             class="text-sm color-base py-1.5 pl-7 pr-2 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center relative data-[highlighted]:bg-active data-[disabled]:op50 data-[disabled]:pointer-events-none"
           >
             <SelectItemIndicator class="color-active inline-flex items-center left-1.5 absolute">
-              <svg width="0.85em" height="0.85em" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5" />
-              </svg>
+              <span class="i-ph:check-bold" aria-hidden="true" />
             </SelectItemIndicator>
             <SelectItemText>{{ opt.label ?? opt.value }}</SelectItemText>
           </SelectItem>

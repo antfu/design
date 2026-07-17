@@ -22,9 +22,7 @@ const root = 'outline-none border border-base rounded bg-base flex h-4 w-4 trans
   >
     <CheckboxRoot v-model="model" :disabled="disabled" :class="root">
       <CheckboxIndicator class="text-white">
-        <svg width="0.8em" height="0.8em" viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5" />
-        </svg>
+        <span class="i-ph:check-bold" aria-hidden="true" />
       </CheckboxIndicator>
     </CheckboxRoot>
     <span><slot>{{ label }}</slot></span>
@@ -32,9 +30,7 @@ const root = 'outline-none border border-base rounded bg-base flex h-4 w-4 trans
   <!-- Bare: caller supplies the label/layout. $attrs (id, aria-labelledby, class) land on the control. -->
   <CheckboxRoot v-else v-bind="$attrs" v-model="model" :disabled="disabled" :class="root">
     <CheckboxIndicator class="text-white">
-      <svg width="0.8em" height="0.8em" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5" />
-      </svg>
+      <span class="i-ph:check-bold" aria-hidden="true" />
     </CheckboxIndicator>
   </CheckboxRoot>
 </template>

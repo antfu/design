@@ -21,9 +21,7 @@ const model = defineModel<boolean>()
     @select="emit('select')"
   >
     <DropdownMenuItemIndicator class="color-active inline-flex items-center left-2 absolute">
-      <svg width="0.85em" height="0.85em" viewBox="0 0 24 24" aria-hidden="true">
-        <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5" />
-      </svg>
+      <span class="i-ph:check-bold" aria-hidden="true" />
     </DropdownMenuItemIndicator>
     <span class="flex-1"><slot /></span>
     <DisplayKbd v-if="shortcut" :keys="shortcut" class="op-fade" />
