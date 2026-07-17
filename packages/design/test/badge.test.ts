@@ -27,6 +27,13 @@ describe('badge', () => {
     expect(full.classes()).not.toContain('rounded-md')
   })
 
+  it('accepts a numeric rounded as an explicit em radius', () => {
+    const wrapper = mount(Badge, { props: { text: 'x', rounded: 0.75 } })
+    expect(wrapper.classes()).not.toContain('rounded-md')
+    expect(wrapper.classes()).not.toContain('rounded-full')
+    expect(wrapper.attributes('style')).toMatch(/border-radius:\s*0\.75em/)
+  })
+
   it('renders slot over text', () => {
     const wrapper = mount(Badge, { props: { text: 'x' }, slots: { default: 'slotted' } })
     expect(wrapper.text()).toBe('slotted')

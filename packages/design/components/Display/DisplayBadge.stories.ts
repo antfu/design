@@ -50,6 +50,7 @@ export const RoundedAndPadding: Story = {
     template: `<div class="flex flex-wrap items-center gap-2">
       <DisplayBadge text="md (default)" color="green" />
       <DisplayBadge text="full" color="green" rounded="full" />
+      <DisplayBadge text="0.75em" color="green" :rounded="0.75" />
       <DisplayBadge text="tight" color="green" rounded="full" :padding-x="0.65" :padding-y="0.15" />
       <DisplayBadge text="roomy" color="green" :padding-x="1" :padding-y="0.5" />
     </div>`,

@@ -26,8 +26,12 @@ const props = withDefaults(
      * back to {@link provideColorScheme} context, then `'light'`.
      */
     colorScheme?: 'light' | 'dark'
-    /** `md` = default token radius, `full` = pill-shaped. */
-    rounded?: 'md' | 'full'
+    /**
+     * - `'md'` (default): the token radius
+     * - `'full'`: pill-shaped
+     * - `number`: an explicit radius, in `em` (scales with font-size)
+     */
+    rounded?: 'md' | 'full' | number
     /** Horizontal padding, in `em` (scales with font-size). */
     paddingX?: number
     /** Vertical padding, in `em` (scales with font-size). */
@@ -89,9 +93,13 @@ const isPaletteColor = computed(() =>
 // Padding scales off whatever `font-size` is in effect on the badge itself —
 // inherited from context by default, or set directly (e.g. a `text-sm`
 // class) to resize the badge. No `size` prop: the font size *is* the size.
-// `paddingX`/`paddingY` override the ratio applied to that font-size.
+// `paddingX`/`paddingY` override the ratio applied to that font-size; a
+// numeric `rounded` does the same for the radius.
 const style = computed(() => {
-  const base = { padding: `${props.paddingY}em ${props.paddingX}em` }
+  const base = {
+    padding: `${props.paddingY}em ${props.paddingX}em`,
+    ...(typeof props.rounded === 'number' ? { borderRadius: `${props.rounded}em` } : {}),
+  }
   if (!seedColor.value)
     return base
   return props.variant === 'solid'
@@ -109,7 +117,9 @@ const paletteClass = computed(() =>
       : '',
 )
 
-const radiusClass = computed(() => (props.rounded === 'full' ? 'rounded-full' : 'rounded-md'))
+const radiusClass = computed(() =>
+  typeof props.rounded === 'number' ? '' : props.rounded === 'full' ? 'rounded-full' : 'rounded-md',
+)
 </script>
 
 <template>
