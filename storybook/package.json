@@ -1,7 +1,7 @@
 {
   "name": "@antfu/design-storybook",
   "type": "module",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "scripts": {
     "dev": "storybook dev -p 6006 --no-open",
