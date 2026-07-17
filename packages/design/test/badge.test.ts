@@ -3,10 +3,15 @@ import { describe, expect, it } from 'vitest'
 import Badge from '../components/Display/DisplayBadge.vue'
 
 describe('badge', () => {
-  it('renders text content + base class', () => {
+  it('renders text content + base layout classes', () => {
     const wrapper = mount(Badge, { props: { text: 'hello' } })
     expect(wrapper.text()).toBe('hello')
-    expect(wrapper.classes()).toContain('badge')
+    expect(wrapper.classes()).toContain('inline-flex')
+  })
+
+  it('pads relative to font-size, not a fixed size prop', () => {
+    const wrapper = mount(Badge, { props: { text: 'hello' } })
+    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.25em 0\.6em/)
   })
 
   it('renders slot over text', () => {
@@ -21,7 +26,7 @@ describe('badge', () => {
 
   it('falls back to muted when color is false', () => {
     const wrapper = mount(Badge, { props: { text: 'x', color: false } })
-    expect(wrapper.classes()).toContain('badge-muted')
+    expect(wrapper.classes()).toContain('color-muted')
   })
 
   it('applies an inline hash color style by default', () => {

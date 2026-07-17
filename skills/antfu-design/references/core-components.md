@@ -25,7 +25,7 @@ splitpanes — all themed through the shipped CSS overrides.
 
 | Component | Use it for |
 |---|---|
-| `DisplayBadge` | a status/type/tag chip — hash-colored from text, a palette name (`color="green"`), a hue, or muted. `colorScheme`, `variant`, `size`, `icon`. |
+| `DisplayBadge` | a status/type/tag chip — hash-colored from text, a palette name (`color="green"`), a hue, or muted. `colorScheme`, `variant`, `icon`; sized by its own `font-size` (padding is `em`-relative — no `size` prop). |
 | `DisplayNumber` / `DisplayNumberBadge` | formatted numbers (`Intl`), mono + tabular, `prefix`/`suffix`. |
 | `DisplayDuration` | ms → human, `colorize` by severity. |
 | `DisplayBytes` | humanized size, `colorize`, percent of `total`. |
