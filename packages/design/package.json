@@ -48,9 +48,9 @@
     "utils"
   ],
   "scripts": {
-    "docs:gen": "tsx scripts/gen-tokens.ts",
+    "docs:gen": "tsx scripts/gen-tokens.ts && node scripts/gen-components.mjs",
     "docs:overview": "node scripts/gen-overview.mjs",
-    "prepack": "node scripts/copy-skills.mjs",
+    "prepack": "pnpm run docs:gen && node scripts/copy-skills.mjs",
     "lint": "eslint",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run"

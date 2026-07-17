@@ -1,3 +1,4 @@
+<!-- @description a custom-scrollbar scroll container. -->
 <script setup lang="ts">
 import { ScrollAreaCorner, ScrollAreaRoot, ScrollAreaScrollbar, ScrollAreaThumb, ScrollAreaViewport } from 'reka-ui'
 

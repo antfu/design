@@ -1,3 +1,4 @@
+<!-- @description ms → human, `colorize` by severity. -->
 <script setup lang="ts">
 import type { DurationUnit, SeverityScale } from '../../utils/format'
 import { computed } from 'vue'

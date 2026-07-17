@@ -1,3 +1,4 @@
+<!-- @description a radio-button group bound with `v-model`. -->
 <script setup lang="ts">
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
 

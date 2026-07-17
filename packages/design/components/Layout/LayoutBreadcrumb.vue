@@ -1,3 +1,4 @@
+<!-- @description a linked path trail from `items`; the last crumb renders as plain text. -->
 <script setup lang="ts">
 export interface Crumb {
   label: string

@@ -1,3 +1,4 @@
+<!-- @description a single-line text input, `icon`, `invalid` state. -->
 <script setup lang="ts">
 withDefaults(
   defineProps<{

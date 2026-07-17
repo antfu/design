@@ -1,3 +1,4 @@
+<!-- @description renders a chord string (e.g. `mod+k`) as platform glyphs. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { bindingDisplay } from '../../utils/keybinding'

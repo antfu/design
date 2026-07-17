@@ -1,3 +1,4 @@
+<!-- @description collapsible sections from `items`; one entry = a single section, `multiple` for several open at once. -->
 <script setup lang="ts">
 import { AccordionContent, AccordionHeader, AccordionItem, AccordionRoot, AccordionTrigger } from 'reka-ui'
 

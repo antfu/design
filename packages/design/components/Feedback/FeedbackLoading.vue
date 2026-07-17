@@ -1,3 +1,4 @@
+<!-- @description a loading placeholder wrapping `FeedbackSpinner`. -->
 <script setup lang="ts">
 import FeedbackSpinner from './FeedbackSpinner.vue'
 

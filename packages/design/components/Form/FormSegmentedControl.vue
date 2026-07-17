@@ -1,3 +1,4 @@
+<!-- @description a single-select segmented control (reka-ui `RadioGroup`) over an `options` list, including a valid `null` segment. -->
 <script setup lang="ts">
 import { RadioGroupItem, RadioGroupRoot } from 'reka-ui'
 

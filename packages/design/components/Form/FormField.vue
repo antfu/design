@@ -1,3 +1,4 @@
+<!-- @description wraps a control with a `label`, `description`, and `error` (role="alert"), `required` marker. -->
 <script setup lang="ts">
 withDefaults(
   defineProps<{

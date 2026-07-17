@@ -1,3 +1,4 @@
+<!-- @description an empty/zero-state placeholder — icon, title, description, `#action` slot. -->
 <script setup lang="ts">
 defineProps<{
   title?: string

@@ -1,3 +1,4 @@
+<!-- @description scope colored by hash (`colorScheme`). -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorScheme } from '../../composables/colorScheme'

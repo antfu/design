@@ -1,3 +1,4 @@
+<!-- @description a `DisplayNumber` in a badge shell — a count pill. -->
 <script setup lang="ts">
 import DisplayBadge from './DisplayBadge.vue'
 import DisplayNumber from './DisplayNumber.vue'

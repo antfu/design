@@ -1,3 +1,4 @@
+<!-- @description a search input — icon + `DisplayKbd` shortcut hint + clear button. -->
 <script setup lang="ts">
 import DisplayKbd from '../Display/DisplayKbd.vue'
 import FormTextInput from './FormTextInput.vue'

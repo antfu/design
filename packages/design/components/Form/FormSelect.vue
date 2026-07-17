@@ -1,3 +1,4 @@
+<!-- @description a native-feeling select bound with `v-model`. -->
 <script setup lang="ts">
 import { SelectContent, SelectIcon, SelectItem, SelectItemIndicator, SelectItemText, SelectPortal, SelectRoot, SelectTrigger, SelectValue, SelectViewport } from 'reka-ui'
 

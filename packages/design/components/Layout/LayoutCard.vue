@@ -1,3 +1,4 @@
+<!-- @description a bordered content surface. -->
 <script setup lang="ts">
 withDefaults(
   defineProps<{

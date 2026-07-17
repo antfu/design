@@ -1,3 +1,4 @@
+<!-- @description a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). -->
 <script setup lang="ts">
 import { DropdownMenuItem } from 'reka-ui'
 import DisplayKbd from '../Display/DisplayKbd.vue'

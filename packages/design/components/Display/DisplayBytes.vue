@@ -1,3 +1,4 @@
+<!-- @description humanized size, `colorize`, percent of `total`. -->
 <script setup lang="ts">
 import type { SeverityScale } from '../../utils/format'
 import { computed } from 'vue'

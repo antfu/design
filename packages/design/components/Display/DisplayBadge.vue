@@ -1,3 +1,4 @@
+<!-- @description a status/type/tag chip — hash-colored from text, a palette name (`color="green"`), a hue, or muted. `colorScheme`, `variant`, `icon`, `rounded` (`md`/`full`/em number), `paddingX`/`paddingY`; sized by its own `font-size`. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorScheme } from '../../composables/colorScheme'

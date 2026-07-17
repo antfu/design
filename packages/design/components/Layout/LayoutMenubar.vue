@@ -1,3 +1,4 @@
+<!-- @description a desktop-style menu bar from a `menus` list of `MenubarMenuEntry`. -->
 <script setup lang="ts">
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarPortal, MenubarRoot, MenubarSeparator, MenubarTrigger } from 'reka-ui'
 import DisplayKbd from '../Display/DisplayKbd.vue'

@@ -1,3 +1,4 @@
+<!-- @description a shimmer placeholder block for loading content. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 

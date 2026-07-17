@@ -1,3 +1,4 @@
+<!-- @description a labeled stat — inline row or stacked, `mono` value, `#badge` adornment. -->
 <script setup lang="ts">
 withDefaults(
   defineProps<{

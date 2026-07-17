@@ -1,3 +1,4 @@
+<!-- @description formatted numbers (`Intl`), mono + tabular, `prefix`/`suffix`. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { formatNumber } from '../../utils/format'

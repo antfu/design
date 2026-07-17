@@ -1,3 +1,4 @@
+<!-- @description a fully-rounded `DisplayBadge` (tighter padding) for GitHub-style tags (`colorScheme`). -->
 <script setup lang="ts">
 // A pill-shaped `DisplayBadge`: same color logic, fully rounded, tighter
 // padding for a more label-like (GitHub-style) chip.

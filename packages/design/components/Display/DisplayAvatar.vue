@@ -1,3 +1,4 @@
+<!-- @description an image avatar that falls back to hash-colored initials from `name` when `src` is absent/fails. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorScheme } from '../../composables/colorScheme'

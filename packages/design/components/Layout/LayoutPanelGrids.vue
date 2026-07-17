@@ -1,3 +1,4 @@
+<!-- @description a `dots`/`grid` background pattern surface for empty states or canvases. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 

@@ -1,3 +1,4 @@
+<!-- @description nests a flat `items` list (via `getPath`) or pre-built `nodes` into an expandable file/folder-style tree, with `#leaf`/`#default` slot overrides. -->
 <script setup lang="ts" generic="T">
 import type { TreeNode } from '../../utils/tree'
 import { computed, ref } from 'vue'

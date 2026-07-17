@@ -1,3 +1,4 @@
+<!-- @description a right-click menu. -->
 <script setup lang="ts">
 import { ContextMenuContent, ContextMenuPortal, ContextMenuRoot, ContextMenuTrigger } from 'reka-ui'
 

@@ -1,3 +1,4 @@
+<!-- @description a progress ring. -->
 <script setup lang="ts">
 import { clamp } from '@antfu/utils'
 import { computed } from 'vue'

@@ -1,3 +1,4 @@
+<!-- @description underline/segment tabs, `count` chips. -->
 <script setup lang="ts">
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
 

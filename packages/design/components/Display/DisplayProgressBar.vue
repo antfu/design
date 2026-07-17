@@ -1,3 +1,4 @@
+<!-- @description a linear progress track — determinate (`value` 0–1) or indeterminate when omitted, `color`, `rounded`. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 

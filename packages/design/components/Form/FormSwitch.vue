@@ -1,3 +1,4 @@
+<!-- @description an on/off switch bound with `v-model`. -->
 <script setup lang="ts">
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
 

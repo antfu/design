@@ -1,3 +1,4 @@
+<!-- @description a presentational toast stack (`items`, `position`) — the app owns the list and ids via its own `useToast()`. -->
 <script lang="ts">
 export type ToastType = 'info' | 'success' | 'warning' | 'error'
 
