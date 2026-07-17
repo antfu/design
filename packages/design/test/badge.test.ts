@@ -11,7 +11,7 @@ describe('badge', () => {
 
   it('pads relative to font-size, not a fixed size prop', () => {
     const wrapper = mount(Badge, { props: { text: 'hello' } })
-    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.25em 0\.6em/)
+    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.25em 0\.5em/)
   })
 
   it('renders slot over text', () => {
