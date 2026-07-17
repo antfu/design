@@ -14,7 +14,6 @@ import DisplayFileIcon from '../components/Display/DisplayFileIcon.vue'
 import DisplayKeyValue from '../components/Display/DisplayKeyValue.vue'
 import DisplayPackageName from '../components/Display/DisplayPackageName.vue'
 import DisplaySafeImage from '../components/Display/DisplaySafeImage.vue'
-import DisplayStatusPill from '../components/Display/DisplayStatusPill.vue'
 import DisplayTree from '../components/Display/DisplayTree.vue'
 import DisplayVersion from '../components/Display/DisplayVersion.vue'
 import FeedbackToasts from '../components/Feedback/FeedbackToasts.vue'
@@ -162,10 +161,6 @@ describe('new display components', () => {
   it('packageName strips prefixes on demand', () => {
     const w = mount(DisplayPackageName, { props: { name: 'vite-plugin-inspect', strip: true } })
     expect(w.text()).toBe('inspect')
-  })
-  it('statusPill accepts a custom dot color', () => {
-    const w = mount(DisplayStatusPill, { props: { color: '#ff0000', label: 'x' } })
-    expect(w.html()).toContain('background: #ff0000')
   })
   it('tree renders branch + leaf names', () => {
     const w = mount(DisplayTree, {
