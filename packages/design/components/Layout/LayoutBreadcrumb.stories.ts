@@ -28,9 +28,7 @@ export const ChevronSeparator: Story = {
     },
     template: `<LayoutBreadcrumb v-bind="args">
       <template #separator>
-        <svg viewBox="0 0 16 16" width="12" height="12" aria-hidden="true">
-          <path fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" d="M6 3l5 5-5 5" />
-        </svg>
+        <span class="i-ph:caret-right text-xs" aria-hidden="true" />
       </template>
     </LayoutBreadcrumb>`,
   }),

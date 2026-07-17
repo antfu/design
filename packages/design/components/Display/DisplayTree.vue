@@ -60,14 +60,11 @@ function toggle(path: string): void {
         :aria-expanded="isOpen(node.path)"
         @click="toggle(node.path)"
       >
-        <svg
-          width="1em" height="1em" viewBox="0 0 24 24"
-          class="op-fade shrink-0 transition-transform"
+        <span
+          class="i-ph:caret-right op-fade shrink-0 transition-transform"
           :class="{ 'rotate-90': isOpen(node.path) }"
           aria-hidden="true"
-        >
-          <path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m9 6l6 6l-6 6" />
-        </svg>
+        />
         <span v-if="fileIcons" :class="getFolderIcon(node.name.split('/').pop(), isOpen(node.path))" class="op-fade shrink-0" aria-hidden="true" />
         <span class="truncate"><slot :node="node">{{ node.name }}</slot></span>
       </button>

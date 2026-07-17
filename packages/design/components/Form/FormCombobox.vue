@@ -35,12 +35,7 @@ function optionLabel(option: ComboboxOption) {
     <ComboboxAnchor
       class="text-sm px-2 border border-base rounded bg-base inline-flex gap-2 h-9 min-w-40 transition items-center data-[disabled]:op50 data-[disabled]:pointer-events-none focus-within:ring-2 focus-within:ring-primary-500/40"
     >
-      <svg width="1em" height="1em" viewBox="0 0 24 24" class="op-fade shrink-0" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m21 21l-4.3-4.3" />
-        </g>
-      </svg>
+      <span class="i-ph:magnifying-glass op-fade shrink-0" aria-hidden="true" />
       <ComboboxInput
         :placeholder="placeholder ?? 'Search…'"
         class="color-base outline-none bg-transparent flex-1 min-w-0 placeholder:op-mute"
@@ -66,9 +61,7 @@ function optionLabel(option: ComboboxOption) {
               <slot name="option" :option="opt">{{ optionLabel(opt) }}</slot>
             </span>
             <ComboboxItemIndicator class="color-active inline-flex shrink-0 items-center">
-              <svg width="0.85em" height="0.85em" viewBox="0 0 24 24" aria-hidden="true">
-                <path fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M20 6L9 17l-5-5" />
-              </svg>
+              <span class="i-ph:check-bold" aria-hidden="true" />
             </ComboboxItemIndicator>
           </ComboboxItem>
           <ComboboxEmpty class="text-sm px-2 py-1.5 text-center op-fade">

@@ -18,12 +18,7 @@ const model = defineModel<string>({ default: '' })
 <template>
   <FormTextInput v-model="model" :placeholder="placeholder" :size="size" clearable type="search">
     <template #prefix>
-      <svg width="1em" height="1em" viewBox="0 0 24 24" class="op-fade shrink-0" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <circle cx="11" cy="11" r="7" />
-          <path d="m21 21l-4.3-4.3" />
-        </g>
-      </svg>
+      <span class="i-ph:magnifying-glass op-fade shrink-0" aria-hidden="true" />
     </template>
     <template #suffix>
       <DisplayKbd v-if="shortcut && !model" :keys="shortcut" />
