@@ -45,6 +45,13 @@ export const Variants: Story = {
   }),
 }
 
+export const AsLink: Story = {
+  render: () => ({
+    components: { ActionButton },
+    template: `<ActionButton as="a" href="https://opencode.ai" target="_blank" rel="noopener noreferrer">Open docs</ActionButton>`,
+  }),
+}
+
 export const WithIconAndSizes: Story = {
   render: () => ({
     components: { ActionButton },

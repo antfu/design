@@ -34,6 +34,13 @@ export const Compact: Story = {
   args: { icon: 'i-ph:dots-three', tooltip: 'More', compact: true },
 }
 
+export const AsLink: Story = {
+  render: () => ({
+    components: { ActionIconButton },
+    template: `<ActionIconButton as="a" href="https://opencode.ai" target="_blank" rel="noopener noreferrer" icon="i-ph:arrow-square-out" label="Open docs" tooltip="Open docs" />`,
+  }),
+}
+
 export const Sizes: Story = {
   render: () => ({
     components: { ActionIconButton },

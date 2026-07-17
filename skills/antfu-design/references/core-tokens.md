@@ -18,7 +18,7 @@ never drift from what the shortcuts actually resolve to.
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#fdfdfd dark:bg-#101010` |
-| `bg-active` | `bg-#8881` |
+| `bg-active` | `bg-primary/10 dark:bg-primary/15` |
 | `bg-hover` | `bg-primary/5` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |

@@ -10,6 +10,7 @@ import EmptyState from '../components/Feedback/FeedbackEmptyState.vue'
 import Skeleton from '../components/Feedback/FeedbackSkeleton.vue'
 import Tip from '../components/Feedback/FeedbackTip.vue'
 import Checkbox from '../components/Form/FormCheckbox.vue'
+import SegmentedControl from '../components/Form/FormSegmentedControl.vue'
 import Accordion from '../components/Layout/LayoutAccordion.vue'
 import Separator from '../components/Layout/LayoutSeparator.vue'
 import Tabs from '../components/Layout/LayoutTabs.vue'
@@ -111,5 +112,13 @@ describe('new primitives', () => {
     const wrapper = mount(Accordion, { props: { items: [{ value: 'a', title: 'A' }, { value: 'b', title: 'B' }] } })
     expect(wrapper.text()).toContain('A')
     expect(wrapper.text()).toContain('B')
+  })
+  it('segmentedControl renders a radio per option and reflects the checked one, including a null value', () => {
+    const wrapper = mount(SegmentedControl, {
+      props: { modelValue: null, options: [{ value: null, label: 'Any' }, { value: 'true', label: 'Yes' }] },
+    })
+    const [any, yes] = wrapper.findAll('[role="radio"]')
+    expect(any?.attributes('aria-checked')).toBe('true')
+    expect(yes?.attributes('aria-checked')).toBe('false')
   })
 })
