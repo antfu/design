@@ -11,7 +11,20 @@ describe('badge', () => {
 
   it('pads relative to font-size, not a fixed size prop', () => {
     const wrapper = mount(Badge, { props: { text: 'hello' } })
-    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.25em 0\.6em/)
+    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.25em 0\.5em/)
+  })
+
+  it('overrides the padding ratio via paddingX/paddingY', () => {
+    const wrapper = mount(Badge, { props: { text: 'hello', paddingX: 0.65, paddingY: 0.15 } })
+    expect(wrapper.attributes('style')).toMatch(/padding:\s*0\.15em 0\.65em/)
+  })
+
+  it('defaults to a md radius, switches to full when rounded="full"', () => {
+    const md = mount(Badge, { props: { text: 'x' } })
+    expect(md.classes()).toContain('rounded-md')
+    const full = mount(Badge, { props: { text: 'x', rounded: 'full' } })
+    expect(full.classes()).toContain('rounded-full')
+    expect(full.classes()).not.toContain('rounded-md')
   })
 
   it('renders slot over text', () => {

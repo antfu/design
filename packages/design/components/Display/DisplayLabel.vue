@@ -18,8 +18,10 @@ defineProps<{
     :text="text"
     :color="color || false"
     :color-scheme="colorScheme"
-    class="text-xs rounded-full!"
-    style="padding: 0.15em 0.65em"
+    rounded="full"
+    :padding-x="0.65"
+    :padding-y="0.15"
+    class="text-xs"
   >
     <slot>{{ text }}</slot>
   </DisplayBadge>

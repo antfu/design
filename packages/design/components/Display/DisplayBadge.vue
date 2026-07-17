@@ -26,10 +26,19 @@ const props = withDefaults(
      * back to {@link provideColorScheme} context, then `'light'`.
      */
     colorScheme?: 'light' | 'dark'
+    /** `md` = default token radius, `full` = pill-shaped. */
+    rounded?: 'md' | 'full'
+    /** Horizontal padding, in `em` (scales with font-size). */
+    paddingX?: number
+    /** Vertical padding, in `em` (scales with font-size). */
+    paddingY?: number
   }>(),
   {
     color: true,
     variant: 'subtle',
+    rounded: 'md',
+    paddingX: 0.5,
+    paddingY: 0.25,
   },
 )
 
@@ -80,8 +89,9 @@ const isPaletteColor = computed(() =>
 // Padding scales off whatever `font-size` is in effect on the badge itself —
 // inherited from context by default, or set directly (e.g. a `text-sm`
 // class) to resize the badge. No `size` prop: the font size *is* the size.
+// `paddingX`/`paddingY` override the ratio applied to that font-size.
 const style = computed(() => {
-  const base = { padding: '0.25em 0.5em' }
+  const base = { padding: `${props.paddingY}em ${props.paddingX}em` }
   if (!seedColor.value)
     return base
   return props.variant === 'solid'
@@ -98,13 +108,15 @@ const paletteClass = computed(() =>
       ? 'bg-#8881 color-muted'
       : '',
 )
+
+const radiusClass = computed(() => (props.rounded === 'full' ? 'rounded-full' : 'rounded-md'))
 </script>
 
 <template>
   <component
     :is="as || 'span'"
-    class="leading-none font-medium rounded-md inline-flex gap-1 items-center"
-    :class="paletteClass"
+    class="leading-none font-medium inline-flex gap-1 items-center"
+    :class="[radiusClass, paletteClass]"
     :style="style"
   >
     <span v-if="icon" :class="icon" aria-hidden="true" />
