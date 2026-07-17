@@ -14,12 +14,6 @@ const props = defineProps<{
   open?: boolean
   /** Named-folder lookup for directories. */
   folderRules?: Record<string, string>
-  /**
-   * Invert the icon's luminance (keeping hue) so a set designed for dark
-   * backgrounds (e.g. catppuccin) stays legible on a light surface. The package
-   * is stateless, so drive this from your own scheme: `:invert="scheme === 'light'"`.
-   */
-  invert?: boolean
 }>()
 
 const type = computed(() => {
@@ -31,10 +25,16 @@ const type = computed(() => {
 })
 </script>
 
+<!--
+  `icon-catppuccin` (from the design preset) keeps a dark-tuned icon set
+  (e.g. catppuccin) legible on either surface — it inverts/rehues/dims the
+  icon under a light scheme and cancels back to native color under `.dark`,
+  so contrast tracks color mode with no JS-side scheme prop needed.
+-->
 <template>
   <span
+    class="icon-catppuccin"
     :class="type.icon"
-    :style="invert ? { filter: 'invert(1) hue-rotate(180deg)' } : undefined"
     :title="type.name"
     aria-hidden="true"
   />

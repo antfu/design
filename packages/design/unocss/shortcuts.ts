@@ -6,6 +6,10 @@ import type { DynamicShortcut, StaticShortcutMap } from '@unocss/core'
  * identically under Wind4, Wind3 and Mini — the `shared-shortcuts.ts` from
  * `@vitejs/devtools-ui` is the proven template this generalizes.
  *
+ * One exception: `icon-catppuccin` composes `filter`/`invert`/`hue-rotate`/
+ * `brightness` utilities, which only Wind3/Wind4 ship (Mini has no filter
+ * rules) — under Mini it's a harmless no-op rather than a hard error.
+ *
  * `db` is the configurable near-black for dark surfaces.
  */
 export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut)[] {
@@ -35,6 +39,14 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       // ── Opacity ───────────────────────────────────────────────────────
       'op-fade': 'op65 dark:op55',
       'op-mute': 'op30 dark:op25',
+
+      // ── Icons ─────────────────────────────────────────────────────────
+      // Catppuccin-style file/folder icon sets are tuned for a dark surface.
+      // On a light one they read washed-out, so invert + rehue + dim the
+      // filter chain there and cancel it back to native color under `dark:`
+      // (this preset's dark mode is `.dark`-class driven, never a `.light`
+      // counterpart — see `DisplayFileIcon`, which bakes this in by default).
+      'icon-catppuccin': 'invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100',
 
       // ── Buttons ───────────────────────────────────────────────────────
       'btn-action': 'border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-active transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
