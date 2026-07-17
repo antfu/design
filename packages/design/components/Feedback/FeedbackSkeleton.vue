@@ -32,13 +32,13 @@ const shape = computed(() => (props.variant === 'circle' ? 'rounded-full' : 'rou
     <span
       v-for="i in lines"
       :key="i"
-      class="rounded bg-active h-3.5 block animate-pulse"
+      class="bg-ambient rounded h-3.5 block animate-pulse"
       :class="{ 'w-3/5': i === lines && lines > 1 }"
     />
   </div>
   <span
     v-else
-    class="bg-active block animate-pulse"
+    class="bg-ambient block animate-pulse"
     :class="shape"
     :style="style"
     role="status"

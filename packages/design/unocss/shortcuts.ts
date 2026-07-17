@@ -28,6 +28,7 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       // `bg-hover` is *transient* pointer/keyboard feedback (`:hover`,
       // `data-[highlighted]`) — lighter, so the two never read the same.
       'bg-active': 'bg-primary/10 dark:bg-primary/15',
+      'bg-ambient': 'bg-#8885',
       'bg-hover': 'bg-#8882',
       'bg-code': 'bg-gray-500/5',
       'bg-tooltip': `bg-white/75 dark:bg-${db}/75 backdrop-blur-8`,

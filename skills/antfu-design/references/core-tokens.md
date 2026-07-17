@@ -19,6 +19,7 @@ never drift from what the shortcuts actually resolve to.
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#f6f6f6 dark:bg-#101010` |
 | `bg-active` | `bg-primary/10 dark:bg-primary/15` |
+| `bg-ambient` | `bg-#8885` |
 | `bg-hover` | `bg-#8882` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
