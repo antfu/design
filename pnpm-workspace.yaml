@@ -41,6 +41,7 @@ catalogs:
     '@vitejs/plugin-vue': ^6.0.7
     '@vueuse/core': ^14.3.0
     colorjs.io: ^0.6.1
+    dompurify: ^3.4.12
     floating-vue: ^5.2.2
     reka-ui: ^2.10.0
     splitpanes: ^4.1.2
