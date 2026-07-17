@@ -7,9 +7,8 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     variant: { control: 'inline-radio', options: ['subtle', 'solid'] },
-    size: { control: 'inline-radio', options: ['sm', 'md'] },
   },
-  args: { text: 'vite', variant: 'subtle', size: 'md' },
+  args: { text: 'vite', variant: 'subtle' },
 } satisfies Meta<typeof DisplayBadge>
 
 export default meta
@@ -20,6 +19,21 @@ export const Solid: Story = { args: { text: 'rolldown', variant: 'solid' } }
 export const Palette: Story = { args: { text: 'esm', color: 'green' } }
 export const Muted: Story = { args: { text: 'unknown', color: false } }
 export const WithIcon: Story = { args: { text: 'stable', icon: 'i-ph:seal-check', color: 'green' } }
+
+export const Sizes: Story = {
+  render: () => ({
+    components: { DisplayBadge },
+    template: `<div class="flex flex-wrap items-center gap-2">
+      <DisplayBadge text="micro" color="green" class="text-micro" />
+      <DisplayBadge text="mini" color="green" class="text-mini" />
+      <DisplayBadge text="compact" color="green" class="text-compact" />
+      <DisplayBadge text="xs" color="green" class="text-xs" />
+      <DisplayBadge text="sm" color="green" class="text-sm" />
+      <DisplayBadge text="base" color="green" class="text-base" />
+      <DisplayBadge text="lg" color="green" class="text-lg" />
+    </div>`,
+  }),
+}
 
 export const Gallery: Story = {
   render: () => ({
