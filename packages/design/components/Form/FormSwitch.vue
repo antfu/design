@@ -19,7 +19,7 @@ const model = defineModel<boolean>({ default: false })
       v-model="model"
       :disabled="disabled"
       :class="{ 'op-fade': disabled }"
-      class="bg-ambient outline-none rounded-full h-5 w-8.5 transition relative data-[state=checked]:bg-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40"
+      class="outline-none rounded-full bg-ambient h-5 w-8.5 transition relative data-[state=checked]:bg-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40"
     >
       <SwitchThumb
         class="rounded-full bg-white h-4 w-4 block shadow translate-x-0.5 transition-transform data-[state=checked]:translate-x-4"
