@@ -123,7 +123,7 @@ function rowKeyOf(row: T, index: number): string | number {
       <tr
         v-for="(row, i) in sortedRows"
         :key="rowKeyOf(row, i)"
-        class="border-b border-mute hover:bg-active"
+        class="border-b border-mute hover:bg-hover"
       >
         <td
           v-for="col in columns"

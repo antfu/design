@@ -20,7 +20,7 @@ const emit = defineEmits<{ select: [] }>()
 <template>
   <ContextMenuItem
     :disabled="disabled"
-    class="text-sm px-2 py-1.5 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center data-[highlighted]:bg-active data-[disabled]:op50 data-[disabled]:pointer-events-none"
+    class="text-sm px-2 py-1.5 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center data-[highlighted]:bg-hover data-[disabled]:op50 data-[disabled]:pointer-events-none"
     :class="variant === 'danger' ? 'text-red-600 dark:text-red-400 data-[highlighted]:bg-red-500/10' : 'color-base'"
     @select="emit('select')"
   >

@@ -33,7 +33,7 @@ const model = defineModel<string | string[]>()
     <AccordionItem v-for="item in items" :key="item.value" :value="item.value" :disabled="item.disabled">
       <AccordionHeader>
         <AccordionTrigger
-          class="group text-sm font-medium px-3 py-2 outline-none bg-base flex gap-2 w-full transition items-center hover:bg-active disabled:op50 focus-visible:ring-2 focus-visible:ring-primary-500/40"
+          class="group text-sm font-medium px-3 py-2 outline-none bg-base flex gap-2 w-full transition items-center hover:bg-hover disabled:op50 focus-visible:ring-2 focus-visible:ring-primary-500/40"
         >
           <span
             class="i-ph:caret-right op-fade transition-transform group-data-[state=open]:rotate-90"

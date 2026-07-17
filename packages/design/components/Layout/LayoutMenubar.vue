@@ -26,7 +26,7 @@ const emit = defineEmits<{ select: [menu: string, item: string] }>()
 <template>
   <MenubarRoot class="p-1 border border-base rounded-lg bg-base flex gap-1 w-max">
     <MenubarMenu v-for="menu in menus" :key="menu.value" :value="menu.value">
-      <MenubarTrigger class="text-sm px-2 py-1 outline-none rounded-md select-none data-[highlighted]:bg-active data-[state=open]:bg-active focus-visible:ring-2 focus-visible:ring-primary-500/40">
+      <MenubarTrigger class="text-sm px-2 py-1 outline-none rounded-md select-none data-[highlighted]:bg-hover data-[state=open]:bg-active focus-visible:ring-2 focus-visible:ring-primary-500/40">
         {{ menu.label }}
       </MenubarTrigger>
       <MenubarPortal>
@@ -40,7 +40,7 @@ const emit = defineEmits<{ select: [menu: string, item: string] }>()
             <MenubarSeparator v-if="item.separator" class="mx--1 my-1 border-t border-base" />
             <MenubarItem
               :disabled="item.disabled"
-              class="text-sm px-2 py-1.5 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center data-[highlighted]:bg-active data-[disabled]:op50 data-[disabled]:pointer-events-none"
+              class="text-sm px-2 py-1.5 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center data-[highlighted]:bg-hover data-[disabled]:op50 data-[disabled]:pointer-events-none"
               :class="item.variant === 'danger' ? 'text-red-600 dark:text-red-400 data-[highlighted]:bg-red-500/10' : 'color-base'"
               @select="emit('select', menu.value, item.value)"
             >

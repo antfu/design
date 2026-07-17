@@ -27,7 +27,7 @@ const model = defineModel<string | number | null>()
       :value="opt.value"
       :disabled="opt.disabled"
       :title="String(opt.label ?? opt.value)"
-      class="px-2 py-1 outline-none border-l border-base op-fade transition data-[state=checked]:color-active first:border-l-0 data-[state=checked]:bg-active hover:bg-active data-[state=checked]:op100 disabled:op-mute hover:op100 disabled:pointer-events-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
+      class="px-2 py-1 outline-none border-l border-base op-fade transition data-[state=checked]:color-active first:border-l-0 data-[state=checked]:bg-active hover:bg-hover data-[state=checked]:op100 disabled:op-mute hover:op100 disabled:pointer-events-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
       :class="[opt.class, opt.label ? '' : 'capitalize']"
     >
       {{ opt.label ?? opt.value }}

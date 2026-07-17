@@ -56,7 +56,7 @@ function optionLabel(option: ComboboxOption) {
             :value="opt.value"
             :text-value="optionLabel(opt)"
             :disabled="opt.disabled"
-            class="text-sm color-base px-2 py-1.5 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center data-[highlighted]:bg-active data-[disabled]:op50 data-[disabled]:pointer-events-none"
+            class="text-sm color-base px-2 py-1.5 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center data-[highlighted]:bg-hover data-[disabled]:op50 data-[disabled]:pointer-events-none"
           >
             <span class="flex-1">
               <slot name="option" :option="opt">{{ optionLabel(opt) }}</slot>

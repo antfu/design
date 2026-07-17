@@ -24,8 +24,11 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       // ── Surfaces ──────────────────────────────────────────────────────
       'bg-base': `bg-white dark:bg-${db}`,
       'bg-secondary': 'bg-#fdfdfd dark:bg-#101010',
+      // `bg-active` is a *persisted* state (selected/checked/open/current);
+      // `bg-hover` is *transient* pointer/keyboard feedback (`:hover`,
+      // `data-[highlighted]`) — lighter, so the two never read the same.
       'bg-active': 'bg-primary/10 dark:bg-primary/15',
-      'bg-hover': 'bg-primary/5',
+      'bg-hover': 'bg-primary/5 dark:bg-primary/8',
       'bg-code': 'bg-gray-500/5',
       'bg-tooltip': `bg-white/75 dark:bg-${db}/75 backdrop-blur-8`,
       'bg-gradient-more': `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-${db} dark:via-${db}/80 dark:to-${db}/0`,
@@ -49,14 +52,14 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
       'icon-catppuccin': 'invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100',
 
       // ── Buttons ───────────────────────────────────────────────────────
-      'btn-action': 'border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-active transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      'btn-action': 'border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-action-sm': 'btn-action text-sm',
       'btn-action-active': 'color-active border-active! bg-active op100!',
-      'btn-icon': 'w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
-      'btn-icon-compact': 'w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      'btn-icon': 'w-9 h-9 rounded-full op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      'btn-icon-compact': 'w-6 h-6 rounded op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       // Bordered, square counterpart to the round/borderless `btn-icon` — for
       // toolbar-style icon buttons that read as a distinct affordance.
-      'btn-icon-square': 'w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      'btn-icon-square': 'w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-primary': 'px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
 
       // ── Badges ────────────────────────────────────────────────────────

@@ -32,7 +32,7 @@ const model = defineModel<string>()
       :aria-current="item.value === model ? 'page' : undefined"
       class="text-sm px-2 py-1.5 text-left outline-none rounded-md flex gap-2 w-full transition items-center focus-visible:ring-2 focus-visible:ring-primary-500/40"
       :class="[
-        item.value === model ? 'bg-active color-active font-medium' : 'color-muted hover:bg-active hover:color-base',
+        item.value === model ? 'bg-active color-active font-medium' : 'color-muted hover:bg-hover hover:color-base',
         item.disabled ? 'op50 pointer-events-none' : '',
       ]"
       @click="!item.href && (model = item.value)"

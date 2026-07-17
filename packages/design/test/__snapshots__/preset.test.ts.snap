@@ -74,10 +74,10 @@ exports[`presetAnthonyDesign > generates the token fixture on Wind4 1`] = `
 .bg-secondary{background-color:color-mix(in oklab, #fdfdfd var(--un-bg-opacity), transparent);}
 .dark .bg-secondary{background-color:color-mix(in oklab, #101010 var(--un-bg-opacity), transparent);}
 .bg-tooltip{background-color:color-mix(in srgb, var(--colors-white) 75%, transparent);--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);}
-.btn-action:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 10%, transparent);opacity:100%;}
-.dark .btn-action:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 15%, transparent);}
-.btn-icon-square:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 10%, transparent);opacity:100%;}
-.dark .btn-icon-square:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 15%, transparent);}
+.btn-action:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 5%, transparent);opacity:100%;}
+.dark .btn-action:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 8%, transparent);}
+.btn-icon-square:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 5%, transparent);opacity:100%;}
+.dark .btn-icon-square:hover{background-color:color-mix(in srgb, var(--colors-primary-DEFAULT) 8%, transparent);}
 .btn-primary:hover{background-color:color-mix(in srgb, var(--colors-primary-600) var(--un-bg-opacity), transparent);}
 .dark .btn-icon-square,
 .dark .op-fade{opacity:55%;}
@@ -114,10 +114,10 @@ exports[`presetAnthonyDesign > generates the token fixture on Wind4 1`] = `
 .bg-glass{background-color:color-mix(in oklab, var(--colors-white) 50%, transparent);}
 .bg-glass\\:75{background-color:color-mix(in oklab, var(--colors-white) 75%, transparent);}
 .bg-tooltip{background-color:color-mix(in oklab, var(--colors-white) 75%, transparent);}
-.btn-action:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 10%, transparent);}
-.dark .btn-action:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 15%, transparent);}
-.btn-icon-square:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 10%, transparent);}
-.dark .btn-icon-square:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 15%, transparent);}
+.btn-action:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 5%, transparent);}
+.dark .btn-action:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 8%, transparent);}
+.btn-icon-square:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 5%, transparent);}
+.dark .btn-icon-square:hover{background-color:color-mix(in oklab, var(--colors-primary-DEFAULT) 8%, transparent);}
 .btn-primary:hover{background-color:color-mix(in oklab, var(--colors-primary-600) var(--un-bg-opacity), transparent);}
 .btn-action:focus-visible{--un-ring-color:color-mix(in oklab, var(--colors-primary-500) 40%, transparent);}
 .btn-icon-square:focus-visible{--un-ring-color:color-mix(in oklab, var(--colors-primary-500) 40%, transparent);}
@@ -162,10 +162,10 @@ exports[`presetAnthonyDesign > resolves the same semantic layer on Wind3 (base-a
 .bg-secondary{--un-bg-opacity:1;background-color:rgb(253 253 253 / var(--un-bg-opacity));}
 .dark .bg-secondary{--un-bg-opacity:1;background-color:rgb(16 16 16 / var(--un-bg-opacity));}
 .bg-tooltip{background-color:rgb(255 255 255 / 0.75);--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
-.btn-action:hover{background-color:rgb(73 131 62 / 0.1);opacity:1;}
-.dark .btn-action:hover{background-color:rgb(73 131 62 / 0.15);}
-.btn-icon-square:hover{background-color:rgb(73 131 62 / 0.1);opacity:1;}
-.dark .btn-icon-square:hover{background-color:rgb(73 131 62 / 0.15);}
+.btn-action:hover{background-color:rgb(73 131 62 / 0.05);opacity:1;}
+.dark .btn-action:hover{background-color:rgb(73 131 62 / 0.08);}
+.btn-icon-square:hover{background-color:rgb(73 131 62 / 0.05);opacity:1;}
+.dark .btn-icon-square:hover{background-color:rgb(73 131 62 / 0.08);}
 .btn-primary:hover{--un-bg-opacity:1;background-color:rgb(73 131 62 / var(--un-bg-opacity));}
 .pad-safe{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
 .text-micro{font-size:10px;line-height:1.4;}

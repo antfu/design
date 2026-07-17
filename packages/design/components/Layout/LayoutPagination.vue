@@ -30,7 +30,7 @@ const page = defineModel<number>('page', { default: 1 })
         <PaginationListItem
           v-if="item.type === 'page'"
           :value="item.value"
-          class="text-sm font-mono px2 rounded h-6 min-w-6 transition tabular-nums data-[selected]:btn-action-active hover:bg-active"
+          class="text-sm font-mono px2 rounded h-6 min-w-6 transition tabular-nums data-[selected]:btn-action-active hover:bg-hover"
         >
           {{ item.value }}
         </PaginationListItem>

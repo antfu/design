@@ -259,7 +259,7 @@ Full catalog with import paths: [core-components.md](../../skills/antfu-design/r
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#fdfdfd dark:bg-#101010` |
 | `bg-active` | `bg-primary/10 dark:bg-primary/15` |
-| `bg-hover` | `bg-primary/5` |
+| `bg-hover` | `bg-primary/5 dark:bg-primary/8` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
 | `bg-gradient-more` | `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-#111 dark:via-#111/80 dark:to-#111/0` |
@@ -270,12 +270,12 @@ Full catalog with import paths: [core-components.md](../../skills/antfu-design/r
 | `op-fade` | `op65 dark:op55` |
 | `op-mute` | `op30 dark:op25` |
 | `icon-catppuccin` | `invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100` |
-| `btn-action` | `border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-active transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-action` | `border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-action-sm` | `btn-action text-sm` |
 | `btn-action-active` | `color-active border-active! bg-active op100!` |
-| `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
-| `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
-| `btn-icon-square` | `w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-active transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-icon-square` | `w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |

@@ -17,7 +17,7 @@ const model = defineModel<boolean>()
   <DropdownMenuCheckboxItem
     v-model="model"
     :disabled="disabled"
-    class="text-sm color-base py-1.5 pl-7 pr-2 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center relative data-[highlighted]:bg-active data-[disabled]:op50 data-[disabled]:pointer-events-none"
+    class="text-sm color-base py-1.5 pl-7 pr-2 outline-none rounded-md flex gap-2 cursor-pointer select-none transition items-center relative data-[highlighted]:bg-hover data-[disabled]:op50 data-[disabled]:pointer-events-none"
     @select="emit('select')"
   >
     <DropdownMenuItemIndicator class="color-active inline-flex items-center left-2 absolute">
