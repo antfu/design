@@ -1,9 +1,9 @@
 <!-- @description relative time + exact-date tooltip, `colorize` by age, `live`. -->
 <script setup lang="ts">
 import type { SeverityScale } from '../../utils/format'
-import { useNow } from '@vueuse/core'
+import { useIntervalFn } from '@vueuse/core'
 import { vTooltip } from 'floating-vue'
-import { computed } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { formatDateTime, formatTimeAgo, getAgeColor } from '../../utils/format'
 
 const props = withDefaults(
@@ -15,15 +15,33 @@ const props = withDefaults(
     scale?: SeverityScale
     /** Update the relative label over time. */
     live?: boolean
+    /**
+     * Update interval for the relative label (in ms).
+     * @default 30_000
+    */
+    interval?: number
   }>(),
-  {},
+  { interval: 30_000 },
 )
 
-const now = useNow({ interval: 30_000 })
+const now = ref(Date.now())
+
+useIntervalFn(
+  () => {
+    if (props.live)
+      now.value = Date.now()
+  },
+  toRef(props, 'interval'),
+)
+watch(() => props.date, () => {
+  if (props.live)
+    now.value = Date.now()
+})
+
 const time = computed(() => new Date(props.date).getTime())
-const relative = computed(() => formatTimeAgo(time.value, props.live ? now.value.getTime() : Date.now()))
+const relative = computed(() => formatTimeAgo(time.value, props.live ? now.value : Date.now()))
 const exact = computed(() => formatDateTime(time.value))
-const colorClass = computed(() => (props.colorize ? getAgeColor(Math.abs(now.value.getTime() - time.value), props.scale) : ''))
+const colorClass = computed(() => (props.colorize ? getAgeColor(Math.abs(now.value - time.value), props.scale) : ''))
 </script>
 
 <template>
