@@ -54,6 +54,19 @@ describe('badge', () => {
     expect(wrapper.attributes('style')).toMatch(/hsla/)
   })
 
+  it('tints a literal hex color for the subtle background instead of using it opaque', () => {
+    const wrapper = mount(Badge, { props: { text: 'x', color: '#213234' } })
+    const style = wrapper.attributes('style')!
+    expect(style).toContain('color: #213234')
+    expect(style).not.toContain('background: #213234')
+    expect(style).toMatch(/background:\s*rgba\(\d+, \d+, \d+, 0\.12\)/)
+  })
+
+  it('keeps a literal hex color opaque for the solid variant', () => {
+    const wrapper = mount(Badge, { props: { text: 'x', color: '#213234', variant: 'solid' } })
+    expect(wrapper.attributes('style')).toContain('background: #213234')
+  })
+
   it('renders an icon element', () => {
     const wrapper = mount(Badge, { props: { text: 'x', icon: 'i-catppuccin:vue' } })
     expect(wrapper.find('.i-catppuccin\\:vue').exists()).toBe(true)

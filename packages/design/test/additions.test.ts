@@ -36,7 +36,7 @@ import OverlayTooltip from '../components/Overlay/OverlayTooltip.vue'
 
 import { provideColorScheme, useColorScheme } from '../composables/colorScheme'
 import { useToast } from '../composables/toast'
-import { darken, getPluginColor, lighten, stripPluginPrefix, toHex } from '../utils/color'
+import { darken, getPluginColor, lighten, stripPluginPrefix, toHex, withAlpha } from '../utils/color'
 import { formatDuration, formatNumber, getBytesColor, getDefaultLocale, setDefaultLocale } from '../utils/format'
 import { getFolderIcon } from '../utils/icon'
 import { relativeModulePath } from '../utils/path'
@@ -84,6 +84,9 @@ describe('utils additions — color', () => {
     expect(lighten('#336699')).toMatch(/^#[0-9a-f]{6}$/i)
     expect(darken('#336699')).toMatch(/^#[0-9a-f]{6}$/i)
     expect(lighten('#000000', 0.5)).not.toBe('#000000')
+  })
+  it('withAlpha uses the legacy comma rgba() syntax (cross-environment CSS parser support)', () => {
+    expect(withAlpha('#ff0000', 0.5)).toBe('rgba(255, 0, 0, 0.5)')
   })
 })
 

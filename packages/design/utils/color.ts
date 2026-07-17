@@ -313,17 +313,19 @@ export function mix(a: string, b: string, weight = 0.5): string {
 }
 
 /**
- * Set a color's alpha channel, returning an `rgb(...)`/`rgba(...)` string.
+ * Set a color's alpha channel, returning a legacy comma-syntax `rgba(...)`
+ * string — deliberately not colorjs.io's default space/slash `rgb(... / a)`
+ * syntax, which some CSS parsers (e.g. happy-dom, used in this repo's tests)
+ * don't recognize.
  *
  * @param input - The base color as any CSS color string.
  * @param alpha - The alpha channel, 0–1.
- * @returns The color with the given alpha, as a CSS string.
+ * @returns The color with the given alpha, as an `rgba(...)` string.
  *
  * @example
- * withAlpha('#336699', 0.5) // → 'rgb(51 102 153 / 0.5)'
+ * withAlpha('#336699', 0.5) // → 'rgba(51, 102, 153, 0.5)'
  */
 export function withAlpha(input: string, alpha: number): string {
-  const c = new Color(input).to('srgb')
-  c.alpha = alpha
-  return c.toString()
+  const [r, g, b] = new Color(input).to('srgb').coords.map(v => Math.round(Math.max(0, Math.min(1, v ?? 0)) * 255))
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`
 }

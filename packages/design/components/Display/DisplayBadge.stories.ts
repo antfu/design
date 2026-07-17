@@ -35,6 +35,16 @@ export const Sizes: Story = {
   }),
 }
 
+export const HexColored: Story = {
+  render: () => ({
+    components: { DisplayBadge },
+    template: `<div class="flex flex-wrap items-center gap-2">
+      <DisplayBadge text="hex subtle" color="#d73a4a" />
+      <DisplayBadge text="hex solid" color="#d73a4a" variant="solid" />
+    </div>`,
+  }),
+}
+
 export const Gallery: Story = {
   render: () => ({
     components: { DisplayBadge },

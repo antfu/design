@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useColorScheme } from '../../composables/colorScheme'
-import { getHashColorFromString, getHsla } from '../../utils/color'
+import { getHashColorFromString, getHsla, withAlpha } from '../../utils/color'
 
 const props = withDefaults(
   defineProps<{
@@ -73,7 +73,7 @@ const seedBg = computed<string | undefined>(() => {
   if (typeof color === 'number')
     return getHsla(color, props.variant === 'solid' ? 1 : 0.12, dark.value)
   if (typeof color === 'string' && isCssColor(color))
-    return color
+    return props.variant === 'solid' ? color : withAlpha(color, 0.12)
   if (color === true && text)
     return getHashColorFromString(text, props.variant === 'solid' ? 1 : 0.12, dark.value)
   return undefined
@@ -84,7 +84,7 @@ const seedBorder = computed<string | undefined>(() => {
   if (typeof color === 'number')
     return getHsla(color, 0.2, dark.value)
   if (typeof color === 'string' && isCssColor(color))
-    return color
+    return props.variant === 'solid' ? color : withAlpha(color, 0.2)
   if (color === true && text)
     return getHashColorFromString(text, 0.2, dark.value)
   return undefined
