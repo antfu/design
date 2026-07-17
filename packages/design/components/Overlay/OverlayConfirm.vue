@@ -1,3 +1,4 @@
+<!-- @description an AlertDialog for a confirm/cancel decision, `variant="danger"` for destructive actions. -->
 <script setup lang="ts">
 import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogOverlay, AlertDialogPortal, AlertDialogRoot, AlertDialogTitle, AlertDialogTrigger } from 'reka-ui'
 

@@ -1,3 +1,4 @@
+<!-- @description a trigger-anchored dropdown menu. -->
 <script setup lang="ts">
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui'
 

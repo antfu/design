@@ -1,3 +1,4 @@
+<!-- @description relative time + exact-date tooltip, `colorize` by age, `live`. -->
 <script setup lang="ts">
 import type { SeverityScale } from '../../utils/format'
 import { useNow } from '@vueuse/core'

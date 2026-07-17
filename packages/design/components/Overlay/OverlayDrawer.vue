@@ -1,3 +1,4 @@
+<!-- @description a slide-in panel from any `side` (left/right/top/bottom). -->
 <script setup lang="ts">
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui'
 

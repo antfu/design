@@ -1,3 +1,4 @@
+<!-- @description a vertical nav list from `items`, active-item highlighting via `v-model`. -->
 <script setup lang="ts">
 export interface NavItem {
   value: string

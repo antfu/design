@@ -1,3 +1,4 @@
+<!-- @description a numeric input with `min`/`max`/`step` clamping and optional −/+ stepper `controls`. -->
 <script setup lang="ts">
 import { clamp } from '@antfu/utils'
 import { computed } from 'vue'

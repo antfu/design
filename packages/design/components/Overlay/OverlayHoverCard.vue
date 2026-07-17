@@ -1,3 +1,4 @@
+<!-- @description a hover-triggered popover with configurable `openDelay`/`closeDelay`. -->
 <script setup lang="ts">
 import { HoverCardContent, HoverCardPortal, HoverCardRoot, HoverCardTrigger } from 'reka-ui'
 

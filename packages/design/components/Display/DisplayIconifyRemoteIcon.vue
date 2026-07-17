@@ -1,3 +1,4 @@
+<!-- @description renders an Iconify icon by name without a bundled icon set, fetching from the Iconify API. -->
 <script setup lang="ts">
 import { computed, ref, watchEffect } from 'vue'
 import { getIconifySvg } from '../../utils/iconify'

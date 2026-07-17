@@ -1,3 +1,4 @@
+<!-- @description ext/path → icon via a configurable rule list (`rules`, `folderRules`), with an `invert` escape hatch for dark icon sets on light surfaces. -->
 <script setup lang="ts">
 import type { FileIconRule } from '../../utils/icon'
 import { computed } from 'vue'

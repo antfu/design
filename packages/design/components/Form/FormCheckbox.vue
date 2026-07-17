@@ -1,3 +1,4 @@
+<!-- @description a checkbox control bound with `v-model`. -->
 <script setup lang="ts">
 import { CheckboxIndicator, CheckboxRoot } from 'reka-ui'
 

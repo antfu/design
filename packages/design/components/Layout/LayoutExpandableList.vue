@@ -1,3 +1,4 @@
+<!-- @description "show N more" truncation for a list. -->
 <script setup lang="ts" generic="T">
 import { computed, ref } from 'vue'
 

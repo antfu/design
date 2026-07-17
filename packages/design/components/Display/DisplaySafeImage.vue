@@ -1,3 +1,4 @@
+<!-- @description an `<img>` that swaps to the `#fallback` slot on a missing/failed `src`, with an optional `preload` to avoid a flash. -->
 <script setup lang="ts">
 import { ref, watch } from 'vue'
 

@@ -1,3 +1,4 @@
+<!-- @description page-number navigation. -->
 <script setup lang="ts">
 import { PaginationEllipsis, PaginationList, PaginationListItem, PaginationNext, PaginationPrev, PaginationRoot } from 'reka-ui'
 

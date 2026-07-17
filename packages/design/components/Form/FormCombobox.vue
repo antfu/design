@@ -1,3 +1,4 @@
+<!-- @description a searchable, filterable select (reka-ui `Combobox`) over an `options` list. -->
 <script setup lang="ts">
 import { ComboboxAnchor, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxItemIndicator, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui'
 

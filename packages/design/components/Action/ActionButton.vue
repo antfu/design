@@ -1,3 +1,4 @@
+<!-- @description actions. `variant` action/primary/text, polymorphic `href`/`as`, `icon`, `loading`. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 import FeedbackSpinner from '../Feedback/FeedbackSpinner.vue'

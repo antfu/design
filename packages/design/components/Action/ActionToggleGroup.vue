@@ -1,3 +1,4 @@
+<!-- @description a segmented set of toggles from `options`, single- or multi-select (`multiple`), optionally icon-only. -->
 <script setup lang="ts">
 import { ToggleGroupItem, ToggleGroupRoot } from 'reka-ui'
 

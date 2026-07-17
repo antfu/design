@@ -1,3 +1,4 @@
+<!-- @description a sortable, generic data table from `columns` + `rows`, optional `stickyHeader`. -->
 <script setup lang="ts" generic="T">
 import { computed } from 'vue'
 

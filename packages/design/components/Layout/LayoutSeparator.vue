@@ -1,3 +1,4 @@
+<!-- @description a horizontal/vertical divider, optionally with a centered `label`. -->
 <script setup lang="ts">
 import { Separator } from 'reka-ui'
 

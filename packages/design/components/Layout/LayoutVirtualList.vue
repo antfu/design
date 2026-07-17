@@ -1,3 +1,4 @@
+<!-- @description a virtualized list (`@tanstack/vue-virtual`) for large collections. -->
 <script setup lang="ts" generic="T">
 import { useVirtualizer, useWindowVirtualizer } from '@tanstack/vue-virtual'
 import { computed, onMounted, ref } from 'vue'

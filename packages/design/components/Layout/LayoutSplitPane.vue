@@ -1,3 +1,4 @@
+<!-- @description resizable split panes (wraps `splitpanes`). -->
 <script setup lang="ts">
 import type { SplitpanesResizedPayload } from 'splitpanes'
 import { useLocalStorage } from '@vueuse/core'

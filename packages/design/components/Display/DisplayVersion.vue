@@ -1,3 +1,4 @@
+<!-- @description `vX.Y.Z` prefix logic; passes specs/ranges (`workspace:*`, `^1.2`) through untouched. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 

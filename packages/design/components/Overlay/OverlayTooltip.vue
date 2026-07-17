@@ -1,3 +1,4 @@
+<!-- @description a floating-vue tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. -->
 <script setup lang="ts">
 import { Tooltip as VTooltip } from 'floating-vue'
 import { computed } from 'vue'

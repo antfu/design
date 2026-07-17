@@ -1,3 +1,4 @@
+<!-- @description a round icon-only button with a `tooltip`, `active` state, `#badge`. Compose with VueUse's `useDark` for a dark toggle. -->
 <script setup lang="ts">
 import { vTooltip } from 'floating-vue'
 import { computed } from 'vue'

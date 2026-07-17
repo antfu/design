@@ -1,3 +1,4 @@
+<!-- @description a multi-line text input, `rows`, `invalid` state, `resize` toggle. -->
 <script setup lang="ts">
 withDefaults(
   defineProps<{

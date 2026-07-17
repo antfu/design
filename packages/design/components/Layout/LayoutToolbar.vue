@@ -1,3 +1,4 @@
+<!-- @description a sticky, glass-surfaced action bar with `#start`/`#search`/`#end` slots. -->
 <script setup lang="ts">
 withDefaults(
   defineProps<{

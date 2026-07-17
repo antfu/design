@@ -1,3 +1,4 @@
+<!-- @description a spinner glyph. -->
 <script setup lang="ts">
 import { computed } from 'vue'
 

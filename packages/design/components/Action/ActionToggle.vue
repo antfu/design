@@ -1,3 +1,4 @@
+<!-- @description a single pressed/unpressed toggle button (`icon`, `label`). -->
 <script setup lang="ts">
 import { Toggle } from 'reka-ui'
 

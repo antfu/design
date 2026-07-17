@@ -1,3 +1,4 @@
+<!-- @description truncates, dims directories, decodes `.pnpm`, icon, link. -->
 <script setup lang="ts">
 import { vTooltip } from 'floating-vue'
 import { computed } from 'vue'
