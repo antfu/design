@@ -62,20 +62,37 @@ const seedBg = computed<string | undefined>(() => {
   return undefined
 })
 
+const seedBorder = computed<string | undefined>(() => {
+  const { color, text } = props
+  if (typeof color === 'number')
+    return getHsla(color, 0.2, dark.value)
+  if (typeof color === 'string' && isCssColor(color))
+    return color
+  if (color === true && text)
+    return getHashColorFromString(text, 0.2, dark.value)
+  return undefined
+})
+
+const isPaletteColor = computed(() =>
+  typeof props.color === 'string' && !isCssColor(props.color),
+)
+
 // Padding scales off whatever `font-size` is in effect on the badge itself —
 // inherited from context by default, or set directly (e.g. a `text-sm`
 // class) to resize the badge. No `size` prop: the font size *is* the size.
 const style = computed(() => {
-  const base = { padding: '0.25em 0.6em' }
+  const base = { padding: '0.25em 0.5em' }
   if (!seedColor.value)
     return base
   return props.variant === 'solid'
-    ? { ...base, color: '#fff', background: seedBg.value }
-    : { ...base, color: seedColor.value, background: seedBg.value }
+    ? { ...base, color: '#fff', background: seedBg.value, border: `1px solid ${seedBg.value}` }
+    : !isPaletteColor.value
+        ? { ...base, color: seedColor.value, background: seedBg.value, border: `1px solid ${seedBorder.value}` }
+        : { ...base, color: seedColor.value, background: seedBg.value }
 })
 
 const paletteClass = computed(() =>
-  typeof props.color === 'string' && !isCssColor(props.color)
+  isPaletteColor.value
     ? `badge-color-${props.color}`
     : props.color === false
       ? 'bg-#8881 color-muted'
