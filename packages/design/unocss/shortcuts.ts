@@ -19,7 +19,7 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
 
       // ── Surfaces ──────────────────────────────────────────────────────
       'bg-base': `bg-white dark:bg-${db}`,
-      'bg-secondary': 'bg-#f5f5f5 dark:bg-#1a1a1a',
+      'bg-secondary': 'bg-#fdfdfd dark:bg-#101010',
       'bg-active': 'bg-#8881',
       'bg-hover': 'bg-primary/5',
       'bg-code': 'bg-gray-500/5',
