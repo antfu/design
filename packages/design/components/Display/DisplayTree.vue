@@ -57,7 +57,7 @@ function toggle(path: string): void {
       <button
         v-if="node.children.length"
         type="button"
-        class="px-1 py-0.5 text-left outline-none rounded flex gap-1 w-full transition items-center hover:bg-active focus-visible:ring-2 focus-visible:ring-primary-500/40"
+        class="px-1 py-0.5 text-left outline-none rounded flex gap-1 w-full transition items-center hover:bg-hover focus-visible:ring-2 focus-visible:ring-primary-500/40"
         :aria-expanded="isOpen(node.path)"
         @click="toggle(node.path)"
       >
@@ -70,7 +70,7 @@ function toggle(path: string): void {
         <span class="truncate"><slot :node="node">{{ node.name }}</slot></span>
       </button>
 
-      <div v-else class="px-1 py-0.5 pl-5 rounded flex gap-1 items-center hover:bg-active">
+      <div v-else class="px-1 py-0.5 pl-5 rounded flex gap-1 items-center hover:bg-hover">
         <span v-if="fileIcons" :class="getFileIcon(node.path)" class="op-fade shrink-0" aria-hidden="true" />
         <span class="truncate">
           <slot name="leaf" :node="node">
