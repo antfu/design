@@ -23,12 +23,12 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
 
       // ── Surfaces ──────────────────────────────────────────────────────
       'bg-base': `bg-white dark:bg-${db}`,
-      'bg-secondary': 'bg-#fdfdfd dark:bg-#101010',
+      'bg-secondary': 'bg-#f6f6f6 dark:bg-#101010',
       // `bg-active` is a *persisted* state (selected/checked/open/current);
       // `bg-hover` is *transient* pointer/keyboard feedback (`:hover`,
       // `data-[highlighted]`) — lighter, so the two never read the same.
       'bg-active': 'bg-primary/10 dark:bg-primary/15',
-      'bg-hover': 'bg-primary/5 dark:bg-primary/8',
+      'bg-hover': 'bg-#8882',
       'bg-code': 'bg-gray-500/5',
       'bg-tooltip': `bg-white/75 dark:bg-${db}/75 backdrop-blur-8`,
       'bg-gradient-more': `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-${db} dark:via-${db}/80 dark:to-${db}/0`,
