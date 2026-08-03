@@ -24,7 +24,7 @@ export const Default: Story = {
       <OverlayModal v-model:open="open" title="Confirm action" description="This cannot be undone.">
         <p class="text-sm color-muted">Modal body content goes here.</p>
         <template #footer>
-          <ActionButton variant="text" @click="open = false">Cancel</ActionButton>
+          <ActionButton @click="open = false">Cancel</ActionButton>
           <ActionButton variant="primary" @click="open = false">Confirm</ActionButton>
         </template>
       </OverlayModal>

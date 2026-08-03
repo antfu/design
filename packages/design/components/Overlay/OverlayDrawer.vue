@@ -26,7 +26,7 @@ const SIDE_CLASS = {
       <slot name="trigger" />
     </DialogTrigger>
     <DialogPortal>
-      <DialogOverlay class="bg-black/40 inset-0 fixed z-drawer-backdrop backdrop-blur-sm" data-af-animate />
+      <DialogOverlay class="bg-[#ddd]/40 inset-0 fixed z-drawer-backdrop backdrop-blur-sm dark:bg-black/40" data-af-animate />
       <DialogContent
         class="outline-none border-base bg-base flex flex-col shadow-2xl fixed z-drawer-content"
         :class="SIDE_CLASS[side]"

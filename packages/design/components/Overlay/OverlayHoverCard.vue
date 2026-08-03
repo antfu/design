@@ -23,7 +23,7 @@ withDefaults(
         :side="placement"
         :align="align"
         :side-offset="6"
-        class="text-sm p-3 outline-none border border-base rounded-lg bg-base max-w-xs shadow-lg z-dropdown"
+        class="text-sm p-3 outline-none border border-base rounded-lg bg-glass:75 max-w-xs shadow-lg z-dropdown"
         data-af-animate
       >
         <slot />

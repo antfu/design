@@ -22,7 +22,9 @@
   animation: af-fade-out 0.15s ease both;
 }
 
-/* Modal content: fade + scale, keeping the translate(-50%, -50%) centering. */
+/* Modal content: fade + scale. Centering is the wrapper's flexbox job, so the
+ * keyframes stay pure scale — no translate to keep in sync (and nothing that
+ * can double up with a `translate`-property utility). */
 [data-af-modal][data-state='open'] {
   animation: af-modal-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -65,21 +67,21 @@
 @keyframes af-modal-in {
   from {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.96);
+    transform: scale(0.96);
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
 }
 @keyframes af-modal-out {
   from {
     opacity: 1;
-    transform: translate(-50%, -50%) scale(1);
+    transform: scale(1);
   }
   to {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(0.96);
+    transform: scale(0.96);
   }
 }
 @keyframes af-slide-right {

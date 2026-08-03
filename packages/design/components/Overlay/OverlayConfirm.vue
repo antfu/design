@@ -24,30 +24,33 @@ const open = defineModel<boolean>('open')
       <slot name="trigger" />
     </AlertDialogTrigger>
     <AlertDialogPortal>
-      <AlertDialogOverlay class="bg-black/40 inset-0 fixed z-modal-backdrop backdrop-blur-sm" data-af-animate />
-      <AlertDialogContent
-        class="p-4 outline-none border border-base rounded-xl bg-base max-w-sm w-[90vw] shadow-2xl left-1/2 top-1/2 fixed z-modal-content -translate-x-1/2 -translate-y-1/2"
-        data-af-modal
-      >
-        <AlertDialogTitle v-if="title" class="color-base font-medium">
-          {{ title }}
-        </AlertDialogTitle>
-        <AlertDialogDescription v-if="description" class="text-sm mt-1 op-fade">
-          {{ description }}
-        </AlertDialogDescription>
-        <div class="mt-4 flex gap-2 justify-end">
-          <AlertDialogCancel class="btn-action" @click="emit('cancel')">
-            {{ cancelLabel }}
-          </AlertDialogCancel>
-          <AlertDialogAction
-            class="btn-primary"
-            :class="variant === 'danger' ? 'bg-red-500! hover:bg-red-600!' : ''"
-            @click="emit('confirm')"
-          >
-            {{ confirmLabel }}
-          </AlertDialogAction>
-        </div>
-      </AlertDialogContent>
+      <AlertDialogOverlay class="bg-[#ddd]/40 inset-0 fixed z-modal-backdrop backdrop-blur-sm dark:bg-black/40" data-af-animate />
+      <!-- Centered by the wrapper, whose padding is also the minimum margin — see OverlayModal. -->
+      <div class="p-4 flex pointer-events-none items-center inset-0 justify-center fixed z-modal-content sm:p-6">
+        <AlertDialogContent
+          class="p-4 outline-none border border-base rounded-xl bg-base max-h-full max-w-sm w-full pointer-events-auto shadow-2xl overflow-auto"
+          data-af-modal
+        >
+          <AlertDialogTitle v-if="title" class="color-base font-medium">
+            {{ title }}
+          </AlertDialogTitle>
+          <AlertDialogDescription v-if="description" class="text-sm mt-1 op-fade">
+            {{ description }}
+          </AlertDialogDescription>
+          <div class="mt-4 flex gap-2 justify-end">
+            <AlertDialogCancel class="btn-action" @click="emit('cancel')">
+              {{ cancelLabel }}
+            </AlertDialogCancel>
+            <AlertDialogAction
+              class="btn-primary"
+              :class="variant === 'danger' ? 'bg-red-500! hover:bg-red-600!' : ''"
+              @click="emit('confirm')"
+            >
+              {{ confirmLabel }}
+            </AlertDialogAction>
+          </div>
+        </AlertDialogContent>
+      </div>
     </AlertDialogPortal>
   </AlertDialogRoot>
 </template>
