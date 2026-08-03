@@ -10,10 +10,16 @@
   color-scheme: light;
 }
 
-html.dark {
+html.dark .dark {
   color-scheme: dark;
+  --uno: 'color-base-dark';
 }
 
-html {
-  --at-apply: 'bg-base color-base';
+html.light .light {
+  color-scheme: light;
+  --uno: 'color-base-light';
+}
+
+html, body {
+  --uno: 'bg-base color-base';
 }

@@ -53,10 +53,10 @@ export default defineConfig({
 
 > **`@unocss/transformer-directives` is required**, not optional: the design
 > system's own CSS (`base.css`, `floating-vue.css`, `splitpanes.css`) styles
-> surfaces with token directives like `--at-apply: 'bg-base color-base'` instead of
+> surfaces with token directives like `--uno: 'bg-base color-base'` instead of
 > hand-duplicated hex values. Without the transformer those rules are dropped and
 > overlays/surfaces lose their theming. It also lets *you* reuse the tokens in your
-> own CSS (`.panel { --at-apply: 'bg-base border border-base'; }`).
+> own CSS (`.panel { --uno: 'bg-base border border-base'; }`).
 
 ## Recommended: the UnoCSS ESLint plugin
 

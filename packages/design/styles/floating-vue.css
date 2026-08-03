@@ -6,20 +6,20 @@
  */
 
 .v-popper__popper .v-popper__inner {
-  --at-apply: 'bg-tooltip color-base border border-base rounded-md text-xs px-2 py-1';
+  --uno: 'bg-tooltip color-base border border-base rounded-md text-xs px-2 py-1';
   box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 .v-popper__popper .v-popper__arrow-outer {
-  --at-apply: 'border-base';
+  --uno: 'border-base';
 }
 
 .v-popper__popper .v-popper__arrow-inner {
   /* Matches the `bg-tooltip` fill so the arrow reads as part of the surface. */
-  --at-apply: 'border-white/75 dark:border-[#111]/75';
+  --uno: 'border-white/75 dark:border-[#111]/75';
   visibility: visible;
 }
 
 .v-popper--theme-dropdown .v-popper__inner {
-  --at-apply: 'p-1';
+  --uno: 'p-1';
 }

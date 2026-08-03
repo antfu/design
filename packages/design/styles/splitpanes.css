@@ -38,11 +38,11 @@
 .splitpanes__splitter {
   position: relative;
   touch-action: none;
-  --at-apply: 'bg-#8882';
+  --uno: 'bg-#8882';
   transition: background-color 0.2s;
 }
 .splitpanes__splitter:hover {
-  --at-apply: 'bg-#8886';
+  --uno: 'bg-#8886';
 }
 .splitpanes--vertical > .splitpanes__splitter {
   min-width: 1px;

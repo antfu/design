@@ -16,7 +16,9 @@ export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut
   return [
     {
       // ── Text ──────────────────────────────────────────────────────────
-      'color-base': 'color-neutral-800 dark:color-neutral-200',
+      'color-base': 'color-base-light dark:color-base-dark',
+      'color-base-light': 'color-neutral-800',
+      'color-base-dark': 'color-neutral-200',
       'color-muted': 'color-neutral-600 dark:color-neutral-400',
       'color-faint': 'color-neutral-500 dark:color-neutral-500',
       'color-active': 'color-primary-600 dark:color-primary-300',
