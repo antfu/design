@@ -9,6 +9,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     side: { control: 'inline-radio', options: ['left', 'right', 'top', 'bottom'] },
+    width: { control: 'text' },
   },
   args: { title: 'Filters', side: 'right' },
 } satisfies Meta<typeof OverlayDrawer>
@@ -41,6 +42,21 @@ export const LeftSide: Story = {
       <ActionButton @click="open = true">Open left drawer</ActionButton>
       <OverlayDrawer v-model:open="open" title="Navigation" side="left">
         <p class="text-sm color-muted">Slides in from the left.</p>
+      </OverlayDrawer>
+    </div>`,
+  }),
+}
+
+export const CustomWidth: Story = {
+  render: () => ({
+    components: { OverlayDrawer, ActionButton },
+    setup() {
+      return { open: ref(false) }
+    },
+    template: `<div>
+      <ActionButton @click="open = true">Open wide drawer</ActionButton>
+      <OverlayDrawer v-model:open="open" title="Details" width="32rem">
+        <p class="text-sm color-muted">Any CSS length works; numbers are px.</p>
       </OverlayDrawer>
     </div>`,
   }),

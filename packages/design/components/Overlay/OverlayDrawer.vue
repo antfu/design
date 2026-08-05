@@ -1,11 +1,19 @@
-<!-- @description a slide-in panel from any `side` (left/right/top/bottom). -->
+<!-- @description a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. -->
 <script setup lang="ts">
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui'
+import { computed } from 'vue'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     title?: string
     side?: 'left' | 'right' | 'top' | 'bottom'
+    /**
+     * Panel width, overriding the default `w-80`. A number is treated as px;
+     * a string is used verbatim (`'32rem'`, `'50vw'`, …). The `max-w-[90vw]`
+     * cap still applies. No-op for the `top`/`bottom` sides, which span the
+     * full viewport width.
+     */
+    width?: string | number
   }>(),
   { side: 'right' },
 )
@@ -18,6 +26,13 @@ const SIDE_CLASS = {
   top: 'top-0 inset-x-0 h-1/3 border-b',
   bottom: 'bottom-0 inset-x-0 h-1/3 border-t',
 } as const
+
+// Inline style rather than a class so any CSS length works; it wins over `w-80`.
+const style = computed(() => {
+  if (props.width == null || props.side === 'top' || props.side === 'bottom')
+    return undefined
+  return { width: typeof props.width === 'number' ? `${props.width}px` : props.width }
+})
 </script>
 
 <template>
@@ -30,6 +45,7 @@ const SIDE_CLASS = {
       <DialogContent
         class="outline-none border-base bg-base flex flex-col shadow-2xl fixed z-drawer-content"
         :class="SIDE_CLASS[side]"
+        :style="style"
         data-af-drawer
         :data-side="side"
       >

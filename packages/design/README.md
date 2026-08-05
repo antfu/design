@@ -204,7 +204,7 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 |---|---|
 | `OverlayConfirm` | an AlertDialog for a confirm/cancel decision, `variant="danger"` for destructive actions. |
 | `OverlayContextMenu` (+ `OverlayContextMenuItem`, `OverlayContextMenuLabel`, `OverlayContextMenuSeparator`) | a right-click menu. |
-| `OverlayDrawer` | a slide-in panel from any `side` (left/right/top/bottom). |
+| `OverlayDrawer` | a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. |
 | `OverlayDropdown` (+ `OverlayDropdownCheckboxItem`, `OverlayDropdownGroup`, `OverlayDropdownLabel`, `OverlayDropdownRadioGroup`, `OverlayDropdownRadioItem`, `OverlayDropdownSeparator`, `OverlayDropdownSub`) | a trigger-anchored dropdown menu. |
 | `OverlayDropdownItem` | a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). |
 | `OverlayHoverCard` | a hover-triggered popover with configurable `openDelay`/`closeDelay`. |
@@ -252,7 +252,9 @@ Full catalog with import paths: [core-components.md](../../skills/antfu-design/r
 
 | Token | Expands to |
 |---|---|
-| `color-base` | `color-neutral-800 dark:color-neutral-200` |
+| `color-base` | `color-base-light dark:color-base-dark` |
+| `color-base-light` | `color-neutral-800` |
+| `color-base-dark` | `color-neutral-200` |
 | `color-muted` | `color-neutral-600 dark:color-neutral-400` |
 | `color-faint` | `color-neutral-500 dark:color-neutral-500` |
 | `color-active` | `color-primary-600 dark:color-primary-300` |

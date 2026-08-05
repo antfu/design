@@ -276,6 +276,22 @@ describe('feedback fixes', () => {
     expect(el?.getAttribute('data-side')).toBe('left')
     document.body.innerHTML = ''
   })
+  it('drawer width takes a number (px) or any CSS length, and is a no-op for top/bottom', async () => {
+    mount(OverlayDrawer, { props: { open: true, width: 480 }, slots: { default: 'Hi' }, attachTo: document.body })
+    await nextTick()
+    expect(document.body.querySelector<HTMLElement>('[data-af-drawer]')?.style.width).toBe('480px')
+    document.body.innerHTML = ''
+
+    mount(OverlayDrawer, { props: { open: true, side: 'left', width: '32rem' }, slots: { default: 'Hi' }, attachTo: document.body })
+    await nextTick()
+    expect(document.body.querySelector<HTMLElement>('[data-af-drawer]')?.style.width).toBe('32rem')
+    document.body.innerHTML = ''
+
+    mount(OverlayDrawer, { props: { open: true, side: 'top', width: 480 }, slots: { default: 'Hi' }, attachTo: document.body })
+    await nextTick()
+    expect(document.body.querySelector<HTMLElement>('[data-af-drawer]')?.style.width).toBe('')
+    document.body.innerHTML = ''
+  })
 })
 
 describe('consumer dx — component escape hatches', () => {

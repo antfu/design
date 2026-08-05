@@ -70,7 +70,7 @@ splitpanes — all themed through the shipped CSS overrides.
 |---|---|
 | `OverlayConfirm` | an AlertDialog for a confirm/cancel decision, `variant="danger"` for destructive actions. |
 | `OverlayContextMenu` (+ `OverlayContextMenuItem`, `OverlayContextMenuLabel`, `OverlayContextMenuSeparator`) | a right-click menu. |
-| `OverlayDrawer` | a slide-in panel from any `side` (left/right/top/bottom). |
+| `OverlayDrawer` | a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. |
 | `OverlayDropdown` (+ `OverlayDropdownCheckboxItem`, `OverlayDropdownGroup`, `OverlayDropdownLabel`, `OverlayDropdownRadioGroup`, `OverlayDropdownRadioItem`, `OverlayDropdownSeparator`, `OverlayDropdownSub`) | a trigger-anchored dropdown menu. |
 | `OverlayDropdownItem` | a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). |
 | `OverlayHoverCard` | a hover-triggered popover with configurable `openDelay`/`closeDelay`. |
