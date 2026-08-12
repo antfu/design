@@ -16,6 +16,7 @@ const root = 'outline-none border border-base rounded bg-base flex h-4 w-4 trans
 <template>
   <!-- Labeled: own the <label> for the common case. -->
   <label
+    v-if="label || $slots.default"
     v-bind="$attrs"
     class="text-sm inline-flex gap-1.5 cursor-pointer select-none items-center"
     :class="{ 'op-fade saturate-0 pointer-events-none': disabled }"
@@ -27,4 +28,10 @@ const root = 'outline-none border border-base rounded bg-base flex h-4 w-4 trans
     </CheckboxRoot>
     <span><slot>{{ label }}</slot></span>
   </label>
+  <!-- Bare: caller supplies the label/layout. $attrs (id, aria-labelledby, class) land on the control. -->
+  <CheckboxRoot v-else v-bind="$attrs" v-model="model" :disabled="disabled" :class="root">
+    <CheckboxIndicator class="text-white">
+      <div class="i-ph:check-bold text-micro text-white mt--1px" aria-hidden="true" />
+    </CheckboxIndicator>
+  </CheckboxRoot>
 </template>

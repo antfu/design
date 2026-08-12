@@ -23,24 +23,25 @@ const readStyle = (name: string): string => readFileSync(resolve(stylesDir, name
 describe('shipped styles use the design tokens via @unocss/transformer-directives', () => {
   it('expands base.css `bg-base` / `color-base` with a dark variant', async () => {
     const out = await transform(readStyle('base.css'))
-    // The `--at-apply` directive must be consumed (no leftover apply *declaration*).
-    expect(out).not.toMatch(/--at-apply\s*:/)
+    // The apply directive must be consumed (no leftover apply *declaration*).
+    expect(out).not.toMatch(/--(?:at-apply|uno)\s*:/)
     // Light surface references the white token…
     expect(out).toContain('--colors-white')
-    // …and the dark surface (`#111`) is scoped under `.dark html`.
-    expect(out).toMatch(/\.dark\s+html\{[^}]*#111/)
+    // …and the dark surface (`#111`) is scoped under the `.dark` root selector.
+    // `base.css` applies to `html, body`, so the dark rule is a selector *list*.
+    expect(out).toMatch(/\.dark\s+html[^{]*\{[^}]*#111/)
   })
 
   it('expands floating-vue.css tooltip tokens (bg-tooltip carries backdrop blur)', async () => {
     const out = await transform(readStyle('floating-vue.css'))
-    expect(out).not.toMatch(/--at-apply\s*:/)
+    expect(out).not.toMatch(/--(?:at-apply|uno)\s*:/)
     expect(out).toContain('backdrop-filter')
     expect(out).toContain('blur')
   })
 
   it('expands splitpanes.css splitter tint', async () => {
     const out = await transform(readStyle('splitpanes.css'))
-    expect(out).not.toMatch(/--at-apply\s*:/)
+    expect(out).not.toMatch(/--(?:at-apply|uno)\s*:/)
     expect(out.toLowerCase()).toContain('background-color')
   })
 
