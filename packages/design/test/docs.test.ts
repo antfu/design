@@ -1,7 +1,6 @@
 import { readFileSync } from 'node:fs'
 import { describe, expect, it } from 'vitest'
 import { presetAnthonyDesign } from '../unocss'
-import { DEFAULT_DARK_BG } from '../unocss/options'
 import { severityShortcuts } from '../unocss/severity'
 import { buildShortcuts } from '../unocss/shortcuts'
 
@@ -13,7 +12,7 @@ const example = presetAnthonyDesign({
 })
 
 const tokens = [
-  ...Object.keys((buildShortcuts(DEFAULT_DARK_BG) as Record<string, string>[])[0]!),
+  ...Object.keys((buildShortcuts() as Record<string, string>[])[0]!),
   ...Object.keys((severityShortcuts as Record<string, string>[])[0]!),
 ]
 

@@ -82,7 +82,7 @@ export const presetAnthonyDesign = definePreset((options: PresetAnthonyDesignOpt
       : [options.extendShortcuts]
 
   const shortcuts: UserShortcuts = [
-    ...buildShortcuts(darkBackground),
+    ...buildShortcuts({ darkBackground }),
     ...buildRules(darkBackground),
     ...severityShortcuts,
     ...extend,

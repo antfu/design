@@ -1,4 +1,14 @@
 import type { DynamicShortcut, StaticShortcutMap } from '@unocss/core'
+import type { PresetAnthonyDesignOptions } from './options'
+import { DEFAULT_DARK_BG } from './options'
+
+/**
+ * Options for {@link buildShortcuts} — the subset of the preset's own options
+ * this layer consumes. Typed off {@link PresetAnthonyDesignOptions} so the
+ * names and semantics can't drift from the public surface, and so a new
+ * knob is one key away instead of another positional argument.
+ */
+export type BuildShortcutsOptions = Pick<PresetAnthonyDesignOptions, 'darkBackground'>
 
 /**
  * Build the semantic shortcut map. Written **base-agnostic** (uses only
@@ -10,9 +20,13 @@ import type { DynamicShortcut, StaticShortcutMap } from '@unocss/core'
  * `brightness` utilities, which only Wind3/Wind4 ship (Mini has no filter
  * rules) — under Mini it's a harmless no-op rather than a hard error.
  *
- * `db` is the configurable near-black for dark surfaces.
+ * @param options - See {@link BuildShortcutsOptions}; every field is optional
+ * and falls back to the preset's own default.
  */
-export function buildShortcuts(db: string): (StaticShortcutMap | DynamicShortcut)[] {
+export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShortcutMap | DynamicShortcut)[] {
+  // Local alias — it appears inline in a dozen template strings below.
+  const db = options.darkBackground ?? DEFAULT_DARK_BG
+
   return [
     {
       // ── Text ──────────────────────────────────────────────────────────

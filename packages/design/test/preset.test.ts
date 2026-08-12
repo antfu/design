@@ -1,9 +1,12 @@
+import type { BuildShortcutsOptions } from '../unocss/shortcuts'
 import { createGenerator } from '@unocss/core'
 import presetWebFonts from '@unocss/preset-web-fonts'
 import presetWind3 from '@unocss/preset-wind3'
 import presetWind4 from '@unocss/preset-wind4'
 import { describe, expect, it } from 'vitest'
 import { presetAnthonyDesign } from '../unocss'
+import { DEFAULT_DARK_BG } from '../unocss/options'
+import { buildShortcuts } from '../unocss/shortcuts'
 
 // A representative fixture exercising every layer of the design system.
 const FIXTURE = [
@@ -163,6 +166,14 @@ describe('presetAnthonyDesign', () => {
     expect(css).toContain('16px 16px') // default size
     expect(css).toContain('24px 24px')
     expect(css).toContain('32px 32px')
+  })
+
+  it('buildShortcuts takes named options and defaults each one', () => {
+    const map = (opts?: BuildShortcutsOptions) => (buildShortcuts(opts) as Record<string, string>[])[0]!
+    expect(map({ darkBackground: '#0a0a0a' })['bg-base']).toBe('bg-white dark:bg-#0a0a0a')
+    // Omitted (or an empty object) falls back to the preset's own default.
+    expect(map()['bg-base']).toBe(map({})['bg-base'])
+    expect(map()['bg-base']).toBe(`bg-white dark:bg-${DEFAULT_DARK_BG}`)
   })
 
   it('validates option shapes', () => {
