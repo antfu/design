@@ -43,18 +43,18 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
       // `bg-active` is a *persisted* state (selected/checked/open/current);
       // `bg-hover` is *transient* pointer/keyboard feedback (`:hover`,
       // `data-[highlighted]`) — lighter, so the two never read the same.
-      'bg-active': 'bg-primary/10 dark:bg-primary/15',
-      'bg-ambient': 'bg-#8885',
-      'bg-hover': 'bg-#8882',
+      'bg-active': 'bg-#aaa8',
+      'bg-ambient': 'bg-#9995',
+      'bg-hover': 'bg-#9992',
       'bg-code': 'bg-gray-500/5',
       'bg-tooltip': `bg-white/75 dark:bg-${db}/75 backdrop-blur-8`,
       'bg-gradient-more': `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-${db} dark:via-${db}/80 dark:to-${db}/0`,
 
       // ── Borders / rings ───────────────────────────────────────────────
-      'border-base': 'border-#8882',
-      'border-mute': 'border-#8881',
+      'border-base': 'border-#9992',
+      'border-mute': 'border-#9991',
       'border-active': 'border-primary-600/25 dark:border-primary-400/25',
-      'ring-base': 'ring-#8882',
+      'ring-base': 'ring-#9992',
 
       // ── Opacity ───────────────────────────────────────────────────────
       'op-fade': 'op65 dark:op55',

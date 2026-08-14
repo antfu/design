@@ -260,16 +260,16 @@ Full catalog with import paths: [core-components.md](../../skills/antfu-design/r
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#f6f6f6 dark:bg-#101010` |
-| `bg-active` | `bg-primary/10 dark:bg-primary/15` |
-| `bg-ambient` | `bg-#8885` |
-| `bg-hover` | `bg-#8882` |
+| `bg-active` | `bg-#aaa8` |
+| `bg-ambient` | `bg-#9995` |
+| `bg-hover` | `bg-#9992` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
 | `bg-gradient-more` | `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-#111 dark:via-#111/80 dark:to-#111/0` |
-| `border-base` | `border-#8882` |
-| `border-mute` | `border-#8881` |
+| `border-base` | `border-#9992` |
+| `border-mute` | `border-#9991` |
 | `border-active` | `border-primary-600/25 dark:border-primary-400/25` |
-| `ring-base` | `ring-#8882` |
+| `ring-base` | `ring-#9992` |
 | `op-fade` | `op65 dark:op55` |
 | `op-mute` | `op30 dark:op25` |
 | `icon-catppuccin` | `invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100` |
