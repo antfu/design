@@ -13,6 +13,8 @@ const FIXTURE = [
   // shortcuts (semantic *-base layer)
   'bg-base',
   'bg-secondary',
+  'bg-raised',
+  'bg-sunken',
   'bg-tooltip',
   'color-base',
   'color-muted',
@@ -25,6 +27,7 @@ const FIXTURE = [
   'op-mute',
   'btn-action',
   'btn-primary',
+  'btn-text',
   'btn-icon-square',
   'badge',
   'badge-muted',
@@ -154,6 +157,48 @@ describe('presetAnthonyDesign', () => {
   it('blocklists: { plainZIndex: false } opts out of just the z-index guardrail', async () => {
     const css = await generate([presetAnthonyDesign({ blocklists: { plainZIndex: false } }), presetWind4()], 'z-50')
     expect(css).toContain('z-index:50')
+  })
+
+  it('btn-action / btn-primary / btn-text share one box, so a mixed-variant row aligns', async () => {
+    // Regression: `btn-primary` used to carry `px3 py1.5` and no border while
+    // `btn-action` was `px2 py1` *with* one, so a [primary][secondary][ghost]
+    // row rendered at three different heights.
+    for (const base of [presetWind4(), presetWind3()]) {
+      const css = await generate([presetAnthonyDesign(), base], 'btn-action btn-primary btn-text')
+      // Padding + border-width are what decide the rendered box.
+      const box = (cls: string): string => {
+        const body = css.match(new RegExp(`\\.${cls}\\{([^}]*)\\}`))?.[1] ?? ''
+        return (body.match(/(?:padding|border-width)[^;]*;/g) ?? []).sort().join('')
+      }
+      expect(box('btn-action')).not.toBe('')
+      expect(box('btn-primary')).toBe(box('btn-action'))
+      expect(box('btn-text')).toBe(box('btn-action'))
+    }
+  })
+
+  it('every button recipe reacts to :disabled and :focus-visible', async () => {
+    // Regression: the ghost/text recipe was a bare `op75 hover:op100` string, so
+    // a disabled text button looked identical to an enabled one.
+    const css = await generate([presetAnthonyDesign(), presetWind4()], 'btn-action btn-primary btn-text')
+    for (const cls of ['btn-action', 'btn-primary', 'btn-text']) {
+      expect(css, `${cls} must dim when disabled`).toContain(`.${cls}:disabled{`)
+      expect(css, `${cls} must show a focus ring`).toContain(`.${cls}:focus-visible{`)
+    }
+  })
+
+  it('bg-raised / bg-sunken are alpha-only in both schemes, unlike the opaque bg-base', async () => {
+    const css = await generate([presetAnthonyDesign(), presetWind3()], 'bg-raised bg-sunken bg-base')
+    // Wind3 emits literal `rgb(r g b / a)`. Every `bg-raised`/`bg-sunken` rule —
+    // light and `.dark` alike — has to carry an alpha below 1, otherwise a layer
+    // nested in a translucent (`bg-glass`) panel is back to punching an opaque
+    // rectangle through it.
+    const alphas = [...css.matchAll(/\.bg-(?:raised|sunken)\{background-color:rgb\([^)]*?\/\s*([\d.]+)\)/g)]
+      .map(m => Number(m[1]))
+    expect(alphas).toHaveLength(4) // two tokens × light + dark
+    expect(alphas.every(a => a > 0 && a < 1)).toBe(true)
+    // …while `bg-base` stays fully opaque — it's the token for surfaces that
+    // must occlude what's behind them (popovers, modals, sticky headers).
+    expect(css).toMatch(/\.bg-base\{--un-bg-opacity:1;/)
   })
 
   it('generates bg-dots / bg-grid pattern rules with a variable size', async () => {

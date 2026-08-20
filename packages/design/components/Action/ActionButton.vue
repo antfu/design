@@ -30,14 +30,21 @@ const isLink = computed(() => tag.value === 'a')
 const isButton = computed(() => tag.value === 'button')
 const sm = computed(() => props.size === 'sm')
 
+// One recipe per variant, all three sharing the same box (see `btn-*` in
+// `unocss/shortcuts.ts`) so a mixed row of variants aligns. `size` only ever
+// changes the type scale — never the padding, which is what used to make
+// `primary` a different height from its neighbours.
 const variantClass = computed(() => {
   if (props.variant === 'primary')
-    return sm.value ? 'btn-primary text-sm px-2.5! py-1!' : 'btn-primary'
+    return sm.value ? 'btn-primary text-sm' : 'btn-primary'
   if (props.variant === 'text')
-    return `inline-flex items-center gap-1.5 op75 hover:op100 transition${sm.value ? ' text-sm' : ''}`
+    return sm.value ? 'btn-text text-sm' : 'btn-text'
   return sm.value ? 'btn-action-sm' : 'btn-action'
 })
 
+// Every recipe carries its own `disabled:` utilities, so the class binding in
+// the template only has to cover the non-`<button>` tags (`<a>`, `RouterLink`)
+// that the `:disabled` attribute can't reach.
 const disabledState = computed(() => props.disabled || props.loading)
 </script>
 

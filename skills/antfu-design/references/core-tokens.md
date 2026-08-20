@@ -20,9 +20,11 @@ never drift from what the shortcuts actually resolve to.
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#f6f6f6 dark:bg-#101010` |
-| `bg-active` | `bg-#aaa8` |
-| `bg-ambient` | `bg-#9995` |
-| `bg-hover` | `bg-#9992` |
+| `bg-raised` | `bg-white/65 dark:bg-white/6` |
+| `bg-sunken` | `bg-black/4 dark:bg-black/20` |
+| `bg-active` | `bg-#99999930` |
+| `bg-ambient` | `bg-#99999925` |
+| `bg-hover` | `bg-#99999920` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
 | `bg-gradient-more` | `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-#111 dark:via-#111/80 dark:to-#111/0` |
@@ -39,7 +41,8 @@ never drift from what the shortcuts actually resolve to.
 | `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-icon-square` | `w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
-| `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-primary` | `px2 py1 rounded border border-transparent flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-text` | `px2 py1 rounded border border-transparent inline-flex gap-2 items-center op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |
 | `badge-muted` | `badge bg-#8881 color-muted` |
@@ -86,8 +89,24 @@ never drift from what the shortcuts actually resolve to.
 - **Semantic shortcuts** (`bg-base`, `color-muted`, `border-base`, `op-fade`, …)
   are the everyday vocabulary. They expand to the listed utilities and carry a
   dark variant.
-- **Composite shortcuts** (`btn-action`, `btn-primary`, `badge`) expand to a full
-  recipe — use them as-is.
+- **Composite shortcuts** (`btn-action`, `btn-primary`, `btn-text`, `badge`)
+  expand to a full recipe — use them as-is. The three `btn-*` variants are peers
+  at one size (same padding, same border box), so a mixed row of them aligns;
+  add `text-sm` for the compact size and never re-pad a variant by hand.
+- **Picking a surface** is the one token choice worth thinking about:
+
+  | Situation | Token |
+  |---|---|
+  | Nested *in-flow* layer — card, input fill, active tab pill | `bg-raised` |
+  | Recessed track or well — segment/toggle background, keycap | `bg-sunken` |
+  | Floating panel that must occlude — popover, dropdown, menu | `bg-glass:75` |
+  | Must be fully opaque — modal, drawer, sticky table header | `bg-base` |
+
+  `bg-raised`/`bg-sunken` are alpha-only, so they composite over whatever is
+  behind them and nest visibly. `bg-base`/`bg-secondary` are opaque: reaching for
+  them on a nested layer punches a solid rectangle through a translucent parent
+  (and flattens two nested layers into one tone), which is the single most common
+  way a panel ends up looking wrong inside a glass dock.
 - **Dynamic** `badge-color-<name>` tints a chip by any palette color name; `bg-glass`
   / `bg-glass:<n>` makes a translucent blurred surface.
 - **Severity** `color-scale-{neutral,low,medium,high,critical}` is the one ramp

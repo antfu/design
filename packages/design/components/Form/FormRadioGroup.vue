@@ -34,7 +34,7 @@ const model = defineModel<string>()
       <RadioGroupItem
         :value="opt.value"
         :disabled="opt.disabled"
-        class="outline-none border border-base rounded-full bg-base flex h-4 w-4 transition items-center justify-center data-[state=checked]:border-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40"
+        class="outline-none border border-base rounded-full bg-raised flex h-4 w-4 transition items-center justify-center data-[state=checked]:border-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40"
       >
         <RadioGroupIndicator class="rounded-full bg-primary-500 h-2 w-2 block" />
       </RadioGroupItem>

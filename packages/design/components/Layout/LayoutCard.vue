@@ -14,7 +14,7 @@ withDefaults(
 <template>
   <component
     :is="as || 'div'"
-    class="border border-base rounded-xl bg-base"
+    class="border border-base rounded-xl bg-raised"
     :class="[{ 'p-4': padding }, { 'shadow-sm': elevated }]"
   >
     <slot />

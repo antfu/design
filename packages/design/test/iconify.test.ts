@@ -87,6 +87,30 @@ describe('displayIconifyRemoteIcon', () => {
     getIconifySvgMock.mockRejectedValue(new Error('offline'))
     const wrapper = mount(DisplayIconifyRemoteIcon, { props: { icon: 'catppuccin:vue' } })
     await flushPromises()
-    expect(wrapper.html()).toBe('<div></div>')
+    // Still an empty box (it keeps its size so the layout doesn't jump), just
+    // with nothing rendered into it.
+    expect(wrapper.find('svg').exists()).toBe(false)
+    expect(wrapper.element.textContent).toBe('')
+  })
+
+  it('sizes both branches to 1em so the icon tracks the surrounding font size', async () => {
+    getIconifySvgMock.mockResolvedValue('<svg width="100%" height="100%"><path/></svg>')
+    const svg = mount(DisplayIconifyRemoteIcon, { props: { icon: 'catppuccin:vue' } })
+    await flushPromises()
+    // The fetched markup is `width=100%`, so an unsized wrapper would resolve
+    // that percentage against a shrink-to-fit box and render at the browser's
+    // default replaced-element size instead of as an icon.
+    expect(svg.element.getAttribute('style')).toContain('width: 1em')
+    expect(svg.element.getAttribute('style')).toContain('height: 1em')
+
+    const img = mount(DisplayIconifyRemoteIcon, { props: { icon: 'https://example.com/a.svg' } })
+    expect(img.element.getAttribute('style')).toContain('width: 1em')
+  })
+
+  it('takes an explicit size (e.g. 100% to fill a sized parent)', async () => {
+    getIconifySvgMock.mockResolvedValue('<svg><path/></svg>')
+    const wrapper = mount(DisplayIconifyRemoteIcon, { props: { icon: 'catppuccin:vue', size: '100%' } })
+    await flushPromises()
+    expect(wrapper.element.getAttribute('style')).toContain('width: 100%')
   })
 })

@@ -8,6 +8,11 @@ export interface ComboboxOption {
   disabled?: boolean
 }
 
+// `ComboboxRoot` renders a bare positioning wrapper, so inherited attrs would
+// land next to the field rather than on it — a `class` there styles nothing
+// visible. Route them to the anchor, which *is* the field.
+defineOptions({ inheritAttrs: false })
+
 withDefaults(
   defineProps<{
     /** Selectable options. `label` falls back to `value`; `disabled` blocks selection. */
@@ -34,7 +39,8 @@ function optionLabel(option: ComboboxOption) {
 <template>
   <ComboboxRoot v-model="model" :disabled="disabled">
     <ComboboxAnchor
-      class="text-sm px-2 border border-base rounded bg-base inline-flex gap-2 h-9 min-w-40 transition items-center data-[disabled]:op50 data-[disabled]:pointer-events-none focus-within:ring-2 focus-within:ring-primary-500/40"
+      v-bind="$attrs"
+      class="text-sm px-2 border border-base rounded bg-raised inline-flex gap-2 h-9 min-w-40 transition items-center data-[disabled]:op50 data-[disabled]:pointer-events-none focus-within:ring-2 focus-within:ring-primary-500/40"
     >
       <span class="i-ph:magnifying-glass op-fade shrink-0" aria-hidden="true" />
       <ComboboxInput
@@ -46,7 +52,7 @@ function optionLabel(option: ComboboxOption) {
       <ComboboxContent
         position="popper"
         :side-offset="6"
-        class="p-1 border border-base rounded-lg bg-base min-w-[--reka-combobox-trigger-width] shadow-lg z-dropdown"
+        class="p-1 border border-base rounded-lg bg-glass:75 min-w-[--reka-combobox-trigger-width] shadow-lg z-dropdown"
         data-af-animate
       >
         <ComboboxViewport>

@@ -127,6 +127,40 @@ Then follow the **redesign protocol** in the skill (`advanced-patterns`): map ra
 colors → tokens, swap raw elements for primitives one family at a time, and run the
 contrast scan in light + dark after each step.
 
+## Embedding in a shadow root
+
+Mounting the components inside a shadow root — a web component, a devtools dock,
+an injected overlay — is supported, but three things do not cross the boundary on
+their own:
+
+- **The scheme class goes on an _ancestor_, never on the element you style.** The
+  dark variant compiles to a **descendant** selector (`.dark .bg-base`), so a node
+  that *is* `.dark` doesn't match its own dark rules — the subtree renders
+  light-themed inside a dark host. Toggle `dark`/`light` (and `color-scheme`) on a
+  wrapper — `display: contents` works, so it costs no layout — and put the surface
+  utilities on its child. `:host(.dark)` is not an alternative: these are
+  descendant selectors, and they can't reach across the boundary.
+- **Portaled overlays need a target inside the root.** reka-ui teleports
+  `Select`/`Combobox`/dropdown/menu content to `document.body` by default, i.e.
+  *outside* the shadow root that holds your stylesheet — so the popup renders
+  unstyled and positions against a trigger in another tree. Wrap once in reka's
+  `ConfigProvider` with `teleport-to` pointing at a container inside the root, and
+  put that container *outside* your scroll container so the popper isn't clipped:
+
+  ```vue
+  <ConfigProvider :teleport-to="portalTarget">
+    <div ref="portalTarget" />
+    <div class="of-auto"><!-- scrolling content --></div>
+  </ConfigProvider>
+  ```
+
+- **Global CSS can't pierce the boundary — inline the styles.** `@antfu/design/styles/*`
+  (scrollbar, reka-ui animations, floating-vue, …) must be part of the sheet you
+  inject into the root, alongside the UnoCSS output. They're written with `*` /
+  unscoped selectors precisely so they work in either place. Add
+  `scrollbar-gutter: stable` on your own scroll container if you want the gutter
+  reserved.
+
 ## Accessibility
 
 A color-contrast scan (axe-core + Playwright) runs a URL in light **and** dark
@@ -260,9 +294,11 @@ Full catalog with import paths: [core-components.md](../../skills/antfu-design/r
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#f6f6f6 dark:bg-#101010` |
-| `bg-active` | `bg-#aaa8` |
-| `bg-ambient` | `bg-#9995` |
-| `bg-hover` | `bg-#9992` |
+| `bg-raised` | `bg-white/65 dark:bg-white/6` |
+| `bg-sunken` | `bg-black/4 dark:bg-black/20` |
+| `bg-active` | `bg-#99999930` |
+| `bg-ambient` | `bg-#99999925` |
+| `bg-hover` | `bg-#99999920` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
 | `bg-gradient-more` | `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-#111 dark:via-#111/80 dark:to-#111/0` |
@@ -279,7 +315,8 @@ Full catalog with import paths: [core-components.md](../../skills/antfu-design/r
 | `btn-icon` | `w-9 h-9 rounded-full op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-icon-compact` | `w-6 h-6 rounded op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-icon-square` | `w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
-| `btn-primary` | `px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-primary` | `px2 py1 rounded border border-transparent flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
+| `btn-text` | `px2 py1 rounded border border-transparent inline-flex gap-2 items-center op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `badge` | `inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none` |
 | `badge-active` | `badge bg-active color-active` |
 | `badge-muted` | `badge bg-#8881 color-muted` |

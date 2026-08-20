@@ -38,14 +38,28 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
       'color-active': 'color-primary-600 dark:color-primary-300',
 
       // ── Surfaces ──────────────────────────────────────────────────────
+      // `bg-base`/`bg-secondary` are *opaque* — the right choice for anything
+      // that has to occlude what's behind it (portaled popovers, modals,
+      // drawers, sticky headers), and wrong for anything merely nested inside
+      // a panel: they punch a solid rectangle through a translucent
+      // (`bg-glass`) or otherwise-colored parent, so a card-on-panel and an
+      // input-on-card collapse into one flat tone.
       'bg-base': `bg-white dark:bg-${db}`,
       'bg-secondary': 'bg-#f6f6f6 dark:bg-#101010',
+      // …so nested *in-flow* layers use the panel-relative pair instead:
+      // alpha-only, hue-neutral, and therefore composited over whatever is
+      // actually behind them. `bg-raised` lifts a layer toward the light
+      // (cards, input fills, the active tab pill), `bg-sunken` pushes it away
+      // (segment tracks, wells, keycaps). Stacking them nests visibly, which
+      // the opaque pair cannot do.
+      'bg-raised': 'bg-white/65 dark:bg-white/6',
+      'bg-sunken': 'bg-black/4 dark:bg-black/20',
       // `bg-active` is a *persisted* state (selected/checked/open/current);
       // `bg-hover` is *transient* pointer/keyboard feedback (`:hover`,
       // `data-[highlighted]`) — lighter, so the two never read the same.
-      'bg-active': 'bg-#aaa8',
-      'bg-ambient': 'bg-#9995',
-      'bg-hover': 'bg-#9992',
+      'bg-active': 'bg-#99999930',
+      'bg-ambient': 'bg-#99999925',
+      'bg-hover': 'bg-#99999920',
       'bg-code': 'bg-gray-500/5',
       'bg-tooltip': `bg-white/75 dark:bg-${db}/75 backdrop-blur-8`,
       'bg-gradient-more': `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-${db} dark:via-${db}/80 dark:to-${db}/0`,
@@ -69,6 +83,12 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
       'icon-catppuccin': 'invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100',
 
       // ── Buttons ───────────────────────────────────────────────────────
+      // `btn-action`, `btn-primary` and `btn-text` are **peers at one size**:
+      // same padding (`px2 py1`), same 1px border box (transparent where the
+      // variant shows no border), same gap and focus ring. That's what lets a
+      // mixed `[primary][secondary][ghost]` row line up — a variant carrying
+      // its own padding, or no border at all, is 2–8px off its neighbours.
+      // Append `text-sm` (or use `btn-action-sm`) for the compact size.
       'btn-action': 'border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
       'btn-action-sm': 'btn-action text-sm',
       'btn-action-active': 'color-active border-active! bg-active op100!',
@@ -77,7 +97,13 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
       // Bordered, square counterpart to the round/borderless `btn-icon` — for
       // toolbar-style icon buttons that read as a distinct affordance.
       'btn-icon-square': 'w-9 h-9 rounded border border-base op-fade hover:op100 hover:bg-hover transition flex items-center justify-center disabled:pointer-events-none disabled:op30 outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
-      'btn-primary': 'px3 py1.5 rounded flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      // The transparent border is load-bearing: it matches `btn-action`'s
+      // border box so the two are the same height side by side.
+      'btn-primary': 'px2 py1 rounded border border-transparent flex gap-2 items-center bg-primary-500 hover:bg-primary-600 text-white transition disabled:op50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
+      // Chromeless ("ghost") peer: no border or fill until hovered, but the
+      // same box as the other two — so it keeps a real hit area, and reacts to
+      // `:disabled` and `:focus-visible` like a button rather than like text.
+      'btn-text': 'px2 py1 rounded border border-transparent inline-flex gap-2 items-center op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40',
 
       // ── Badges ────────────────────────────────────────────────────────
       'badge': 'inline-flex items-center gap-1 px-1.5 py-0.5 rounded-md text-xs font-medium leading-none',

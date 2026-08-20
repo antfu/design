@@ -8,6 +8,11 @@ export interface SelectOption {
   disabled?: boolean
 }
 
+// `SelectRoot` is renderless, so anything inherited onto it (a `class`, an
+// `id`, a `data-*` hook) would be dropped on the floor. Route attrs to the
+// trigger — the element a caller means when they style "the select".
+defineOptions({ inheritAttrs: false })
+
 defineProps<{
   options: SelectOption[]
   placeholder?: string
@@ -20,7 +25,8 @@ const model = defineModel<string>()
 <template>
   <SelectRoot v-model="model" :disabled="disabled">
     <SelectTrigger
-      class="text-sm px-2.5 outline-none border border-base rounded bg-base inline-flex gap-2 h-9 min-w-40 transition items-center justify-between data-[disabled]:op50 data-[disabled]:pointer-events-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
+      v-bind="$attrs"
+      class="text-sm px-2.5 outline-none border border-base rounded bg-raised inline-flex gap-2 h-9 min-w-40 transition items-center justify-between data-[disabled]:op50 data-[disabled]:pointer-events-none focus-visible:ring-2 focus-visible:ring-primary-500/40"
     >
       <SelectValue :placeholder="placeholder ?? 'Select…'" />
       <SelectIcon class="op-fade">
@@ -31,7 +37,7 @@ const model = defineModel<string>()
       <SelectContent
         position="popper"
         :side-offset="6"
-        class="border border-base rounded-lg bg-base min-w-[--reka-select-trigger-width] shadow-lg z-dropdown overflow-hidden"
+        class="border border-base rounded-lg bg-glass:75 min-w-[--reka-select-trigger-width] shadow-lg z-dropdown overflow-hidden"
       >
         <SelectViewport class="p-1">
           <SelectItem

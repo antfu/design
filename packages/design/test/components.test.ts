@@ -10,7 +10,9 @@ import EmptyState from '../components/Feedback/FeedbackEmptyState.vue'
 import Skeleton from '../components/Feedback/FeedbackSkeleton.vue'
 import Tip from '../components/Feedback/FeedbackTip.vue'
 import Checkbox from '../components/Form/FormCheckbox.vue'
+import Combobox from '../components/Form/FormCombobox.vue'
 import SegmentedControl from '../components/Form/FormSegmentedControl.vue'
+import Select from '../components/Form/FormSelect.vue'
 import Accordion from '../components/Layout/LayoutAccordion.vue'
 import Separator from '../components/Layout/LayoutSeparator.vue'
 import Tabs from '../components/Layout/LayoutTabs.vue'
@@ -30,6 +32,19 @@ describe('button', () => {
   it('uses the primary recipe', () => {
     const wrapper = mount(Button, { props: { variant: 'primary' } })
     expect(wrapper.classes()).toContain('btn-primary')
+  })
+  it('uses the text recipe — a real button box, not a bare span of text', () => {
+    const wrapper = mount(Button, { props: { variant: 'text' } })
+    expect(wrapper.classes()).toContain('btn-text')
+  })
+  it('size only changes the type scale, never the box', () => {
+    // Each variant is `btn-<variant>` + `text-sm`; no per-variant padding
+    // override, which is what used to make the three variants disagree.
+    for (const [variant, recipe] of [['action', 'btn-action-sm'], ['primary', 'btn-primary'], ['text', 'btn-text']] as const) {
+      const classes = mount(Button, { props: { variant, size: 'sm' } }).classes()
+      expect(classes, variant).toContain(recipe)
+      expect(classes.some(c => /^p[xy]?-/.test(c)), `${variant} must not re-pad`).toBe(false)
+    }
   })
   it('disables + marks busy while loading', () => {
     const wrapper = mount(Button, { props: { loading: true } })
@@ -120,5 +135,26 @@ describe('new primitives', () => {
     const [any, yes] = wrapper.findAll('[role="radio"]')
     expect(any?.attributes('aria-checked')).toBe('true')
     expect(yes?.attributes('aria-checked')).toBe('false')
+  })
+})
+
+describe('form controls forward attrs to the element they look like', () => {
+  // Both roots are (near-)renderless reka providers: `SelectRoot` renders
+  // nothing at all, `ComboboxRoot` only a positioning wrapper. Inheriting attrs
+  // there means a caller's `class` (or `id`, or `data-*` test hook) either
+  // vanishes or styles something invisible.
+  it('select puts them on the trigger', () => {
+    const w = mount(Select, { props: { options: [{ value: 'a' }] }, attrs: { 'class': 'MARKER', 'data-hook': 'x' } })
+    const trigger = w.find('[role="combobox"]')
+    expect(trigger.exists()).toBe(true)
+    expect(trigger.classes()).toContain('MARKER')
+    expect(trigger.attributes('data-hook')).toBe('x')
+  })
+  it('combobox puts them on the field, not the wrapper', () => {
+    const w = mount(Combobox, { props: { options: [{ value: 'a' }] }, attrs: { class: 'MARKER' } })
+    // The field is the element that owns the border/background.
+    const field = w.find('.MARKER')
+    expect(field.exists()).toBe(true)
+    expect(field.classes()).toContain('bg-raised')
   })
 })

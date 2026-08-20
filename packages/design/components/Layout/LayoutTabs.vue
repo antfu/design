@@ -35,7 +35,7 @@ const model = defineModel<string>()
   <TabsRoot v-model="model" :class="variant === 'segment' ? '' : 'border-b border-base'">
     <TabsList
       class="flex items-center relative"
-      :class="variant === 'segment' ? 'gap-1 p-1 rounded-lg bg-secondary w-max' : 'gap-1'"
+      :class="variant === 'segment' ? 'gap-1 p-1 rounded-lg bg-sunken w-max' : 'gap-1'"
     >
       <TabsTrigger
         v-for="tab in tabs"
@@ -46,7 +46,7 @@ const model = defineModel<string>()
         :disabled="tab.disabled"
         class="text-sm color-muted outline-none flex gap-1.5 transition items-center relative disabled:op50 focus-visible:ring-2 focus-visible:ring-primary-500/40"
         :class="variant === 'segment'
-          ? 'px-3 py-1 rounded-md data-[state=active]:bg-base data-[state=active]:color-base data-[state=active]:shadow-sm'
+          ? 'px-3 py-1 rounded-md data-[state=active]:bg-raised data-[state=active]:color-base data-[state=active]:shadow-sm'
           : 'px-3 py-2 -mb-px border-b-2 border-transparent hover:color-base data-[state=active]:color-active data-[state=active]:border-primary-500 dark:data-[state=active]:border-primary-400'"
       >
         <span v-if="tab.icon" :class="tab.icon" aria-hidden="true" />

@@ -24,7 +24,7 @@ const emit = defineEmits<{ select: [menu: string, item: string] }>()
 </script>
 
 <template>
-  <MenubarRoot class="p-1 border border-base rounded-lg bg-base flex gap-1 w-max">
+  <MenubarRoot class="p-1 border border-base rounded-lg bg-raised flex gap-1 w-max">
     <MenubarMenu v-for="menu in menus" :key="menu.value" :value="menu.value">
       <MenubarTrigger class="text-sm px-2 py-1 outline-none rounded-md select-none data-[highlighted]:bg-hover data-[state=open]:bg-active focus-visible:ring-2 focus-visible:ring-primary-500/40">
         {{ menu.label }}
@@ -33,7 +33,7 @@ const emit = defineEmits<{ select: [menu: string, item: string] }>()
         <MenubarContent
           :side-offset="6"
           align="start"
-          class="p-1 outline-none border border-base rounded-lg bg-base min-w-44 shadow-lg z-dropdown"
+          class="p-1 outline-none border border-base rounded-lg bg-glass:75 min-w-44 shadow-lg z-dropdown"
           data-af-animate
         >
           <template v-for="item in menu.items" :key="item.value">

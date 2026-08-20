@@ -40,7 +40,7 @@ const atMax = computed(() => props.max != null && model.value != null && model.v
 
 <template>
   <div
-    class="px-2 border rounded bg-base inline-flex gap-1 h-9 transition items-center focus-within:ring-2"
+    class="px-2 border rounded bg-raised inline-flex gap-1 h-9 transition items-center focus-within:ring-2"
     :class="[
       invalid ? 'border-red-500/60 focus-within:ring-red-500/40' : 'border-base focus-within:ring-primary-500/40',
       { 'op50 pointer-events-none': disabled },

@@ -10,7 +10,7 @@ defineProps<{
 }>()
 
 const model = defineModel<boolean>({ default: false })
-const root = 'outline-none border border-base rounded bg-base flex h-4 w-4 transition items-center justify-center data-[state=checked]:border-primary-500 data-[state=checked]:bg-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40'
+const root = 'outline-none border border-base rounded bg-raised flex h-4 w-4 transition items-center justify-center data-[state=checked]:border-primary-500 data-[state=checked]:bg-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40'
 </script>
 
 <template>

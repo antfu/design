@@ -17,12 +17,12 @@ const tokens = computed(() => (props.keys ? bindingDisplay(props.keys) : []))
       <kbd
         v-for="(token, i) in tokens"
         :key="i"
-        class="text-micro color-muted leading-none font-mono px-1 border border-base rounded bg-secondary inline-flex h-5 min-w-5 items-center justify-center"
+        class="text-micro color-muted leading-none font-mono px-1 border border-base rounded bg-sunken inline-flex h-5 min-w-5 items-center justify-center"
       >{{ token }}</kbd>
     </template>
     <kbd
       v-else
-      class="text-micro color-muted leading-none font-mono px-1.5 border border-base rounded bg-secondary inline-flex h-5 min-w-5 items-center justify-center"
+      class="text-micro color-muted leading-none font-mono px-1.5 border border-base rounded bg-sunken inline-flex h-5 min-w-5 items-center justify-center"
     ><slot /></kbd>
   </span>
 </template>

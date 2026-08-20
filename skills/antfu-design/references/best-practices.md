@@ -22,6 +22,18 @@ or `text-gray-800` is a dark-mode bug waiting to happen. When you truly need a
 custom color, define it through the theme (a `primary`/`warning`/… ramp) so both
 modes are covered.
 
+## Layer with the alpha surfaces, not the opaque ones
+
+A nested surface — a card in a panel, an input in a card, the active pill in a
+segment track — takes `bg-raised` (or `bg-sunken` for a recessed track). Those
+composite over whatever is behind them, so layers nest visibly and a panel that
+happens to be translucent (`bg-glass`, a devtools dock) stays translucent.
+`bg-base`/`bg-secondary` are the *opaque* surfaces: correct for something that
+has to occlude — a modal, a portaled popover, a sticky header — and wrong for
+anything merely nested, where they flatten the stack into one tone and punch a
+solid rectangle through a glass parent. See
+[core-tokens](core-tokens.md#how-to-read-it) for the full table.
+
 ## Mono + tabular for technical values
 
 Numbers, sizes, durations, versions, hashes, paths → `font-mono tabular-nums`

@@ -45,6 +45,31 @@ export const Variants: Story = {
   }),
 }
 
+// All three variants share one box (`btn-action`/`btn-primary`/`btn-text` carry
+// the same padding and border box), so a mixed row lines up — `items-start`
+// here rather than `items-center` so any height disagreement is visible.
+export const MixedRow: Story = {
+  render: () => ({
+    components: { ActionButton },
+    template: `<div class="flex items-start gap-3">
+      <ActionButton icon="i-ph:arrows-clockwise">Refresh</ActionButton>
+      <ActionButton variant="primary" icon="i-ph:check">Commit</ActionButton>
+      <ActionButton variant="text" icon="i-ph:plus">Stage all</ActionButton>
+    </div>`,
+  }),
+}
+
+export const Disabled: Story = {
+  render: () => ({
+    components: { ActionButton },
+    template: `<div class="flex items-start gap-3">
+      <ActionButton :disabled="true">Action</ActionButton>
+      <ActionButton variant="primary" :disabled="true">Primary</ActionButton>
+      <ActionButton variant="text" :disabled="true">Text</ActionButton>
+    </div>`,
+  }),
+}
+
 export const AsLink: Story = {
   render: () => ({
     components: { ActionButton },

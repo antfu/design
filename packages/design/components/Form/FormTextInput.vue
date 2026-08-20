@@ -19,7 +19,7 @@ const model = defineModel<string>({ default: '' })
 
 <template>
   <label
-    class="px-2 border rounded bg-base inline-flex gap-2 transition items-center focus-within:ring-2"
+    class="px-2 border rounded bg-raised inline-flex gap-2 transition items-center focus-within:ring-2"
     :class="[
       size === 'sm' ? 'h-7 text-sm' : 'h-9',
       invalid ? 'border-red-500/60 focus-within:ring-red-500/40' : 'border-base focus-within:ring-primary-500/40',

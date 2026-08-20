@@ -27,7 +27,7 @@ const model = defineModel<string | string[]>()
   <ToggleGroupRoot
     v-model="model"
     :type="multiple ? 'multiple' : 'single'"
-    class="p-1 rounded-lg bg-secondary inline-flex gap-1 w-max"
+    class="p-1 rounded-lg bg-sunken inline-flex gap-1 w-max"
   >
     <ToggleGroupItem
       v-for="opt in options"
@@ -35,7 +35,7 @@ const model = defineModel<string | string[]>()
       :value="opt.value"
       :disabled="opt.disabled"
       :aria-label="opt.label ?? opt.value"
-      class="text-sm color-muted outline-none rounded-md flex gap-1.5 transition items-center data-[state=on]:color-base hover:color-base data-[state=on]:bg-base disabled:op50 focus-visible:ring-2 focus-visible:ring-primary-500/40 data-[state=on]:shadow-sm"
+      class="text-sm color-muted outline-none rounded-md flex gap-1.5 transition items-center data-[state=on]:color-base hover:color-base data-[state=on]:bg-raised disabled:op50 focus-visible:ring-2 focus-visible:ring-primary-500/40 data-[state=on]:shadow-sm"
       :class="iconOnly ? 'p-1.5' : 'px-3 py-1'"
     >
       <span v-if="opt.icon" :class="opt.icon" aria-hidden="true" />
