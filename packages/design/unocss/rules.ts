@@ -13,7 +13,7 @@ export function buildRules(db: string): (StaticShortcutMap | DynamicShortcut)[] 
     // dark-aware. The deterministic formula shared across the source projects.
     [
       /^badge-color-(\w+)$/,
-      ([, color]) => `bg-${color}-400/20 dark:bg-${color}-400/10 text-${color}-700 dark:text-${color}-300 border border-${color}-600/15 dark:border-${color}-300/15`,
+      ([, color]) => `bg-${color}-400/10 text-${color}-700 dark:text-${color}-300 border border-${color}-600/15 dark:border-${color}-300/15`,
       { layer: 'shortcuts' },
     ],
     // `bg-glass` / `bg-glass:75` — translucent surface + backdrop blur.
