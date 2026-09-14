@@ -1,18 +1,28 @@
-catalogMode: prefer
 ignoreWorkspaceRootCheck: true
+catalogMode: prefer
+
+minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - tsnapi@1.5.0
   - vue-afloat@0.1.0
-shellEmulator: true
 
 trustPolicy: no-downgrade
+
 update:
   ignoreDeps:
     - typescript@7
+
+shellEmulator: true
+
 packages:
   - packages/*
   - storybook
   - playground
+
+allowBuilds:
+  esbuild: true
+  simple-git-hooks: true
+  vue-demi: true
 
 catalogs:
   cli:
@@ -70,7 +80,3 @@ catalogs:
     vitest: ^5.0.0
   types:
     '@types/node': ^26.5.1
-allowBuilds:
-  esbuild: true
-  simple-git-hooks: true
-  vue-demi: true
