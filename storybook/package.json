@@ -19,11 +19,11 @@
     "@unocss/preset-wind4": "catalog:frontend",
     "@unocss/transformer-directives": "catalog:frontend",
     "@vitejs/plugin-vue": "catalog:frontend",
-    "floating-vue": "catalog:frontend",
     "storybook": "catalog:storybook",
     "unocss": "catalog:frontend",
     "vite": "catalog:cli",
     "vue": "catalog:frontend",
+    "vue-afloat": "catalog:frontend",
     "vue-tsc": "catalog:frontend"
   }
 }

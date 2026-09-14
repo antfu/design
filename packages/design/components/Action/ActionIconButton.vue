@@ -1,7 +1,7 @@
 <!-- @description a round icon-only button with a `tooltip`, `active` state, `#badge`. Compose with VueUse's `useDark` for a dark toggle. -->
 <script setup lang="ts">
-import { vTooltip } from 'floating-vue'
 import { computed } from 'vue'
+import { vTooltip } from 'vue-afloat'
 
 const props = withDefaults(
   defineProps<{
@@ -10,7 +10,7 @@ const props = withDefaults(
     to?: string
     href?: string
     icon?: string
-    /** Tooltip text (floating-vue). Requires `@antfu/design/styles/floating-vue.css`. */
+    /** Tooltip text (vue-afloat). Requires `@antfu/design/styles/vue-afloat.css`. */
     tooltip?: string
     active?: boolean
     disabled?: boolean
@@ -48,7 +48,7 @@ const activeStateClass = computed(() => (props.active ? (props.activeClass || 'c
 <template>
   <component
     :is="tag"
-    v-tooltip="tooltip"
+    v-tooltip="tooltip ?? ''"
     :type="isButton ? 'button' : undefined"
     :class="[baseClass, sizeClass, activeStateClass, { 'pointer-events-none op-mute': disabled && !isButton }]"
     :href="isLink ? (href ?? to) : undefined"

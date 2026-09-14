@@ -1,7 +1,7 @@
 <!-- @description truncates, dims directories, decodes `.pnpm`, icon, link. -->
 <script setup lang="ts">
-import { vTooltip } from 'floating-vue'
 import { computed } from 'vue'
+import { vTooltip } from 'vue-afloat'
 import { getFileIcon } from '../../utils/icon'
 import { parseReadablePath } from '../../utils/path'
 

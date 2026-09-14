@@ -32,13 +32,6 @@ describe('shipped styles use the design tokens via @unocss/transformer-directive
     expect(out).toMatch(/\.dark\s+html[^{]*\{[^}]*#111/)
   })
 
-  it('expands floating-vue.css tooltip tokens (bg-tooltip carries backdrop blur)', async () => {
-    const out = await transform(readStyle('floating-vue.css'))
-    expect(out).not.toMatch(/--(?:at-apply|uno)\s*:/)
-    expect(out).toContain('backdrop-filter')
-    expect(out).toContain('blur')
-  })
-
   it('expands splitpanes.css splitter tint', async () => {
     const out = await transform(readStyle('splitpanes.css'))
     expect(out).not.toMatch(/--(?:at-apply|uno)\s*:/)
@@ -46,7 +39,28 @@ describe('shipped styles use the design tokens via @unocss/transformer-directive
   })
 
   it('leaves no `--af-*` token-mirror variables behind in any shipped style', () => {
-    for (const f of ['base.css', 'floating-vue.css', 'splitpanes.css', 'reka-ui.css', 'scrollbar.css', 'animations.css'])
+    for (const f of ['base.css', 'vue-afloat.css', 'splitpanes.css', 'reka-ui.css', 'scrollbar.css', 'animations.css'])
       expect(readStyle(f)).not.toContain('--af-')
+  })
+})
+
+describe('vue-afloat.css themes via vue-afloat\'s own `--vue-afloat-*` custom properties', () => {
+  const css = readStyle('vue-afloat.css')
+
+  it('sets the shared skin on `.vue-afloat` (applies to tooltip/dropdown/menu alike)', () => {
+    expect(css).toMatch(/\.vue-afloat\s*\{[^}]*--vue-afloat-background:/)
+    expect(css).toMatch(/\.vue-afloat\s*\{[^}]*--vue-afloat-backdrop-blur:/)
+  })
+
+  it('overrides the surface color under `.dark`, scoped to `.vue-afloat`', () => {
+    expect(css).toMatch(/\.dark\s+\.vue-afloat\s*\{[^}]*--vue-afloat-background:/)
+  })
+
+  it('tightens padding for `.vue-afloat-dropdown`', () => {
+    expect(css).toMatch(/\.vue-afloat-dropdown\s*\{[^}]*--vue-afloat-padding:/)
+  })
+
+  it('never uses `@unocss/transformer-directives` (no theme-registry dependency)', () => {
+    expect(css).not.toMatch(/--(?:at-apply|uno)\s*:/)
   })
 })

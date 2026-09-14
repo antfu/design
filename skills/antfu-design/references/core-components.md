@@ -4,7 +4,7 @@ All from `@antfu/design`, explicit imports, token-driven, dark-aware. Components
 are grouped into categories and **prefixed with their category** (e.g.
 `DisplayBadge`, `FormTextInput`, `OverlayModal`) — the import path mirrors this
 (`@antfu/design/components/Display/DisplayBadge.vue`). Overlay behavior comes
-from reka-ui; tooltips/poppers from floating-vue; resizable panes from
+from reka-ui; tooltips/poppers from vue-afloat; resizable panes from
 splitpanes — all themed through the shipped CSS overrides.
 
 > **Dark mode is the app's to own.** The package does not ship `isDark`/`toggleDark`
@@ -75,7 +75,7 @@ splitpanes — all themed through the shipped CSS overrides.
 | `OverlayDropdownItem` | a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). |
 | `OverlayHoverCard` | a hover-triggered popover with configurable `openDelay`/`closeDelay`. |
 | `OverlayModal` | a centered dialog (`title`, `description`, `#trigger` slot). |
-| `OverlayTooltip` | a floating-vue tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
+| `OverlayTooltip` | a vue-afloat tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
 
 ## Layout
 

@@ -2,8 +2,8 @@
 <script setup lang="ts">
 import type { SeverityScale } from '../../utils/format'
 import { useIntervalFn } from '@vueuse/core'
-import { vTooltip } from 'floating-vue'
 import { computed, ref, toRef, watch } from 'vue'
+import { vTooltip } from 'vue-afloat'
 import { formatDateTime, formatTimeAgo, getAgeColor } from '../../utils/format'
 
 const props = withDefaults(

@@ -26,8 +26,10 @@ export default defineConfig({
     presetIcons(),
     presetWebFonts({ fonts: { sans: 'DM Sans', mono: 'DM Mono' } }),
   ],
-  // Required — the shipped styles recolor overlays with token `--at-apply`
+  // Required — most shipped styles recolor overlays with token `--at-apply`
   // directives; this transformer expands them (and lets you reuse tokens in CSS).
+  // (vue-afloat.css is the exception — it themes via vue-afloat's own
+  // `--vue-afloat-*` CSS variables and needs no transformer.)
   transformers: [transformerDirectives()],
   // The preset ships no z-index scale (stacking is the app's to own) and blocks
   // plain `z-<number>`. Define the named layers the overlay components use here —
@@ -54,7 +56,7 @@ export default defineConfig({
 import ActionButton from '@antfu/design/components/Action/ActionButton.vue'
 import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'
 import OverlayModal from '@antfu/design/components/Overlay/OverlayModal.vue'
-import '@antfu/design/styles.css' // everything, incl. splitpanes/reka/floating-vue overrides
+import '@antfu/design/styles.css' // everything, incl. splitpanes/reka/vue-afloat overrides
 ```
 
 `styles.css` bundles every overlay engine's override. If you don't use them all,
@@ -63,7 +65,7 @@ cherry-pick instead so unused (`splitpanes`/`reka-ui`) CSS never ships:
 ```ts
 import '@antfu/design/styles/base.css'
 import '@antfu/design/styles/scrollbar.css'
-import '@antfu/design/styles/floating-vue.css' // only if you use tooltips
+import '@antfu/design/styles/vue-afloat.css' // only if you use tooltips
 ```
 
 The package ships **raw `.ts` / `.vue` source** (no bundling) — your build
@@ -155,7 +157,7 @@ their own:
   ```
 
 - **Global CSS can't pierce the boundary — inline the styles.** `@antfu/design/styles/*`
-  (scrollbar, reka-ui animations, floating-vue, …) must be part of the sheet you
+  (scrollbar, reka-ui animations, vue-afloat, …) must be part of the sheet you
   inject into the root, alongside the UnoCSS output. They're written with `*` /
   unscoped selectors precisely so they work in either place. Add
   `scrollbar-gutter: stable` on your own scroll container if you want the gutter
@@ -243,7 +245,7 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 | `OverlayDropdownItem` | a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). |
 | `OverlayHoverCard` | a hover-triggered popover with configurable `openDelay`/`closeDelay`. |
 | `OverlayModal` | a centered dialog (`title`, `description`, `#trigger` slot). |
-| `OverlayTooltip` | a floating-vue tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
+| `OverlayTooltip` | a vue-afloat tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
 
 ### Layout
 

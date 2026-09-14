@@ -1,0 +1,38 @@
+/**
+ * Theme vue-afloat's tooltips/dropdowns/menus through its `--vue-afloat-*`
+ * custom properties (see https://github.com/antfu/vue-afloat#styling) rather
+ * than restyling its internal `.vue-afloat__*` elements directly. vue-afloat
+ * dropped its theme registry, so these are plain CSS values — matching the
+ * design tokens' *default* palette (`bg-tooltip`, `color-base`, `border-base`,
+ * `rounded-md`) — not `@unocss/transformer-directives` output. If you
+ * customize `darkBackground`/`primary` via `presetAnthonyDesign()`, override
+ * these variables yourself to match.
+ */
+
+.vue-afloat {
+  --vue-afloat-background: rgb(255 255 255);
+  --vue-afloat-color: oklch(26.9% 0 0);
+  --vue-afloat-border-color: rgb(153 153 153 / 13%);
+  --vue-afloat-border-radius: 0.375rem;
+  --vue-afloat-box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+  --vue-afloat-padding: 4px 8px;
+}
+
+.dark .vue-afloat {
+  --vue-afloat-background: rgb(17 17 1);
+  --vue-afloat-color: oklch(92.2% 0 0);
+}
+
+.vue-afloat-dropdown {
+  --vue-afloat-padding: 4px;
+}
+
+.vue-afloat-menu {
+  --vue-afloat-background: rgb(255 255 255 / 75%);
+  --vue-afloat-backdrop-blur: 8px;
+}
+
+.dark .vue-afloat-menu {
+  --vue-afloat-background: rgb(17 17 1);
+  --vue-afloat-color: oklch(92.2% 0 0);
+}

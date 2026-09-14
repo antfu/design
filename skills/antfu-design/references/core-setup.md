@@ -52,11 +52,16 @@ export default defineConfig({
 > it already composes correctly instead of replacing.
 
 > **`@unocss/transformer-directives` is required**, not optional: the design
-> system's own CSS (`base.css`, `floating-vue.css`, `splitpanes.css`) styles
-> surfaces with token directives like `--uno: 'bg-base color-base'` instead of
-> hand-duplicated hex values. Without the transformer those rules are dropped and
-> overlays/surfaces lose their theming. It also lets *you* reuse the tokens in your
-> own CSS (`.panel { --uno: 'bg-base border border-base'; }`).
+> system's own CSS (`base.css`, `splitpanes.css`, …) styles surfaces with token
+> directives like `--uno: 'bg-base color-base'` instead of hand-duplicated hex
+> values. Without the transformer those rules are dropped and overlays/surfaces
+> lose their theming. It also lets *you* reuse the tokens in your own CSS
+> (`.panel { --uno: 'bg-base border border-base'; }`).
+>
+> `vue-afloat.css` is the exception — it themes tooltips/dropdowns/menus via
+> vue-afloat's own `--vue-afloat-*` CSS variables (plain values, no directives),
+> so it needs no transformer. Override those variables yourself if you
+> customize `darkBackground`/`primary`.
 
 ## Recommended: the UnoCSS ESLint plugin
 
@@ -114,7 +119,7 @@ z-index written in markup is rejected. Disable the guardrail with
 ```ts
 import '@antfu/design/styles.css' // everything
 // …or cherry-pick:
-import '@antfu/design/styles/floating-vue.css'
+import '@antfu/design/styles/vue-afloat.css'
 ```
 
 Add a reset yourself (`@unocss/reset`) — the design system does not bundle one.

@@ -2,7 +2,7 @@
   "name": "@antfu/design",
   "type": "module",
   "version": "0.4.0",
-  "packageManager": "pnpm@11.9.0",
+  "packageManager": "pnpm@12.4.1",
   "description": "A customizable, composable design system for devtools-style Vue apps — a UnoCSS preset, Vue primitives, a design skill, and an a11y contrast check",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -63,12 +63,12 @@
     "@unocss/core": ">=66.0.0",
     "colorjs.io": "^0.6.0",
     "dompurify": "^3.0.0",
-    "floating-vue": "^5.0.0",
     "playwright": "^1.0.0",
     "reka-ui": "^2.0.0",
     "splitpanes": "^4.0.0",
     "unocss": ">=66.0.0",
-    "vue": "^3.5.0"
+    "vue": "^3.5.0",
+    "vue-afloat": "^0.1.0"
   },
   "peerDependenciesMeta": {
     "@antfu/utils": {
@@ -92,9 +92,6 @@
     "dompurify": {
       "optional": true
     },
-    "floating-vue": {
-      "optional": true
-    },
     "playwright": {
       "optional": true
     },
@@ -102,6 +99,9 @@
       "optional": true
     },
     "splitpanes": {
+      "optional": true
+    },
+    "vue-afloat": {
       "optional": true
     }
   },
@@ -127,7 +127,6 @@
     "@vue/test-utils": "catalog:testing",
     "colorjs.io": "catalog:frontend",
     "dompurify": "catalog:frontend",
-    "floating-vue": "catalog:frontend",
     "happy-dom": "catalog:testing",
     "magic-string": "catalog:testing",
     "playwright": "catalog:testing",
@@ -139,6 +138,7 @@
     "unocss": "catalog:frontend",
     "unplugin-vue": "catalog:frontend",
     "vue": "catalog:frontend",
+    "vue-afloat": "catalog:frontend",
     "vue-tsc": "catalog:frontend"
   }
 }
