@@ -1,7 +1,7 @@
 {
   "name": "@antfu/design-monorepo",
   "type": "module",
-  "version": "0.4.0",
+  "version": "0.5.0",
   "private": true,
   "packageManager": "pnpm@12.4.1",
   "description": "A shared design system for devtools-style Vue apps",
