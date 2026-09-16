@@ -4,7 +4,37 @@ catalogMode: prefer
 minimumReleaseAgeExcludePrune: true
 minimumReleaseAgeExclude:
   - tsnapi@1.5.0
-  - vue-afloat@0.1.0
+  - vue-afloat@0.1.1
+  - '@antfu/ni@30.6.0'
+  - '@types/node@26.6.1'
+  - '@unocss/cli@66.10.4'
+  - '@unocss/config@66.10.4'
+  - '@unocss/core@66.10.4'
+  - '@unocss/eslint-plugin@66.10.4'
+  - '@unocss/extractor-arbitrary-variants@66.10.4'
+  - '@unocss/inspector@66.10.4'
+  - '@unocss/preset-attributify@66.10.4'
+  - '@unocss/preset-icons@66.10.4'
+  - '@unocss/preset-mini@66.10.4'
+  - '@unocss/preset-tagify@66.10.4'
+  - '@unocss/preset-typography@66.10.4'
+  - '@unocss/preset-uno@66.10.4'
+  - '@unocss/preset-web-fonts@66.10.4'
+  - '@unocss/preset-wind3@66.10.4'
+  - '@unocss/preset-wind4@66.10.4'
+  - '@unocss/preset-wind@66.10.4'
+  - '@unocss/rollup@66.10.4'
+  - '@unocss/rule-utils@66.10.4'
+  - '@unocss/transformer-attributify-jsx@66.10.4'
+  - '@unocss/transformer-compile-class@66.10.4'
+  - '@unocss/transformer-directives@66.10.4'
+  - '@unocss/transformer-variant-group@66.10.4'
+  - '@unocss/vite@66.10.4'
+  - '@vitest/mocker@5.0.1'
+  - '@vitest/spy@5.0.1'
+  - magic-string@1.4.1
+  - unocss@66.10.4
+  - vitest@5.0.1
 
 trustPolicy: no-downgrade
 
@@ -27,7 +57,7 @@ allowBuilds:
 catalogs:
   cli:
     '@antfu/eslint-config': ^9.5.1
-    '@antfu/ni': ^30.5.0
+    '@antfu/ni': ^30.6.0
     bumpp: ^12.3.0
     eslint: ^10.10.0
     nano-staged: ^1.0.2
@@ -41,25 +71,25 @@ catalogs:
   frontend:
     '@iconify-json/catppuccin': ^1.2.17
     '@iconify-json/ph': ^1.2.2
-    '@tanstack/vue-virtual': ^3.13.38
-    '@unocss/core': '>=66.10.2'
-    '@unocss/eslint-plugin': ^66.10.2
-    '@unocss/preset-icons': ^66.10.2
-    '@unocss/preset-mini': ^66.10.2
-    '@unocss/preset-web-fonts': ^66.10.2
-    '@unocss/preset-wind3': ^66.10.2
-    '@unocss/preset-wind4': ^66.10.2
-    '@unocss/transformer-directives': ^66.10.2
-    '@vitejs/plugin-vue': ^6.0.8
+    '@tanstack/vue-virtual': ^3.13.39
+    '@unocss/core': '>=66.10.4'
+    '@unocss/eslint-plugin': ^66.10.4
+    '@unocss/preset-icons': ^66.10.4
+    '@unocss/preset-mini': ^66.10.4
+    '@unocss/preset-web-fonts': ^66.10.4
+    '@unocss/preset-wind3': ^66.10.4
+    '@unocss/preset-wind4': ^66.10.4
+    '@unocss/transformer-directives': ^66.10.4
+    '@vitejs/plugin-vue': ^6.0.9
     '@vueuse/core': ^14.4.0
     colorjs.io: ^0.7.1
     dompurify: ^3.4.15
     reka-ui: ^2.10.4
     splitpanes: ^4.1.2
-    unocss: ^66.10.2
+    unocss: ^66.10.4
     unplugin-vue: ^7.2.0
     vue: ^3.5.42
-    vue-afloat: ^0.1.0
+    vue-afloat: ^0.1.1
     vue-tsc: ^3.3.11
   inlined:
     '@antfu/utils': ^9.3.0
@@ -73,10 +103,10 @@ catalogs:
     '@axe-core/playwright': ^4.13.0
     '@vue/test-utils': ^2.5.0
     happy-dom: ^20.14.5
-    magic-string: ^1.3.1
+    magic-string: ^1.4.1
     playwright: ^1.63.0
     tsdown-stale-guard: ^0.1.3
     tsnapi: ^1.5.0
-    vitest: ^5.0.0
+    vitest: ^5.0.1
   types:
-    '@types/node': ^26.5.1
+    '@types/node': ^26.6.1
