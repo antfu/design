@@ -24,8 +24,15 @@ const props = withDefaults(
     clickable?: boolean
     /** Prefix substituted for a `.pnpm` store chunk (passed to the path parser). */
     pnpmCollapse?: string
+    /** Show a tooltip on hover. `true` to use the path as the tooltip, or a string to use a custom tooltip. */
+    tooltip?: boolean | string
   }>(),
-  { root: '', icon: true, dim: true },
+  {
+    root: '',
+    icon: true,
+    dim: true,
+    tooltip: false,
+  },
 )
 
 const parsed = computed(() => parseReadablePath(props.path, props.root, { pnpmCollapse: props.pnpmCollapse }))
@@ -48,7 +55,7 @@ const interactive = computed(() => props.href != null || props.clickable)
 <template>
   <component
     :is="href ? 'a' : 'span'"
-    v-tooltip="path"
+    v-tooltip="tooltip === true ? path : tooltip || ''"
     :href="href"
     class="text-sm font-mono inline-flex gap-1 max-w-full min-w-0 items-center"
     :class="{ 'hover:color-active transition': interactive, 'cursor-pointer': clickable && !href }"
