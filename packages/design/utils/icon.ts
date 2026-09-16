@@ -121,15 +121,16 @@ export const defaultFolderIconRules: Record<string, string> = {
   src: 'i-catppuccin:folder-src',
   dist: 'i-catppuccin:folder-dist',
   node_modules: 'i-catppuccin:folder-node',
-  test: 'i-catppuccin:folder-test',
-  tests: 'i-catppuccin:folder-test',
+  test: 'i-catppuccin:folder-tests',
+  tests: 'i-catppuccin:folder-tests',
   public: 'i-catppuccin:folder-public',
   components: 'i-catppuccin:folder-components',
   utils: 'i-catppuccin:folder-utils',
   config: 'i-catppuccin:folder-config',
   assets: 'i-catppuccin:folder-images',
   scripts: 'i-catppuccin:folder-scripts',
-  styles: 'i-catppuccin:folder-css',
+  styles: 'i-catppuccin:folder-styles',
+  lib: 'i-catppuccin:folder-lib',
 }
 
 /**
