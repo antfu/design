@@ -49,7 +49,10 @@ describe('vue-afloat.css themes via vue-afloat\'s own `--vue-afloat-*` custom pr
 
   it('sets the shared skin on `.vue-afloat` (applies to tooltip/dropdown/menu alike)', () => {
     expect(css).toMatch(/\.vue-afloat\s*\{[^}]*--vue-afloat-background:/)
-    expect(css).toMatch(/\.vue-afloat\s*\{[^}]*--vue-afloat-backdrop-blur:/)
+  })
+
+  it('blurs the backdrop only for `.vue-afloat-menu`, whose background is translucent', () => {
+    expect(css).toMatch(/\.vue-afloat-menu\s*\{[^}]*--vue-afloat-backdrop-blur:/)
   })
 
   it('overrides the surface color under `.dark`, scoped to `.vue-afloat`', () => {
