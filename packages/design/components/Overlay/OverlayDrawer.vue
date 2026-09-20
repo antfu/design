@@ -1,7 +1,8 @@
 <!-- @description a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. -->
 <script setup lang="ts">
 import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+import { usePortalTarget } from '../../composables/portalTarget'
 
 const props = withDefaults(
   defineProps<{
@@ -14,11 +15,16 @@ const props = withDefaults(
      * full viewport width.
      */
     width?: string | number
+    /** Teleport target for the portal; defaults to the enclosing shadow root, else `document.body`. */
+    to?: string | HTMLElement
   }>(),
   { side: 'right' },
 )
 
 const open = defineModel<boolean>('open')
+
+const anchor = ref<HTMLElement>()
+const portalTo = usePortalTarget(anchor, () => props.to)
 
 const SIDE_CLASS = {
   right: 'right-0 top-0 h-full w-80 max-w-[90vw] border-l',
@@ -36,38 +42,40 @@ const style = computed(() => {
 </script>
 
 <template>
-  <DialogRoot v-model:open="open">
-    <DialogTrigger v-if="$slots.trigger" as-child>
-      <slot name="trigger" />
-    </DialogTrigger>
-    <DialogPortal>
-      <DialogOverlay class="bg-[#ddd]/40 inset-0 fixed z-drawer-backdrop backdrop-blur-sm dark:bg-black/40" data-af-animate />
-      <DialogContent
-        class="outline-none border-base bg-base flex flex-col shadow-2xl fixed z-drawer-content"
-        :class="SIDE_CLASS[side]"
-        :style="style"
-        data-af-drawer
-        :data-side="side"
-      >
-        <header class="px-4 py-3 border-b border-base flex shrink-0 gap-4 items-center justify-between">
-          <DialogTitle v-if="title" class="color-base font-medium">
-            {{ title }}
-          </DialogTitle>
-          <DialogDescription v-if="$slots.description" class="sr-only">
-            <slot name="description" />
-          </DialogDescription>
-          <slot name="header" />
-          <DialogClose class="btn-icon shrink-0 h-7 w-7" aria-label="Close">
-            <span class="i-ph:x" aria-hidden="true" />
-          </DialogClose>
-        </header>
-        <div class="p-4 flex-1 overflow-auto">
-          <slot />
-        </div>
-        <footer v-if="$slots.footer" class="px-4 py-3 border-t border-base flex shrink-0 gap-2 items-center justify-end">
-          <slot name="footer" />
-        </footer>
-      </DialogContent>
-    </DialogPortal>
-  </DialogRoot>
+  <div ref="anchor" style="display: contents">
+    <DialogRoot v-model:open="open">
+      <DialogTrigger v-if="$slots.trigger" as-child>
+        <slot name="trigger" />
+      </DialogTrigger>
+      <DialogPortal :to="portalTo">
+        <DialogOverlay class="bg-[#ddd]/40 inset-0 fixed z-drawer-backdrop backdrop-blur-sm dark:bg-black/40" data-af-animate />
+        <DialogContent
+          class="outline-none border-base bg-base flex flex-col shadow-2xl fixed z-drawer-content"
+          :class="SIDE_CLASS[side]"
+          :style="style"
+          data-af-drawer
+          :data-side="side"
+        >
+          <header class="px-4 py-3 border-b border-base flex shrink-0 gap-4 items-center justify-between">
+            <DialogTitle v-if="title" class="color-base font-medium">
+              {{ title }}
+            </DialogTitle>
+            <DialogDescription v-if="$slots.description" class="sr-only">
+              <slot name="description" />
+            </DialogDescription>
+            <slot name="header" />
+            <DialogClose class="btn-icon shrink-0 h-7 w-7" aria-label="Close">
+              <span class="i-ph:x" aria-hidden="true" />
+            </DialogClose>
+          </header>
+          <div class="p-4 flex-1 overflow-auto">
+            <slot />
+          </div>
+          <footer v-if="$slots.footer" class="px-4 py-3 border-t border-base flex shrink-0 gap-2 items-center justify-end">
+            <slot name="footer" />
+          </footer>
+        </DialogContent>
+      </DialogPortal>
+    </DialogRoot>
+  </div>
 </template>
