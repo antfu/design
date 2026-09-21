@@ -156,6 +156,11 @@ their own:
   </ConfigProvider>
   ```
 
+  The dialog family (`OverlayModal`, `OverlayDrawer`, `OverlayConfirm`) needs no
+  such setup: it detects the enclosing shadow root and teleports into it on its
+  own, so it works out of the box under `defineCustomElement`. Pass an explicit
+  `to` (a selector or element) to override the target.
+
 - **Global CSS can't pierce the boundary — inline the styles.** `@antfu/design/styles/*`
   (scrollbar, reka-ui animations, vue-afloat, …) must be part of the sheet you
   inject into the root, alongside the UnoCSS output. They're written with `*` /
