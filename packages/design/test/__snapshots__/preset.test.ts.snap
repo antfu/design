@@ -73,21 +73,18 @@ exports[`presetAnthonyDesign > generates the token fixture on Wind4 1`] = `
 .dark .bg-glass\\:75,
 .dark .bg-tooltip{background-color:color-mix(in oklab, #111 75%, transparent);}
 .bg-raised{background-color:color-mix(in srgb, var(--colors-white) 65%, transparent);}
-.dark .bg-raised{background-color:color-mix(in srgb, var(--colors-white) 6%, transparent);}
+.dark .bg-raised{background-color:color-mix(in srgb, var(--colors-black) 60%, transparent);}
 .bg-secondary{background-color:color-mix(in oklab, #f6f6f6 var(--un-bg-opacity), transparent);}
 .dark .bg-secondary{background-color:color-mix(in oklab, #101010 var(--un-bg-opacity), transparent);}
 .bg-sunken{background-color:color-mix(in srgb, var(--colors-black) 4%, transparent);}
-.dark .bg-sunken{background-color:color-mix(in srgb, var(--colors-black) 20%, transparent);}
+.dark .bg-sunken{background-color:color-mix(in srgb, var(--colors-white) 6%, transparent);}
 .bg-tooltip{background-color:color-mix(in srgb, var(--colors-white) 75%, transparent);--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);backdrop-filter:var(--un-backdrop-blur,) var(--un-backdrop-brightness,) var(--un-backdrop-contrast,) var(--un-backdrop-grayscale,) var(--un-backdrop-hue-rotate,) var(--un-backdrop-invert,) var(--un-backdrop-opacity,) var(--un-backdrop-saturate,) var(--un-backdrop-sepia,);}
-.btn-action:hover{background-color:color-mix(in oklab, #99999920 var(--un-bg-opacity), transparent);opacity:100%;}
-.btn-icon-square:hover{background-color:color-mix(in oklab, #99999920 var(--un-bg-opacity), transparent);opacity:100%;}
+.btn-action:hover{background-color:color-mix(in oklab, #99999915 var(--un-bg-opacity), transparent);opacity:100%;}
+.btn-icon-square:hover{background-color:color-mix(in oklab, #99999915 var(--un-bg-opacity), transparent);opacity:100%;}
 .btn-primary:hover{background-color:color-mix(in srgb, var(--colors-primary-600) var(--un-bg-opacity), transparent);}
-.btn-text:hover{background-color:color-mix(in oklab, #99999920 var(--un-bg-opacity), transparent);opacity:100%;}
-.dark .btn-icon-square,
-.dark .op-fade{opacity:55%;}
+.btn-text:hover{background-color:color-mix(in oklab, #99999915 var(--un-bg-opacity), transparent);opacity:100%;}
 .op-fade{opacity:65%;}
-.dark .op-mute{opacity:25%;}
-.op-mute{opacity:30%;}
+.op-mute{opacity:40%;}
 .btn-action:disabled{opacity:30% !important;pointer-events:none;}
 .btn-icon-square:disabled{opacity:30%;pointer-events:none;}
 .btn-primary:disabled{opacity:50%;pointer-events:none;}
@@ -120,9 +117,9 @@ exports[`presetAnthonyDesign > generates the token fixture on Wind4 1`] = `
 .bg-glass{background-color:color-mix(in oklab, var(--colors-white) 65%, transparent);}
 .bg-glass\\:75{background-color:color-mix(in oklab, var(--colors-white) 98%, transparent);}
 .bg-raised{background-color:color-mix(in oklab, var(--colors-white) 65%, transparent);}
-.dark .bg-raised{background-color:color-mix(in oklab, var(--colors-white) 6%, transparent);}
+.dark .bg-raised{background-color:color-mix(in oklab, var(--colors-black) 60%, transparent);}
 .bg-sunken{background-color:color-mix(in oklab, var(--colors-black) 4%, transparent);}
-.dark .bg-sunken{background-color:color-mix(in oklab, var(--colors-black) 20%, transparent);}
+.dark .bg-sunken{background-color:color-mix(in oklab, var(--colors-white) 6%, transparent);}
 .bg-tooltip{background-color:color-mix(in oklab, var(--colors-white) 75%, transparent);}
 .btn-primary:hover{background-color:color-mix(in oklab, var(--colors-primary-600) var(--un-bg-opacity), transparent);}
 .btn-action:focus-visible{--un-ring-color:color-mix(in oklab, var(--colors-primary-500) 40%, transparent);}
@@ -169,16 +166,16 @@ exports[`presetAnthonyDesign > resolves the same semantic layer on Wind3 (base-a
 .dark .bg-glass\\:75,
 .dark .bg-tooltip{background-color:rgb(17 17 17 / 0.75);}
 .bg-raised{background-color:rgb(255 255 255 / 0.65);}
-.dark .bg-raised{background-color:rgb(255 255 255 / 0.06);}
+.dark .bg-raised{background-color:rgb(0 0 0 / 0.6);}
 .bg-secondary{--un-bg-opacity:1;background-color:rgb(246 246 246 / var(--un-bg-opacity));}
 .dark .bg-secondary{--un-bg-opacity:1;background-color:rgb(16 16 16 / var(--un-bg-opacity));}
 .bg-sunken{background-color:rgb(0 0 0 / 0.04);}
-.dark .bg-sunken{background-color:rgb(0 0 0 / 0.2);}
+.dark .bg-sunken{background-color:rgb(255 255 255 / 0.06);}
 .bg-tooltip{background-color:rgb(255 255 255 / 0.75);--un-backdrop-blur:blur(8px);-webkit-backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);backdrop-filter:var(--un-backdrop-blur) var(--un-backdrop-brightness) var(--un-backdrop-contrast) var(--un-backdrop-grayscale) var(--un-backdrop-hue-rotate) var(--un-backdrop-invert) var(--un-backdrop-opacity) var(--un-backdrop-saturate) var(--un-backdrop-sepia);}
-.btn-action:hover{--un-bg-opacity:0.13;background-color:rgb(153 153 153 / var(--un-bg-opacity));opacity:1;}
-.btn-icon-square:hover{--un-bg-opacity:0.13;background-color:rgb(153 153 153 / var(--un-bg-opacity));opacity:1;}
+.btn-action:hover{--un-bg-opacity:0.08;background-color:rgb(153 153 153 / var(--un-bg-opacity));opacity:1;}
+.btn-icon-square:hover{--un-bg-opacity:0.08;background-color:rgb(153 153 153 / var(--un-bg-opacity));opacity:1;}
 .btn-primary:hover{--un-bg-opacity:1;background-color:rgb(73 131 62 / var(--un-bg-opacity));}
-.btn-text:hover{--un-bg-opacity:0.13;background-color:rgb(153 153 153 / var(--un-bg-opacity));opacity:1;}
+.btn-text:hover{--un-bg-opacity:0.08;background-color:rgb(153 153 153 / var(--un-bg-opacity));opacity:1;}
 .pad-safe{padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right);padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom);}
 .text-micro{font-size:10px;line-height:1.4;}
 .color-scale-critical{--un-text-opacity:1;color:rgb(185 28 28 / var(--un-text-opacity));}
@@ -194,11 +191,8 @@ exports[`presetAnthonyDesign > resolves the same semantic layer on Wind3 (base-a
 .color-faint,
 .dark .color-faint{--un-text-opacity:1;color:rgb(115 115 115 / var(--un-text-opacity));}
 .color-muted{--un-text-opacity:1;color:rgb(82 82 82 / var(--un-text-opacity));}
-.dark .btn-icon-square,
-.dark .op-fade{opacity:0.55;}
 .op-fade{opacity:0.65;}
-.dark .op-mute{opacity:0.25;}
-.op-mute{opacity:0.3;}
+.op-mute{opacity:0.4;}
 .btn-action:focus-visible{--un-ring-width:2px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);--un-ring-color:rgb(91 149 68 / 0.4);}
 .btn-icon-square:focus-visible{--un-ring-width:2px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);--un-ring-color:rgb(91 149 68 / 0.4);}
 .btn-primary:focus-visible{--un-ring-width:2px;--un-ring-offset-shadow:var(--un-ring-inset) 0 0 0 var(--un-ring-offset-width) var(--un-ring-offset-color);--un-ring-shadow:var(--un-ring-inset) 0 0 0 calc(var(--un-ring-width) + var(--un-ring-offset-width)) var(--un-ring-color);box-shadow:var(--un-ring-offset-shadow), var(--un-ring-shadow), var(--un-shadow);--un-ring-color:rgb(91 149 68 / 0.4);}
