@@ -20,11 +20,11 @@ never drift from what the shortcuts actually resolve to.
 | `color-active` | `color-primary-600 dark:color-primary-300` |
 | `bg-base` | `bg-white dark:bg-#111` |
 | `bg-secondary` | `bg-#f6f6f6 dark:bg-#101010` |
-| `bg-raised` | `bg-white/65 dark:bg-white/6` |
-| `bg-sunken` | `bg-black/4 dark:bg-black/20` |
-| `bg-active` | `bg-#99999930` |
+| `bg-raised` | `bg-white/65 dark:bg-black/60` |
+| `bg-sunken` | `bg-black/4 dark:bg-white/6` |
+| `bg-active` | `bg-#99999920` |
 | `bg-ambient` | `bg-#99999925` |
-| `bg-hover` | `bg-#99999920` |
+| `bg-hover` | `bg-#99999915` |
 | `bg-code` | `bg-gray-500/5` |
 | `bg-tooltip` | `bg-white/75 dark:bg-#111/75 backdrop-blur-8` |
 | `bg-gradient-more` | `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-#111 dark:via-#111/80 dark:to-#111/0` |
@@ -32,8 +32,10 @@ never drift from what the shortcuts actually resolve to.
 | `border-mute` | `border-#9991` |
 | `border-active` | `border-primary-600/25 dark:border-primary-400/25` |
 | `ring-base` | `ring-#9992` |
-| `op-fade` | `op65 dark:op55` |
-| `op-mute` | `op30 dark:op25` |
+| `op-fade` | `op65` |
+| `op-mute` | `op40` |
+| `op-active` | `op100` |
+| `op-disabled` | `op30` |
 | `icon-catppuccin` | `invert-100 hue-rotate-180 brightness-80 dark:invert-0 dark:hue-rotate-0 dark:brightness-100` |
 | `btn-action` | `border border-base rounded flex gap-2 items-center px2 py1 op75 hover:op100 hover:bg-hover transition disabled:pointer-events-none disabled:op30! outline-none focus-visible:ring-2 focus-visible:ring-primary-500/40` |
 | `btn-action-sm` | `btn-action text-sm` |

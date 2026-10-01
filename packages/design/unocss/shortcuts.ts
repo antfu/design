@@ -52,14 +52,14 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
       // (cards, input fills, the active tab pill), `bg-sunken` pushes it away
       // (segment tracks, wells, keycaps). Stacking them nests visibly, which
       // the opaque pair cannot do.
-      'bg-raised': 'bg-white/65 dark:bg-white/6',
-      'bg-sunken': 'bg-black/4 dark:bg-black/20',
+      'bg-raised': 'bg-white/65 dark:bg-black/60',
+      'bg-sunken': 'bg-black/4 dark:bg-white/6',
       // `bg-active` is a *persisted* state (selected/checked/open/current);
       // `bg-hover` is *transient* pointer/keyboard feedback (`:hover`,
       // `data-[highlighted]`) — lighter, so the two never read the same.
-      'bg-active': 'bg-#99999930',
+      'bg-active': 'bg-#99999920',
       'bg-ambient': 'bg-#99999925',
-      'bg-hover': 'bg-#99999920',
+      'bg-hover': 'bg-#99999915',
       'bg-code': 'bg-gray-500/5',
       'bg-tooltip': `bg-white/75 dark:bg-${db}/75 backdrop-blur-8`,
       'bg-gradient-more': `bg-gradient-to-t from-white via-white/80 to-white/0 dark:from-${db} dark:via-${db}/80 dark:to-${db}/0`,
@@ -71,8 +71,10 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
       'ring-base': 'ring-#9992',
 
       // ── Opacity ───────────────────────────────────────────────────────
-      'op-fade': 'op65 dark:op55',
-      'op-mute': 'op30 dark:op25',
+      'op-fade': 'op65',
+      'op-mute': 'op40',
+      'op-active': 'op100',
+      'op-disabled': 'op30',
 
       // ── Icons ─────────────────────────────────────────────────────────
       // Catppuccin-style file/folder icon sets are tuned for a dark surface.
