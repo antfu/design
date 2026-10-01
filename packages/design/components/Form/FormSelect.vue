@@ -1,6 +1,7 @@
 <!-- @description a native-feeling select bound with `v-model`. -->
 <script setup lang="ts">
 import { SelectContent, SelectIcon, SelectItem, SelectItemIndicator, SelectItemText, SelectPortal, SelectRoot, SelectTrigger, SelectValue, SelectViewport } from 'reka-ui'
+import { usePortalTarget } from '../../composables/portalTarget'
 
 export interface SelectOption {
   value: string
@@ -13,13 +14,17 @@ export interface SelectOption {
 // trigger — the element a caller means when they style "the select".
 defineOptions({ inheritAttrs: false })
 
-defineProps<{
+const props = defineProps<{
   options: SelectOption[]
   placeholder?: string
   disabled?: boolean
+  /** Teleport target for the list; defaults to the enclosing shadow root, else `document.body`. */
+  to?: string | HTMLElement
 }>()
 
 const model = defineModel<string>()
+
+const portalTo = usePortalTarget(() => props.to)
 </script>
 
 <template>
@@ -33,7 +38,7 @@ const model = defineModel<string>()
         <span class="i-ph:caret-down" aria-hidden="true" />
       </SelectIcon>
     </SelectTrigger>
-    <SelectPortal>
+    <SelectPortal :to="portalTo">
       <SelectContent
         position="popper"
         :side-offset="6"

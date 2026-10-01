@@ -1,5 +1,7 @@
 <!-- @description a presentational toast stack (`items`, `position`) — the app owns the list and ids via its own `useToast()`. -->
-<script lang="ts">
+<script setup lang="ts">
+import { usePortalTarget } from '../../composables/portalTarget'
+
 export type ToastType = 'info' | 'success' | 'warning' | 'error'
 
 /** A single toast. The **app** owns the list and the ids — this component is presentational. */
@@ -18,14 +20,14 @@ export interface ToastItem {
   /** Optional action button label; pressing it fires the `action` event. */
   action?: string
 }
-</script>
 
-<script setup lang="ts">
-withDefaults(
+const props = withDefaults(
   defineProps<{
     /** The toast list — owned and mutated by the app (e.g. a local `ref`). */
     items: ToastItem[]
     position?: 'top-right' | 'bottom-right' | 'top-left' | 'bottom-left'
+    /** Teleport target for the stack; defaults to the enclosing shadow root, else `document.body`. */
+    to?: string | HTMLElement
   }>(),
   { position: 'bottom-right' },
 )
@@ -36,6 +38,8 @@ const emit = defineEmits<{
   /** Fired when a toast's action button is pressed. */
   action: [id: string | number]
 }>()
+
+const portalTo = usePortalTarget(() => props.to)
 
 const POSITION = {
   'top-right': 'top-4 right-4',
@@ -53,7 +57,7 @@ const TYPE_CLASS: Record<ToastType, string> = {
 </script>
 
 <template>
-  <Teleport to="body">
+  <Teleport :to="portalTo ?? 'body'">
     <div
       class="flex flex-col gap-2 max-w-[calc(100vw-2rem)] w-80 fixed z-toast"
       :class="POSITION[position]"

@@ -32,7 +32,7 @@ export const shimmerRules: Rule[] = [
       'animation': 'tw-shimmer var(--shimmer-duration, 2s) linear infinite',
     },
     `@keyframes tw-shimmer{from{background-position:100% 0}to{background-position:0 0}}`,
-    `:where(html.dark) .shimmer{--_highlight:var(--shimmer-color,oklch(from currentColor max(0.8,calc(l + 0.4)) c h / calc(alpha + 0.4)))}`,
+    `:where(.dark) .shimmer{--_highlight:var(--shimmer-color,oklch(from currentColor max(0.8,calc(l + 0.4)) c h / calc(alpha + 0.4)))}`,
     `.shimmer:where([dir="rtl"],[dir="rtl"] *){animation-direction:reverse}`,
     `@media (prefers-reduced-motion:reduce){.shimmer{animation:none;background-image:none;-webkit-text-fill-color:currentColor}}`,
   ]],

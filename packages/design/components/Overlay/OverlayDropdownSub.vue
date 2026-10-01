@@ -1,13 +1,18 @@
 <script setup lang="ts">
 import { DropdownMenuPortal, DropdownMenuSub, DropdownMenuSubContent, DropdownMenuSubTrigger } from 'reka-ui'
+import { usePortalTarget } from '../../composables/portalTarget'
 
-defineProps<{
+const props = defineProps<{
   /** Submenu trigger label (or use the `trigger` slot for rich content). */
   label?: string
   /** Optional leading icon class for the trigger. */
   icon?: string
   disabled?: boolean
+  /** Teleport target for the submenu; defaults to the enclosing shadow root, else `document.body`. */
+  to?: string | HTMLElement
 }>()
+
+const portalTo = usePortalTarget(() => props.to)
 </script>
 
 <template>
@@ -20,7 +25,7 @@ defineProps<{
       <span class="flex-1"><slot name="trigger">{{ label }}</slot></span>
       <span class="i-ph:caret-right op-fade" aria-hidden="true" />
     </DropdownMenuSubTrigger>
-    <DropdownMenuPortal>
+    <DropdownMenuPortal :to="portalTo">
       <DropdownMenuSubContent
         :side-offset="4"
         :align-offset="-4"
