@@ -1,14 +1,19 @@
 <!-- @description a trigger-anchored dropdown menu. -->
 <script setup lang="ts">
 import { DropdownMenuContent, DropdownMenuPortal, DropdownMenuRoot, DropdownMenuTrigger } from 'reka-ui'
+import { usePortalTarget } from '../../composables/portalTarget'
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     placement?: 'top' | 'right' | 'bottom' | 'left'
     align?: 'start' | 'center' | 'end'
+    /** Teleport target for the menu; defaults to the enclosing shadow root, else `document.body`. */
+    to?: string | HTMLElement
   }>(),
   { placement: 'bottom', align: 'start' },
 )
+
+const portalTo = usePortalTarget(() => props.to)
 </script>
 
 <template>
@@ -16,7 +21,7 @@ withDefaults(
     <DropdownMenuTrigger as-child>
       <slot name="trigger" />
     </DropdownMenuTrigger>
-    <DropdownMenuPortal>
+    <DropdownMenuPortal :to="portalTo">
       <DropdownMenuContent
         :side="placement"
         :align="align"

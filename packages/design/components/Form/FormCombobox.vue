@@ -1,6 +1,7 @@
 <!-- @description a searchable, filterable select (reka-ui `Combobox`) over an `options` list. -->
 <script setup lang="ts">
 import { ComboboxAnchor, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxItemIndicator, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui'
+import { usePortalTarget } from '../../composables/portalTarget'
 
 export interface ComboboxOption {
   value: string
@@ -13,20 +14,21 @@ export interface ComboboxOption {
 // visible. Route them to the anchor, which *is* the field.
 defineOptions({ inheritAttrs: false })
 
-withDefaults(
-  defineProps<{
-    /** Selectable options. `label` falls back to `value`; `disabled` blocks selection. */
-    options: ComboboxOption[]
-    /** Placeholder shown in the search input while empty. */
-    placeholder?: string
-    /** Disable the whole combobox. */
-    disabled?: boolean
-  }>(),
-  {},
-)
+const props = defineProps<{
+  /** Selectable options. `label` falls back to `value`; `disabled` blocks selection. */
+  options: ComboboxOption[]
+  /** Placeholder shown in the search input while empty. */
+  placeholder?: string
+  /** Disable the whole combobox. */
+  disabled?: boolean
+  /** Teleport target for the list; defaults to the enclosing shadow root, else `document.body`. */
+  to?: string | HTMLElement
+}>()
 
 /** The selected option's `value`. */
 const model = defineModel<string>()
+
+const portalTo = usePortalTarget(() => props.to)
 
 // reka-ui filters items by their `textValue` against the typed query, so we
 // surface the visible label as the search text — this keeps filtering correct
@@ -48,7 +50,7 @@ function optionLabel(option: ComboboxOption) {
         class="color-base outline-none bg-transparent flex-1 min-w-0 placeholder:op-mute"
       />
     </ComboboxAnchor>
-    <ComboboxPortal>
+    <ComboboxPortal :to="portalTo">
       <ComboboxContent
         position="popper"
         :side-offset="6"

@@ -1,6 +1,7 @@
 <!-- @description a desktop-style menu bar from a `menus` list of `MenubarMenuEntry`. -->
 <script setup lang="ts">
 import { MenubarContent, MenubarItem, MenubarMenu, MenubarPortal, MenubarRoot, MenubarSeparator, MenubarTrigger } from 'reka-ui'
+import { usePortalTarget } from '../../composables/portalTarget'
 import DisplayKbd from '../Display/DisplayKbd.vue'
 
 export interface MenubarItemEntry {
@@ -19,8 +20,14 @@ export interface MenubarMenuEntry {
   items: MenubarItemEntry[]
 }
 
-defineProps<{ menus: MenubarMenuEntry[] }>()
+const props = defineProps<{
+  menus: MenubarMenuEntry[]
+  /** Teleport target for the menus; defaults to the enclosing shadow root, else `document.body`. */
+  to?: string | HTMLElement
+}>()
 const emit = defineEmits<{ select: [menu: string, item: string] }>()
+
+const portalTo = usePortalTarget(() => props.to)
 </script>
 
 <template>
@@ -29,7 +36,7 @@ const emit = defineEmits<{ select: [menu: string, item: string] }>()
       <MenubarTrigger class="text-sm px-2 py-1 outline-none rounded-md select-none data-[highlighted]:bg-hover data-[state=open]:bg-active focus-visible:ring-2 focus-visible:ring-primary-500/40">
         {{ menu.label }}
       </MenubarTrigger>
-      <MenubarPortal>
+      <MenubarPortal :to="portalTo">
         <MenubarContent
           :side-offset="6"
           align="start"

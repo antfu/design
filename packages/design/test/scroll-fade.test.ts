@@ -60,7 +60,7 @@ describe('shimmer (ported from shadcn/ui)', () => {
     const css = await generate('shimmer', true)
     expect(css).toContain('@keyframes tw-shimmer')
     expect(css).toContain('background-clip:text')
-    expect(css).toContain('html.dark')
+    expect(css).toContain(':where(.dark) .shimmer')
     expect(css).toContain('prefers-reduced-motion:reduce')
   })
 })

@@ -132,7 +132,7 @@ contrast scan in light + dark after each step.
 ## Embedding in a shadow root
 
 Mounting the components inside a shadow root — a web component, a devtools dock,
-an injected overlay — is supported, but three things do not cross the boundary on
+an injected overlay — is supported, but two things do not cross the boundary on
 their own:
 
 - **The scheme class goes on an _ancestor_, never on the element you style.** The
@@ -142,31 +142,21 @@ their own:
   wrapper — `display: contents` works, so it costs no layout — and put the surface
   utilities on its child. `:host(.dark)` is not an alternative: these are
   descendant selectors, and they can't reach across the boundary.
-- **Portaled overlays need a target inside the root.** reka-ui teleports
-  `Select`/`Combobox`/dropdown/menu content to `document.body` by default, i.e.
-  *outside* the shadow root that holds your stylesheet — so the popup renders
-  unstyled and positions against a trigger in another tree. Wrap once in reka's
-  `ConfigProvider` with `teleport-to` pointing at a container inside the root, and
-  put that container *outside* your scroll container so the popper isn't clipped:
-
-  ```vue
-  <ConfigProvider :teleport-to="portalTarget">
-    <div ref="portalTarget" />
-    <div class="of-auto"><!-- scrolling content --></div>
-  </ConfigProvider>
-  ```
-
-  The dialog family (`OverlayModal`, `OverlayDrawer`, `OverlayConfirm`) needs no
-  such setup: it detects the enclosing shadow root and teleports into it on its
-  own, so it works out of the box under `defineCustomElement`. Pass an explicit
-  `to` (a selector or element) to override the target.
-
 - **Global CSS can't pierce the boundary — inline the styles.** `@antfu/design/styles/*`
   (scrollbar, reka-ui animations, vue-afloat, …) must be part of the sheet you
   inject into the root, alongside the UnoCSS output. They're written with `*` /
   unscoped selectors precisely so they work in either place. Add
   `scrollbar-gutter: stable` on your own scroll container if you want the gutter
   reserved.
+
+Portaled content needs no setup. Every component that teleports — the dialogs
+(`OverlayModal`, `OverlayDrawer`, `OverlayConfirm`), the poppers (`FormSelect`,
+`FormCombobox`, `OverlayDropdown`, `OverlayHoverCard`, `OverlayContextMenu`,
+`LayoutMenubar`) and `FeedbackToasts` — detects the enclosing shadow root and
+teleports into a container appended to it, which also mirrors the `dark`/`light`
+class of the nearest scheme wrapper so dark-mode tokens keep resolving there. Pass
+an explicit `to` (a selector or element) to override the target. The
+**Utilities/ShadowRoot** story mounts them all inside a shadow root.
 
 ## Accessibility
 
