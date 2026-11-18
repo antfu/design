@@ -91,7 +91,8 @@
   }
 }
 
-/* Lock page scroll behind a modal dialog. (Can't see into a shadow root.) */
+/* Lock page scroll behind a modal dialog. `:has()` can't see into a shadow
+ * root, so `useNativeDialog` locks it in JS there. */
 :root:has(:is([data-af-modal], [data-af-drawer]):modal) {
   overflow: hidden;
 }

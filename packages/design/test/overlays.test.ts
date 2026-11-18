@@ -95,6 +95,48 @@ describe('native dialogs', () => {
     expect(confirm.getAttribute('role')).toBe('alertdialog')
   })
 
+  it('locks page scroll for a dialog inside a shadow root, counting nested ones', async () => {
+    const host = document.createElement('div')
+    document.body.append(host)
+    const shadow = host.attachShadow({ mode: 'open' })
+    const point = document.createElement('div')
+    shadow.append(point)
+    const a = ref(false)
+    const b = ref(false)
+    const wrapper = mount(defineComponent(() => () => h('div', [
+      h(OverlayModal, { 'open': a.value, 'onUpdate:open': (v?: boolean) => a.value = !!v }),
+      h(OverlayDrawer, { 'open': b.value, 'onUpdate:open': (v?: boolean) => b.value = !!v }),
+    ])), { attachTo: point })
+    const html = document.documentElement.style
+    const [modal, drawer] = shadow.querySelectorAll('dialog')
+
+    a.value = true
+    await nextTick()
+    expect(html.overflow).toBe('hidden')
+    b.value = true
+    await nextTick()
+    drawer!.close()
+    await nextTick()
+    expect(html.overflow).toBe('hidden')
+    modal!.close()
+    await nextTick()
+    expect(html.overflow).toBe('')
+
+    // Unmounting while open releases it too.
+    a.value = true
+    await nextTick()
+    expect(html.overflow).toBe('hidden')
+    wrapper.unmount()
+    expect(html.overflow).toBe('')
+  })
+
+  it('leaves light-DOM scroll locking to CSS', async () => {
+    const { open } = mountDialog(OverlayModal)
+    open.value = true
+    await nextTick()
+    expect(document.documentElement.style.overflow).toBe('')
+  })
+
   it('confirm emits its choice and closes', async () => {
     const { open, events } = mountDialog(OverlayConfirm, { confirmLabel: 'Delete' })
     open.value = true

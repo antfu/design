@@ -37,6 +37,24 @@ function supportsClosedBy(): boolean {
   return typeof HTMLDialogElement !== 'undefined' && 'closedBy' in HTMLDialogElement.prototype
 }
 
+// Page scroll lock for dialogs inside a shadow root. In the light DOM,
+// `dialog.css` locks it with `:root:has(...:modal)`, but `:has()` can't see
+// into a shadow root. Counted, so nested dialogs release it only once all close.
+let shadowLocks = 0
+let savedOverflow = ''
+
+function lockPageScroll(): void {
+  if (shadowLocks++ === 0) {
+    savedOverflow = document.documentElement.style.overflow
+    document.documentElement.style.overflow = 'hidden'
+  }
+}
+
+function unlockPageScroll(): void {
+  if (shadowLocks > 0 && --shadowLocks === 0)
+    document.documentElement.style.overflow = savedOverflow
+}
+
 /**
  * Sync a `v-model:open` ref with a `<dialog>` element.
  *
@@ -52,8 +70,23 @@ export function useNativeDialog(
   const { lightDismiss = true } = options
   const id = useId()
 
+  let locked = false
+  const lock = (dialog: HTMLDialogElement): void => {
+    if (!locked && dialog.getRootNode() instanceof ShadowRoot) {
+      locked = true
+      lockPageScroll()
+    }
+  }
+  const unlock = (): void => {
+    if (locked) {
+      locked = false
+      unlockPageScroll()
+    }
+  }
+
   // A close by any route (Esc, `command="close"`, backdrop) lands here.
   const onClose = (): void => {
+    unlock()
     open.value = false
   }
   // An invoker opened it natively; reflect that in the model.
@@ -87,13 +120,20 @@ export function useNativeDialog(
   watch([open, el], ([value, dialog]) => {
     if (!dialog)
       return
-    if (value && !dialog.open)
-      dialog.showModal()
-    else if (!value && dialog.open)
+    if (value) {
+      // An invoker command may have opened it natively already.
+      if (!dialog.open)
+        dialog.showModal()
+      lock(dialog)
+    }
+    else if (dialog.open) {
       dialog.close()
+    }
   }, { flush: 'post', immediate: true })
 
   onBeforeUnmount(() => {
+    // The `close` event fires after unmount, so release the lock here.
+    unlock()
     if (el.value?.open)
       el.value.close()
   })
