@@ -1,15 +1,27 @@
 <!-- @description a checkbox control bound with `v-model`. -->
 <script setup lang="ts">
 import { CheckboxIndicator, CheckboxRoot } from 'reka-ui'
+import { useAgentControl } from '../../composables/agent'
 
 defineOptions({ inheritAttrs: false })
 
-defineProps<{
+const props = defineProps<{
   label?: string
   disabled?: boolean
 }>()
 
 const model = defineModel<boolean>({ default: false })
+
+useAgentControl({
+  component: 'checkbox',
+  label: () => props.label,
+  value: () => model.value,
+  disabled: () => props.disabled,
+  actions: {
+    setValue: (value: boolean) => { model.value = Boolean(value) },
+    toggle: () => { model.value = !model.value },
+  },
+})
 const root = 'outline-none border border-base rounded bg-raised flex h-4 w-4 transition items-center justify-center data-[state=checked]:border-primary-500 data-[state=checked]:bg-primary-500 focus-visible:ring-2 focus-visible:ring-primary-500/40'
 </script>
 

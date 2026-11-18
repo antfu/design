@@ -2,6 +2,7 @@
 <script setup lang="ts">
 import { clamp } from '@antfu/utils'
 import { computed } from 'vue'
+import { useAgentControl } from '../../composables/agent'
 
 const props = withDefaults(
   defineProps<{
@@ -33,6 +34,22 @@ function onInput(event: Event): void {
 function stepBy(direction: number): void {
   model.value = bounded((model.value ?? 0) + direction * props.step)
 }
+
+useAgentControl({
+  component: 'number-input',
+  value: () => model.value,
+  disabled: () => props.disabled,
+  actions: {
+    setValue: (value: number) => {
+      if (typeof value !== 'number' || Number.isNaN(value))
+        throw new Error(`${JSON.stringify(value)} is not a number`)
+      model.value = bounded(value)
+    },
+    increment: () => stepBy(1),
+    decrement: () => stepBy(-1),
+    clear: () => { model.value = undefined },
+  },
+})
 
 const atMin = computed(() => props.min != null && model.value != null && model.value <= props.min)
 const atMax = computed(() => props.max != null && model.value != null && model.value >= props.max)

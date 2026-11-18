@@ -1,6 +1,7 @@
 <!-- @description underline/segment tabs, `count` chips. -->
 <script setup lang="ts">
 import { TabsContent, TabsIndicator, TabsList, TabsRoot, TabsTrigger } from 'reka-ui'
+import { assertAgentOption, useAgentControl } from '../../composables/agent'
 
 export interface TabItem {
   value: string
@@ -13,7 +14,7 @@ export interface TabItem {
   disabled?: boolean
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     tabs: TabItem[]
     /** `underline` (default) or `segment` (pill switcher). */
@@ -29,6 +30,20 @@ withDefaults(
 )
 
 const model = defineModel<string>()
+
+const enabledTabs = (): string[] => props.tabs.filter(t => !t.disabled && !t.href).map(t => t.value)
+
+useAgentControl({
+  component: 'tabs',
+  value: () => model.value,
+  options: enabledTabs,
+  actions: {
+    select: (value: string) => {
+      assertAgentOption(enabledTabs(), value)
+      model.value = value
+    },
+  },
+})
 </script>
 
 <template>

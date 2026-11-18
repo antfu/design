@@ -1,6 +1,7 @@
 <!-- @description a native-feeling select bound with `v-model`. -->
 <script setup lang="ts">
 import { SelectContent, SelectIcon, SelectItem, SelectItemIndicator, SelectItemText, SelectPortal, SelectRoot, SelectTrigger, SelectValue, SelectViewport } from 'reka-ui'
+import { assertAgentOption, useAgentControl } from '../../composables/agent'
 import { usePortalTarget } from '../../composables/portalTarget'
 
 export interface SelectOption {
@@ -25,6 +26,21 @@ const props = defineProps<{
 const model = defineModel<string>()
 
 const portalTo = usePortalTarget(() => props.to)
+
+const enabledValues = (): string[] => props.options.filter(o => !o.disabled).map(o => o.value)
+
+useAgentControl({
+  component: 'select',
+  value: () => model.value,
+  disabled: () => props.disabled,
+  options: enabledValues,
+  actions: {
+    setValue: (value: string) => {
+      assertAgentOption(enabledValues(), value)
+      model.value = value
+    },
+  },
+})
 </script>
 
 <template>

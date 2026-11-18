@@ -1,6 +1,8 @@
 <!-- @description wraps a control with a `label`, `description`, and `error` (role="alert"), `required` marker. -->
 <script setup lang="ts">
-withDefaults(
+import { provideAgentFieldLabel } from '../../composables/agent'
+
+const props = withDefaults(
   defineProps<{
     /** Visible field label. Overridable via the `#label` slot. */
     label?: string
@@ -15,6 +17,8 @@ withDefaults(
   }>(),
   {},
 )
+
+provideAgentFieldLabel(() => props.label)
 </script>
 
 <template>

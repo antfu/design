@@ -1,6 +1,7 @@
 <!-- @description a searchable, filterable select (reka-ui `Combobox`) over an `options` list. -->
 <script setup lang="ts">
 import { ComboboxAnchor, ComboboxContent, ComboboxEmpty, ComboboxInput, ComboboxItem, ComboboxItemIndicator, ComboboxPortal, ComboboxRoot, ComboboxViewport } from 'reka-ui'
+import { assertAgentOption, useAgentControl } from '../../composables/agent'
 import { usePortalTarget } from '../../composables/portalTarget'
 
 export interface ComboboxOption {
@@ -29,6 +30,21 @@ const props = defineProps<{
 const model = defineModel<string>()
 
 const portalTo = usePortalTarget(() => props.to)
+
+const enabledValues = (): string[] => props.options.filter(o => !o.disabled).map(o => o.value)
+
+useAgentControl({
+  component: 'combobox',
+  value: () => model.value,
+  disabled: () => props.disabled,
+  options: enabledValues,
+  actions: {
+    setValue: (value: string) => {
+      assertAgentOption(enabledValues(), value)
+      model.value = value
+    },
+  },
+})
 
 // reka-ui filters items by their `textValue` against the typed query, so we
 // surface the visible label as the search text — this keeps filtering correct
