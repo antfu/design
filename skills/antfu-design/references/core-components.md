@@ -4,8 +4,10 @@ All from `@antfu/design`, explicit imports, token-driven, dark-aware. Components
 are grouped into categories and **prefixed with their category** (e.g.
 `DisplayBadge`, `FormTextInput`, `OverlayModal`) — the import path mirrors this
 (`@antfu/design/components/Display/DisplayBadge.vue`). Overlay behavior comes
-from reka-ui; tooltips/poppers from vue-afloat; resizable panes from
-splitpanes — all themed through the shipped CSS overrides.
+from reka-ui (poppers, menus) and the platform: dialogs are native `<dialog>`s
+and tooltips are native popovers placed by CSS anchor positioning (both in the
+top layer, no portal). Resizable panes come from splitpanes. All are themed
+through the shipped CSS.
 
 > **Dark mode is the app's to own.** The package does not ship `isDark`/`toggleDark`
 > or a dark-toggle component. Components that vary by scheme (e.g. hash-colored
@@ -68,14 +70,14 @@ splitpanes — all themed through the shipped CSS overrides.
 
 | Component | Use it for |
 |---|---|
-| `OverlayConfirm` | an AlertDialog for a confirm/cancel decision, `variant="danger"` for destructive actions. |
+| `OverlayConfirm` | a native alert `<dialog>` for a confirm/cancel decision, `variant="danger"` for destructive actions. |
 | `OverlayContextMenu` (+ `OverlayContextMenuItem`, `OverlayContextMenuLabel`, `OverlayContextMenuSeparator`) | a right-click menu. |
-| `OverlayDrawer` | a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. |
+| `OverlayDrawer` | a slide-in native `<dialog>` panel from any `side` (left/right/top/bottom), sized by `width`. |
 | `OverlayDropdown` (+ `OverlayDropdownCheckboxItem`, `OverlayDropdownGroup`, `OverlayDropdownLabel`, `OverlayDropdownRadioGroup`, `OverlayDropdownRadioItem`, `OverlayDropdownSeparator`, `OverlayDropdownSub`) | a trigger-anchored dropdown menu. |
 | `OverlayDropdownItem` | a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). |
 | `OverlayHoverCard` | a hover-triggered popover with configurable `openDelay`/`closeDelay`. |
-| `OverlayModal` | a centered dialog (`title`, `description`, `#trigger` slot). |
-| `OverlayTooltip` | a vue-afloat tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
+| `OverlayModal` | a centered native `<dialog>` (`title`, `description`, `#trigger` slot). |
+| `OverlayTooltip` | a native tooltip (Popover API + CSS anchor positioning) — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
 
 ## Layout
 

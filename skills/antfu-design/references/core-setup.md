@@ -58,10 +58,8 @@ export default defineConfig({
 > lose their theming. It also lets *you* reuse the tokens in your own CSS
 > (`.panel { --uno: 'bg-base border border-base'; }`).
 >
-> `vue-afloat.css` is the exception — it themes tooltips/dropdowns/menus via
-> vue-afloat's own `--vue-afloat-*` CSS variables (plain values, no directives),
-> so it needs no transformer. Override those variables yourself if you
-> customize `darkBackground`/`primary`.
+> `tooltip.css` uses the same directives (`bg-tooltip`, `border-base`), so a
+> customized `darkBackground` flows through to tooltips too.
 
 ## Recommended: the UnoCSS ESLint plugin
 
@@ -97,20 +95,14 @@ export default defineConfig({
   shortcuts: {
     'z-nav': 'z-[30]',
     'z-dropdown': 'z-[40]',
-    'z-tooltip': 'z-[45]',
     'z-toast': 'z-[50]',
-    'z-modal-backdrop': 'z-[60]',
-    'z-modal-content': 'z-[70]',
-    'z-drawer-backdrop': 'z-[80]',
-    'z-drawer-content': 'z-[90]',
   },
 })
 ```
 
 These are *reference* values — the only contract is the **ordering** (`z-nav` <
-`z-dropdown` < `z-tooltip` < `z-toast` < `z-modal-backdrop` < `z-modal-content` <
-`z-drawer-backdrop` < `z-drawer-content`) so a modal sits over a dropdown, a drawer
-over a modal. The block lifts each utility *defined in `shortcuts`* — only plain
+`z-dropdown` < `z-toast`). Dialogs and tooltips need no layer: they open in the
+browser's top layer, above every z-index. The block lifts each utility *defined in `shortcuts`* — only plain
 z-index written in markup is rejected. Disable the guardrail with
 `presetAnthonyDesign({ blocklists: { plainZIndex: false } })`.
 
@@ -119,7 +111,7 @@ z-index written in markup is rejected. Disable the guardrail with
 ```ts
 import '@antfu/design/styles.css' // everything
 // …or cherry-pick:
-import '@antfu/design/styles/vue-afloat.css'
+import '@antfu/design/styles/tooltip.css'
 ```
 
 Add a reset yourself (`@unocss/reset`) — the design system does not bundle one.

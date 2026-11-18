@@ -114,7 +114,7 @@ never drift from what the shortcuts actually resolve to.
 - **Severity** `color-scale-{neutral,low,medium,high,critical}` is the one ramp
   for fresh→stale / fast→slow / small→large. Prefer the `colorize` prop on display
   components over using these directly.
-- **z-index**: always a named layer (`z-nav`, `z-dropdown`, `z-modal-content`, …),
+- **z-index**: always a named layer (`z-nav`, `z-dropdown`, `z-toast`, …),
   never plain `z-<n>` — the preset blocks plain z-index. The preset ships **no**
   values; the app defines the named layers in its own `shortcuts`. See
   [core-setup.md](core-setup.md#z-index-layers-you-own-them).
