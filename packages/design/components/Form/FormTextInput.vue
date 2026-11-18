@@ -1,6 +1,8 @@
 <!-- @description a single-line text input, `icon`, `invalid` state. -->
 <script setup lang="ts">
-withDefaults(
+import { useAgentControl } from '../../composables/agent'
+
+const props = withDefaults(
   defineProps<{
     icon?: string
     clearable?: boolean
@@ -15,6 +17,16 @@ withDefaults(
 )
 
 const model = defineModel<string>({ default: '' })
+
+useAgentControl({
+  component: 'text-input',
+  value: () => model.value,
+  disabled: () => props.disabled,
+  actions: {
+    setValue: (value: string) => { model.value = String(value) },
+    clear: () => { model.value = '' },
+  },
+})
 </script>
 
 <template>

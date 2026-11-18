@@ -1,6 +1,8 @@
 <!-- @description a multi-line text input, `rows`, `invalid` state, `resize` toggle. -->
 <script setup lang="ts">
-withDefaults(
+import { useAgentControl } from '../../composables/agent'
+
+const props = withDefaults(
   defineProps<{
     placeholder?: string
     /** Visible rows. */
@@ -15,6 +17,16 @@ withDefaults(
 )
 
 const model = defineModel<string>({ default: '' })
+
+useAgentControl({
+  component: 'textarea',
+  value: () => model.value,
+  disabled: () => props.disabled,
+  actions: {
+    setValue: (value: string) => { model.value = String(value) },
+    clear: () => { model.value = '' },
+  },
+})
 </script>
 
 <template>

@@ -1,6 +1,7 @@
 <!-- @description a single-select segmented control (reka-ui `RadioGroup`) over an `options` list, including a valid `null` segment. -->
 <script setup lang="ts">
 import { RadioGroupItem, RadioGroupRoot } from 'reka-ui'
+import { assertAgentOption, useAgentControl } from '../../composables/agent'
 
 export interface SegmentedOption {
   /** The value this segment selects. `null` is valid (e.g. an "any"/unset segment). */
@@ -12,11 +13,25 @@ export interface SegmentedOption {
   disabled?: boolean
 }
 
-defineProps<{
+const props = defineProps<{
   options: SegmentedOption[]
 }>()
 
 const model = defineModel<string | number | null>()
+
+const enabledValues = (): SegmentedOption['value'][] => props.options.filter(o => !o.disabled).map(o => o.value)
+
+useAgentControl({
+  component: 'segmented-control',
+  value: () => model.value,
+  options: enabledValues,
+  actions: {
+    setValue: (value: SegmentedOption['value']) => {
+      assertAgentOption(enabledValues(), value)
+      model.value = value
+    },
+  },
+})
 </script>
 
 <template>
