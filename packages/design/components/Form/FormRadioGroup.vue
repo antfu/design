@@ -1,6 +1,7 @@
 <!-- @description a radio-button group bound with `v-model`. -->
 <script setup lang="ts">
 import { RadioGroupIndicator, RadioGroupItem, RadioGroupRoot } from 'reka-ui'
+import { assertAgentOption, useAgentControl } from '../../composables/agent'
 
 export interface RadioOption {
   value: string
@@ -8,7 +9,7 @@ export interface RadioOption {
   disabled?: boolean
 }
 
-withDefaults(
+const props = withDefaults(
   defineProps<{
     options: RadioOption[]
     orientation?: 'horizontal' | 'vertical'
@@ -17,6 +18,20 @@ withDefaults(
 )
 
 const model = defineModel<string>()
+
+const enabledValues = (): string[] => props.options.filter(o => !o.disabled).map(o => o.value)
+
+useAgentControl({
+  component: 'radio-group',
+  value: () => model.value,
+  options: enabledValues,
+  actions: {
+    setValue: (value: string) => {
+      assertAgentOption(enabledValues(), value)
+      model.value = value
+    },
+  },
+})
 </script>
 
 <template>

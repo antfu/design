@@ -1,3 +1,4 @@
+export * from './agent'
 export * from './colorScheme'
 export * from './dialog'
 export * from './portalTarget'

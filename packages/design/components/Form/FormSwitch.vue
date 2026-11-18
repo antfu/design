@@ -1,13 +1,25 @@
 <!-- @description an on/off switch bound with `v-model`. -->
 <script setup lang="ts">
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
+import { useAgentControl } from '../../composables/agent'
 
-defineProps<{
+const props = defineProps<{
   label?: string
   disabled?: boolean
 }>()
 
 const model = defineModel<boolean>({ default: false })
+
+useAgentControl({
+  component: 'switch',
+  label: () => props.label,
+  value: () => model.value,
+  disabled: () => props.disabled,
+  actions: {
+    setValue: (value: boolean) => { model.value = Boolean(value) },
+    toggle: () => { model.value = !model.value },
+  },
+})
 </script>
 
 <template>
