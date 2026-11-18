@@ -15,7 +15,7 @@ export type BlocklistsOption = boolean | {
 
 /**
  * Matches a plain z-index utility — `z-50`, `z-[70]`, `-z-10`, `z-[var(--x)]` —
- * but **not** a named layer (`z-modal-content`, `z-nav`) nor the `z-auto` reset.
+ * but **not** a named layer (`z-dropdown`, `z-nav`) nor the `z-auto` reset.
  *
  * The named layers are shortcuts the app defines in its own UnoCSS `shortcuts`
  * config; their expansion to `z-[70]` happens *inside* the shortcut, which the
@@ -29,7 +29,7 @@ export const plainZIndexBlocklist: BlocklistRule = [
   RE_PLAIN_Z_INDEX,
   {
     message: (selector: string) =>
-      `[@antfu/design] "${selector}" — plain z-index is blocked. Define a named layer in your UnoCSS \`shortcuts\` (e.g. z-modal-content: 'z-[70]') and use that, or pass \`blocklists: { plainZIndex: false }\` to opt out.`,
+      `[@antfu/design] "${selector}" — plain z-index is blocked. Define a named layer in your UnoCSS \`shortcuts\` (e.g. z-dropdown: 'z-[40]') and use that, or pass \`blocklists: { plainZIndex: false }\` to opt out.`,
   },
 ]
 
