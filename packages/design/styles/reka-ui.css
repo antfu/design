@@ -1,7 +1,8 @@
 /**
  * reka-ui ships headless (unstyled) — most styling lives on the components'
- * own token classes. This file carries only the shared niceties: open/close
- * transitions for overlays, and locking background scroll behind modals.
+ * own token classes. This file carries only the open/close animation of the
+ * poppers (dropdowns, menus, selects, hover cards). Dialogs are native
+ * `<dialog>`s; see `dialog.css`.
  */
 
 [data-reka-popper-content-wrapper] {
@@ -14,44 +15,12 @@
  * rather than transitions — otherwise the close (exit) frame never plays.
  */
 
-/* Backdrops + simple poppers (dropdowns): fade. */
+/* Poppers (dropdowns, menus): fade. */
 [data-af-animate][data-state='open'] {
   animation: af-fade-in 0.15s ease both;
 }
 [data-af-animate][data-state='closed'] {
   animation: af-fade-out 0.15s ease both;
-}
-
-/* Modal content: fade + scale. Centering is the wrapper's flexbox job, so the
- * keyframes stay pure scale — no translate to keep in sync (and nothing that
- * can double up with a `translate`-property utility). */
-[data-af-modal][data-state='open'] {
-  animation: af-modal-in 0.18s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-[data-af-modal][data-state='closed'] {
-  animation: af-modal-out 0.15s ease both;
-}
-
-/* Drawer content: slide from its edge; reverse on close. */
-[data-af-drawer] {
-  animation-duration: 0.22s;
-  animation-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
-  animation-fill-mode: both;
-}
-[data-af-drawer][data-side='right'] {
-  animation-name: af-slide-right;
-}
-[data-af-drawer][data-side='left'] {
-  animation-name: af-slide-left;
-}
-[data-af-drawer][data-side='top'] {
-  animation-name: af-slide-top;
-}
-[data-af-drawer][data-side='bottom'] {
-  animation-name: af-slide-bottom;
-}
-[data-af-drawer][data-state='closed'] {
-  animation-direction: reverse;
 }
 
 @keyframes af-fade-in {
@@ -64,51 +33,8 @@
     opacity: 0;
   }
 }
-@keyframes af-modal-in {
-  from {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-@keyframes af-modal-out {
-  from {
-    opacity: 1;
-    transform: scale(1);
-  }
-  to {
-    opacity: 0;
-    transform: scale(0.96);
-  }
-}
-@keyframes af-slide-right {
-  from {
-    transform: translateX(100%);
-  }
-}
-@keyframes af-slide-left {
-  from {
-    transform: translateX(-100%);
-  }
-}
-@keyframes af-slide-top {
-  from {
-    transform: translateY(-100%);
-  }
-}
-@keyframes af-slide-bottom {
-  from {
-    transform: translateY(100%);
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
-  [data-af-animate],
-  [data-af-modal],
-  [data-af-drawer] {
+  [data-af-animate] {
     animation: none !important;
   }
 }

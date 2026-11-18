@@ -40,9 +40,6 @@ async function fire(root: ParentNode, selector: string, event: Event) {
 }
 
 const cases: Case[] = [
-  { name: 'modal', component: Modal, props: { open: true }, marker: '[data-af-modal]' },
-  { name: 'drawer', component: Drawer, props: { open: true }, marker: '[data-af-drawer]' },
-  { name: 'confirm', component: Confirm, props: { open: true }, marker: '[data-af-modal]' },
   { name: 'toasts', component: Toasts, props: { items: [{ id: 1, message: 'hi' }] }, marker: '[role="region"]' },
   {
     name: 'select',
@@ -123,9 +120,11 @@ afterEach(() => {
   document.body.innerHTML = ''
 })
 
+const toasts = { items: [{ id: 1, message: 'hi' }] }
+
 /** The container `usePortalTarget` appended to the shadow root. */
 function portalContainer(shadow: ShadowRoot) {
-  return Array.from(shadow.children).find(child => child.querySelector('[data-af-modal]'))!
+  return Array.from(shadow.children).find(child => child.querySelector('[role="region"]'))!
 }
 
 describe('portals default to document.body', () => {
@@ -161,12 +160,12 @@ describe('an explicit `to` wins over auto-detection', () => {
     const target = document.createElement('div')
     document.body.append(target)
 
-    mount(Modal, { attachTo: mountPoint, props: { open: true, to: target } })
+    mount(Toasts, { attachTo: mountPoint, props: { ...toasts, to: target } })
     await nextTick()
     await nextTick()
 
-    expect(target.querySelector('[data-af-modal]')).toBeTruthy()
-    expect(shadow.querySelector('[data-af-modal]')).toBeNull()
+    expect(target.querySelector('[role="region"]')).toBeTruthy()
+    expect(shadow.querySelector('[role="region"]')).toBeNull()
   })
 })
 
@@ -175,7 +174,7 @@ describe('the portal container mirrors the scheme wrapper', () => {
     const { shadow, mountPoint } = shadowMountPoint()
     mountPoint.className = 'dark'
 
-    mount(Modal, { attachTo: mountPoint, props: { open: true } })
+    mount(Toasts, { attachTo: mountPoint, props: toasts })
     await nextTick()
     await nextTick()
 
@@ -191,10 +190,33 @@ describe('the portal container mirrors the scheme wrapper', () => {
   it('leaves the container bare when there is no scheme wrapper', async () => {
     const { shadow, mountPoint } = shadowMountPoint()
 
-    mount(Modal, { attachTo: mountPoint, props: { open: true } })
+    mount(Toasts, { attachTo: mountPoint, props: toasts })
     await nextTick()
     await nextTick()
 
     expect(portalContainer(shadow).className).toBe('')
+  })
+})
+
+// Native `<dialog>`s open in the top layer *in place*: nothing teleports, so
+// they need no portal target and can't escape a shadow root.
+const dialogs = [
+  { name: 'modal', component: Modal, marker: '[data-af-modal]' },
+  { name: 'drawer', component: Drawer, marker: '[data-af-drawer]' },
+  { name: 'confirm', component: Confirm, marker: '[data-af-modal]' },
+]
+
+describe('native dialogs render in place', () => {
+  it.each(dialogs)('$name stays inside its shadow root as a modal <dialog>', async ({ component, marker }) => {
+    const { shadow, mountPoint } = shadowMountPoint()
+
+    mount(component, { attachTo: mountPoint, props: { open: true } })
+    await nextTick()
+
+    const dialog = shadow.querySelector<HTMLDialogElement>(marker)
+    expect(dialog?.tagName).toBe('DIALOG')
+    expect(dialog?.open).toBe(true)
+    expect(mountPoint.contains(dialog!)).toBe(true)
+    expect(document.body.querySelector(marker)).toBeNull()
   })
 })

@@ -67,8 +67,7 @@
     "reka-ui": "^2.0.0",
     "splitpanes": "^4.0.0",
     "unocss": ">=66.0.0",
-    "vue": "^3.5.0",
-    "vue-afloat": "^0.1.0"
+    "vue": "^3.5.0"
   },
   "peerDependenciesMeta": {
     "@antfu/utils": {
@@ -99,9 +98,6 @@
       "optional": true
     },
     "splitpanes": {
-      "optional": true
-    },
-    "vue-afloat": {
       "optional": true
     }
   },
@@ -138,7 +134,6 @@
     "unocss": "catalog:frontend",
     "unplugin-vue": "catalog:frontend",
     "vue": "catalog:frontend",
-    "vue-afloat": "catalog:frontend",
     "vue-tsc": "catalog:frontend"
   }
 }

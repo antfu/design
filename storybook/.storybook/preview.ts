@@ -3,7 +3,6 @@ import { GLOBALS_UPDATED } from 'storybook/internal/core-events'
 import { addons } from 'storybook/preview-api'
 import { h } from 'vue'
 import 'virtual:uno.css'
-import 'vue-afloat/style.css'
 import '../../packages/design/styles/index.css'
 import './docs-dark.css'
 

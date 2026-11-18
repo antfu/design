@@ -67,7 +67,7 @@ const Embedded = defineComponent({
         <template #trigger><ActionButton variant="text" icon="i-ph:info">Hover card</ActionButton></template>
         Rendered inside the shadow root, so the glass surface and border tokens apply.
       </OverlayHoverCard>
-      <OverlayModal title="Modal" description="Teleported into the shadow root.">
+      <OverlayModal title="Modal" description="A native <dialog>, rendered in place.">
         <template #trigger><ActionButton>Modal</ActionButton></template>
         <p class="text-sm color-muted">Scheme, surface and border tokens all resolve here.</p>
       </OverlayModal>
