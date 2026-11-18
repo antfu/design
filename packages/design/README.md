@@ -88,7 +88,7 @@ directives) plus, recommended, `@unocss/eslint-plugin` for the feedback loop.
 | `./components/*` | one readable `.vue` per component (e.g. `./components/Display/DisplayBadge.vue`) |
 | `./unocss` | the single `presetAnthonyDesign` preset |
 | `./utils` | color, format, path, semver, contrast, keybinding helpers (pure, stateless) |
-| `./composables/*` | Vue helpers: `colorScheme` (opt-in scheme context) and `toast` (`useToast` queue) |
+| `./composables/*` | Vue helpers: `colorScheme` (opt-in scheme context), `toast` (`useToast` queue), and `agent` (agent bridge) |
 | `./a11y` | programmatic color-contrast scan |
 | `./styles.css`, `./styles/*` | all styles, or per-concern files |
 | `./splitpanes.d.ts` | opt-in fallback types for older `splitpanes` (v4.1.2+ ships its own) |
@@ -102,6 +102,40 @@ directives) plus, recommended, `@unocss/eslint-plugin` for the feedback loop.
 > lets scheme-aware components inherit the scheme instead of threading a prop, and
 > `useToast()` (from `@antfu/design/composables/toast`) owns a toast queue for
 > `FeedbackToasts`. Both only read state you own.
+
+### Agent bridge
+
+AI agents can read and drive the form controls (`FormTextInput`, `FormTextarea`,
+`FormNumberInput`, `FormSelect`, `FormCombobox`, `FormSwitch`, `FormCheckbox`,
+`FormRadioGroup`, `FormSegmentedControl`) and `LayoutTabs` through their own
+APIs. They don't need screenshots or simulated clicks.
+
+```ts
+import { createAgent, getChangeSource } from '@antfu/design/composables/agent'
+
+const agent = createAgent({
+  // Optional: approve or reject each step.
+  allow: step => step.action !== 'clear',
+})
+app.use(agent) // or `provideAgent(agent)` in a component to scope it to a subtree
+
+agent.snapshot()
+// [{ ref: 'c1', component: 'text-input', label: 'Project name', value: 'Apollo', actions: ['setValue', 'clear'] }, …]
+
+await agent.act({ steps: [{ ref: 'Project name', action: 'setValue', args: ['Atlas'] }] })
+// → { results: [{ step, ok: true }], snapshot: [...] }
+```
+
+- A control's label comes from its `label` prop, then `aria-label`, then the
+  enclosing `FormField` label, then `placeholder`.
+- Actions run through `v-model`, so the same validation applies as for a user.
+  For example, `setValue` on a select only accepts enabled options, and
+  `FormNumberInput` clamps to `min`/`max`.
+- Inside an `@update:modelValue` handler, `getChangeSource()` returns `'agent'`
+  for changes made by the agent.
+- `agent.tools()` returns `ui_snapshot` / `ui_act` tool definitions, which you
+  can register with WebMCP or pass to any agent SDK.
+- If no bridge is installed, the components don't register at all.
 
 ## Migrating an existing app
 

@@ -112,6 +112,15 @@ splitpanes — all themed through the shipped CSS overrides.
 ## Composables & utils
 
 - `@antfu/design/composables` — `useInputFocus`, `provideNotification` / `useNotification`.
+- `@antfu/design/composables/agent` — the agent bridge. `createAgent({ allow? })`
+  + `app.use(agent)` (or `provideAgent(agent)` for a subtree). Then call
+  `agent.snapshot()` and `agent.act({ steps: [{ ref, action, args }] })`, or use
+  `agent.tools()` (`ui_snapshot` / `ui_act`). Form controls and `LayoutTabs`
+  register automatically. Give each control a name: its `label` prop,
+  `aria-label`, or a wrapping `FormField label`. Use `getChangeSource()` inside
+  an update handler to tell `'agent'` changes from `'user'` changes. A custom
+  control can register itself with `useAgentControl({ component, value, actions })`;
+  use `assertAgentOption()` for pick-from-a-list actions.
   (Dark mode, clipboard and persisted state are **not** wrapped — use the app's own
   state and VueUse `useClipboard` / `useLocalStorage` directly.)
 - `@antfu/design/utils` — `getHashColorFromString`, `getPluginColor`, `labelStyle`
