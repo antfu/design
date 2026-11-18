@@ -3,7 +3,7 @@
 import type { SeverityScale } from '../../utils/format'
 import { useIntervalFn } from '@vueuse/core'
 import { computed, ref, toRef, watch } from 'vue'
-import { vTooltip } from 'vue-afloat'
+import { vTooltip } from '../../composables/tooltip'
 import { formatDateTime, formatTimeAgo, getAgeColor } from '../../utils/format'
 
 const props = withDefaults(

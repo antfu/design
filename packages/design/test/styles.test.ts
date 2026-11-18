@@ -39,31 +39,36 @@ describe('shipped styles use the design tokens via @unocss/transformer-directive
   })
 
   it('leaves no `--af-*` token-mirror variables behind in any shipped style', () => {
-    for (const f of ['base.css', 'vue-afloat.css', 'splitpanes.css', 'reka-ui.css', 'scrollbar.css', 'animations.css'])
+    for (const f of ['base.css', 'tooltip.css', 'dialog.css', 'splitpanes.css', 'reka-ui.css', 'scrollbar.css', 'animations.css'])
       expect(readStyle(f)).not.toContain('--af-')
   })
 })
 
-describe('vue-afloat.css themes via vue-afloat\'s own `--vue-afloat-*` custom properties', () => {
-  const css = readStyle('vue-afloat.css')
-
-  it('sets the shared skin on `.vue-afloat` (applies to tooltip/dropdown/menu alike)', () => {
-    expect(css).toMatch(/\.vue-afloat\s*\{[^}]*--vue-afloat-background:/)
+describe('tooltip.css skins native popover tooltips', () => {
+  it('expands the `bg-tooltip` token with a dark variant', async () => {
+    const out = await transform(readStyle('tooltip.css'))
+    expect(out).not.toMatch(/--(?:at-apply|uno)\s*:/)
+    expect(out).toContain('[data-af-tooltip]')
+    expect(out).toMatch(/\.dark\s+\[data-af-tooltip\]/)
   })
 
-  it('blurs the backdrop only for `.vue-afloat-menu`, whose background is translucent', () => {
-    expect(css).toMatch(/\.vue-afloat-menu\s*\{[^}]*--vue-afloat-backdrop-blur:/)
+  it('undoes the UA popover centering and flips on overflow', () => {
+    const css = readStyle('tooltip.css')
+    expect(css).toMatch(/\[data-af-tooltip\]\s*\{[^}]*inset:\s*auto/)
+    expect(css).toContain('position-try-fallbacks')
+  })
+})
+
+describe('dialog.css animates native dialogs without JS', () => {
+  const css = readStyle('dialog.css')
+
+  it('enters via @starting-style and exits with discrete display/overlay', () => {
+    expect(css).toContain('@starting-style')
+    expect(css).toMatch(/display [\d.]+s allow-discrete/)
+    expect(css).toMatch(/overlay [\d.]+s allow-discrete/)
   })
 
-  it('overrides the surface color under `.dark`, scoped to `.vue-afloat`', () => {
-    expect(css).toMatch(/\.dark\s+\.vue-afloat\s*\{[^}]*--vue-afloat-background:/)
-  })
-
-  it('tightens padding for `.vue-afloat-dropdown`', () => {
-    expect(css).toMatch(/\.vue-afloat-dropdown\s*\{[^}]*--vue-afloat-padding:/)
-  })
-
-  it('never uses `@unocss/transformer-directives` (no theme-registry dependency)', () => {
-    expect(css).not.toMatch(/--(?:at-apply|uno)\s*:/)
+  it('tints the ::backdrop, darker under `.dark`', () => {
+    expect(css).toMatch(/\.dark \[data-af-modal\]::backdrop/)
   })
 })

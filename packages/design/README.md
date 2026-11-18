@@ -28,21 +28,15 @@ export default defineConfig({
   ],
   // Required — most shipped styles recolor overlays with token `--at-apply`
   // directives; this transformer expands them (and lets you reuse tokens in CSS).
-  // (vue-afloat.css is the exception — it themes via vue-afloat's own
-  // `--vue-afloat-*` CSS variables and needs no transformer.)
   transformers: [transformerDirectives()],
   // The preset ships no z-index scale (stacking is the app's to own) and blocks
   // plain `z-<number>`. Define the named layers the overlay components use here —
-  // these values are yours; tune them to fit your app's stack.
+  // these values are yours; tune them to fit your app's stack. (Dialogs and
+  // tooltips need none: they open in the browser's top layer.)
   shortcuts: {
     'z-nav': 'z-[30]',
     'z-dropdown': 'z-[40]',
-    'z-tooltip': 'z-[45]',
     'z-toast': 'z-[50]',
-    'z-modal-backdrop': 'z-[60]',
-    'z-modal-content': 'z-[70]',
-    'z-drawer-backdrop': 'z-[80]',
-    'z-drawer-content': 'z-[90]',
   },
 })
 ```
@@ -56,7 +50,7 @@ export default defineConfig({
 import ActionButton from '@antfu/design/components/Action/ActionButton.vue'
 import DisplayBadge from '@antfu/design/components/Display/DisplayBadge.vue'
 import OverlayModal from '@antfu/design/components/Overlay/OverlayModal.vue'
-import '@antfu/design/styles.css' // everything, incl. splitpanes/reka/vue-afloat overrides
+import '@antfu/design/styles.css' // everything, incl. splitpanes/reka overrides, dialogs and tooltips
 ```
 
 `styles.css` bundles every overlay engine's override. If you don't use them all,
@@ -65,7 +59,8 @@ cherry-pick instead so unused (`splitpanes`/`reka-ui`) CSS never ships:
 ```ts
 import '@antfu/design/styles/base.css'
 import '@antfu/design/styles/scrollbar.css'
-import '@antfu/design/styles/vue-afloat.css' // only if you use tooltips
+import '@antfu/design/styles/dialog.css' // only if you use OverlayModal/Drawer/Confirm
+import '@antfu/design/styles/tooltip.css' // only if you use tooltips
 ```
 
 The package ships **raw `.ts` / `.vue` source** (no bundling) — your build
@@ -88,7 +83,7 @@ directives) plus, recommended, `@unocss/eslint-plugin` for the feedback loop.
 | `./components/*` | one readable `.vue` per component (e.g. `./components/Display/DisplayBadge.vue`) |
 | `./unocss` | the single `presetAnthonyDesign` preset |
 | `./utils` | color, format, path, semver, contrast, keybinding helpers (pure, stateless) |
-| `./composables/*` | Vue helpers: `colorScheme` (opt-in scheme context), `toast` (`useToast` queue), and `agent` (agent bridge) |
+| `./composables/*` | Vue helpers: `colorScheme` (opt-in scheme context), `toast` (`useToast` queue), `dialog` (`useNativeDialog`), `tooltip` (`vTooltip`, `bindTooltip`), and `agent` (agent bridge) |
 | `./a11y` | programmatic color-contrast scan |
 | `./styles.css`, `./styles/*` | all styles, or per-concern files |
 | `./splitpanes.d.ts` | opt-in fallback types for older `splitpanes` (v4.1.2+ ships its own) |
@@ -177,14 +172,17 @@ their own:
   utilities on its child. `:host(.dark)` is not an alternative: these are
   descendant selectors, and they can't reach across the boundary.
 - **Global CSS can't pierce the boundary — inline the styles.** `@antfu/design/styles/*`
-  (scrollbar, reka-ui animations, vue-afloat, …) must be part of the sheet you
+  (scrollbar, reka-ui animations, dialog, tooltip, …) must be part of the sheet you
   inject into the root, alongside the UnoCSS output. They're written with `*` /
   unscoped selectors precisely so they work in either place. Add
   `scrollbar-gutter: stable` on your own scroll container if you want the gutter
   reserved.
 
-Portaled content needs no setup. Every component that teleports — the dialogs
-(`OverlayModal`, `OverlayDrawer`, `OverlayConfirm`), the poppers (`FormSelect`,
+Overlays need no setup. The dialogs (`OverlayModal`, `OverlayDrawer`,
+`OverlayConfirm`) are native `<dialog>`s and the tooltips (`OverlayTooltip`,
+`v-tooltip`) are native popovers: both open in the browser's top layer *in
+place*, so they never leave the shadow root. Every component that teleports
+instead — the poppers (`FormSelect`,
 `FormCombobox`, `OverlayDropdown`, `OverlayHoverCard`, `OverlayContextMenu`,
 `LayoutMenubar`) and `FeedbackToasts` — detects the enclosing shadow root and
 teleports into a container appended to it, which also mirrors the `dark`/`light`
@@ -267,14 +265,14 @@ tsx node_modules/@antfu/design/a11y/cli.ts http://localhost:6006/iframe.html
 
 | Component | Use it for |
 |---|---|
-| `OverlayConfirm` | an AlertDialog for a confirm/cancel decision, `variant="danger"` for destructive actions. |
+| `OverlayConfirm` | a native alert `<dialog>` for a confirm/cancel decision, `variant="danger"` for destructive actions. |
 | `OverlayContextMenu` (+ `OverlayContextMenuItem`, `OverlayContextMenuLabel`, `OverlayContextMenuSeparator`) | a right-click menu. |
-| `OverlayDrawer` | a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. |
+| `OverlayDrawer` | a slide-in native `<dialog>` panel from any `side` (left/right/top/bottom), sized by `width`. |
 | `OverlayDropdown` (+ `OverlayDropdownCheckboxItem`, `OverlayDropdownGroup`, `OverlayDropdownLabel`, `OverlayDropdownRadioGroup`, `OverlayDropdownRadioItem`, `OverlayDropdownSeparator`, `OverlayDropdownSub`) | a trigger-anchored dropdown menu. |
 | `OverlayDropdownItem` | a selectable dropdown row — `icon`, `variant="danger"`, trailing `shortcut` (rendered via `DisplayKbd`). |
 | `OverlayHoverCard` | a hover-triggered popover with configurable `openDelay`/`closeDelay`. |
-| `OverlayModal` | a centered dialog (`title`, `description`, `#trigger` slot). |
-| `OverlayTooltip` | a vue-afloat tooltip — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
+| `OverlayModal` | a centered native `<dialog>` (`title`, `description`, `#trigger` slot). |
+| `OverlayTooltip` | a native tooltip (Popover API + CSS anchor positioning) — text `content` or the `#content` slot, configurable `placement`/`delay`/`triggers`, plus a virtual-anchor mode for canvas/graph overlays. |
 
 ### Layout
 

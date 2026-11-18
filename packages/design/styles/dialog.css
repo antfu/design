@@ -1,0 +1,107 @@
+/**
+ * Native dialogs (`OverlayModal`, `OverlayConfirm` = `[data-af-modal]`,
+ * `OverlayDrawer` = `[data-af-drawer]`): `<dialog>` opened with `showModal()`.
+ *
+ * Enter/exit are CSS transitions: `@starting-style` gives the enter frame, and
+ * `display`/`overlay` with `allow-discrete` keep the dialog in the top layer
+ * until the exit transition ends. No JS waits for animations.
+ */
+
+[data-af-modal],
+[data-af-drawer] {
+  transition:
+    opacity 0.15s ease,
+    scale 0.18s cubic-bezier(0.16, 1, 0.3, 1),
+    translate 0.22s cubic-bezier(0.32, 0.72, 0, 1),
+    display 0.22s allow-discrete,
+    overlay 0.22s allow-discrete;
+}
+
+/* Modal: fade + scale. */
+[data-af-modal] {
+  opacity: 0;
+  scale: 0.96;
+}
+[data-af-modal][open] {
+  opacity: 1;
+  scale: 1;
+}
+@starting-style {
+  [data-af-modal][open] {
+    opacity: 0;
+    scale: 0.96;
+  }
+}
+
+/* Drawer: slide in from its edge, back out on close. */
+[data-af-drawer][data-side='right'] {
+  translate: 100% 0;
+}
+[data-af-drawer][data-side='left'] {
+  translate: -100% 0;
+}
+[data-af-drawer][data-side='top'] {
+  translate: 0 -100%;
+}
+[data-af-drawer][data-side='bottom'] {
+  translate: 0 100%;
+}
+[data-af-drawer][open] {
+  translate: 0 0;
+}
+@starting-style {
+  [data-af-drawer][open][data-side='right'] {
+    translate: 100% 0;
+  }
+  [data-af-drawer][open][data-side='left'] {
+    translate: -100% 0;
+  }
+  [data-af-drawer][open][data-side='top'] {
+    translate: 0 -100%;
+  }
+  [data-af-drawer][open][data-side='bottom'] {
+    translate: 0 100%;
+  }
+}
+
+/* Backdrop: a frosted tint that fades with the dialog. */
+[data-af-modal]::backdrop,
+[data-af-drawer]::backdrop {
+  background: rgb(221 221 221 / 40%);
+  backdrop-filter: blur(4px);
+  opacity: 0;
+  transition:
+    opacity 0.15s ease,
+    display 0.22s allow-discrete,
+    overlay 0.22s allow-discrete;
+}
+/* `::backdrop` follows its dialog's tree, so a `.dark` ancestor applies. */
+.dark [data-af-modal]::backdrop,
+.dark [data-af-drawer]::backdrop {
+  background: rgb(0 0 0 / 40%);
+}
+[data-af-modal][open]::backdrop,
+[data-af-drawer][open]::backdrop {
+  opacity: 1;
+}
+@starting-style {
+  [data-af-modal][open]::backdrop,
+  [data-af-drawer][open]::backdrop {
+    opacity: 0;
+  }
+}
+
+/* Lock page scroll behind a modal dialog. `:has()` can't see into a shadow
+ * root, so `useNativeDialog` locks it in JS there. */
+:root:has(:is([data-af-modal], [data-af-drawer]):modal) {
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-af-modal],
+  [data-af-drawer],
+  [data-af-modal]::backdrop,
+  [data-af-drawer]::backdrop {
+    transition: none;
+  }
+}

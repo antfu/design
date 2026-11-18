@@ -128,7 +128,7 @@ export function buildShortcuts(options: BuildShortcutsOptions = {}): (StaticShor
 
       // NOTE: the preset deliberately ships **no** z-index scale. Stacking is a
       // whole-app concern, so the layer values are the app's to own — it defines
-      // the named layers (`z-modal-content`, `z-dropdown`, …) that the overlay
+      // the named layers (`z-dropdown`, `z-toast`, …) that the overlay
       // components reference in its own top-level UnoCSS `shortcuts`. The preset
       // blocks plain `z-<number>` to keep usage semantic (see `./blocklist`).
     },

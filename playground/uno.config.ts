@@ -24,11 +24,6 @@ export default defineConfig({
   shortcuts: {
     'z-nav': 'z-[30]',
     'z-dropdown': 'z-[40]',
-    'z-tooltip': 'z-[45]',
     'z-toast': 'z-[50]',
-    'z-modal-backdrop': 'z-[60]',
-    'z-modal-content': 'z-[70]',
-    'z-drawer-backdrop': 'z-[80]',
-    'z-drawer-content': 'z-[90]',
   },
 })

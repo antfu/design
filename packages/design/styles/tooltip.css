@@ -1,0 +1,43 @@
+/**
+ * Native tooltips (`OverlayTooltip`, `v-tooltip`): a `[popover]` in the top
+ * layer, placed by CSS anchor positioning. `composables/tooltip.ts` sets
+ * `position-anchor`, `position-area` and `margin` inline; this file is the
+ * skin plus the fallbacks that flip it when it would overflow the viewport.
+ *
+ * Uses `@apply`, so it needs `@unocss/transformer-directives`, like `base.css`.
+ */
+
+[data-af-tooltip] {
+  @apply bg-tooltip color-base border border-base rounded-md text-sm;
+  /* Undo the UA `[popover]` box: it is centered with `inset: 0; margin: auto`. */
+  inset: auto;
+  padding: 4px 8px;
+  max-width: min(20rem, calc(100vw - 16px));
+  overflow-wrap: break-word;
+  box-shadow: 0 4px 16px rgb(0 0 0 / 12%);
+  position-try-fallbacks:
+    flip-block,
+    flip-inline,
+    flip-block flip-inline;
+  opacity: 0;
+  transition:
+    opacity 0.12s ease,
+    display 0.12s allow-discrete,
+    overlay 0.12s allow-discrete;
+}
+
+[data-af-tooltip]:popover-open {
+  opacity: 1;
+}
+
+@starting-style {
+  [data-af-tooltip]:popover-open {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-af-tooltip] {
+    transition: none;
+  }
+}

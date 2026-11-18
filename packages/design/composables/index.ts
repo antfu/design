@@ -1,4 +1,6 @@
 export * from './agent'
 export * from './colorScheme'
+export * from './dialog'
 export * from './portalTarget'
 export * from './toast'
+export * from './tooltip'

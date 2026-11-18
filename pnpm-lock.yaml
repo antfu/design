@@ -261,9 +261,6 @@ catalogs:
     vue:
       specifier: ^3.5.43
       version: 3.5.43
-    vue-afloat:
-      specifier: ^0.2.0
-      version: 0.2.0
     vue-tsc:
       specifier: ^3.3.11
       version: 3.3.11
@@ -460,9 +457,6 @@ importers:
       vue:
         specifier: catalog:frontend
         version: 3.5.43(typescript@6.0.3)
-      vue-afloat:
-        specifier: catalog:frontend
-        version: 0.2.0(vue@3.5.43(typescript@6.0.3))
       vue-tsc:
         specifier: catalog:frontend
         version: 3.3.11(typescript@6.0.3)
@@ -550,9 +544,6 @@ importers:
       vue:
         specifier: catalog:frontend
         version: 3.5.43(typescript@6.0.3)
-      vue-afloat:
-        specifier: catalog:frontend
-        version: 0.2.0(vue@3.5.43(typescript@6.0.3))
       vue-tsc:
         specifier: catalog:frontend
         version: 3.3.11(typescript@6.0.3)
@@ -4703,11 +4694,6 @@ packages:
 
   vscode-uri@3.2.0:
     resolution: {integrity: sha512-m2gXo3bn0G1kT9InzMf07fTbqMbGtyckj3bH5ktLO+1Ssv+yiATZ4dhwaQv9UZWxJh6E9IFGnQyjgWVDWVBDrg==}
-
-  vue-afloat@0.2.0:
-    resolution: {integrity: sha512-tKDQlkB5VxKDk1CzS53xMig5NxfpT+Cmm2p8j4znyJKJrwuEmY5SuwsQ5i6d+2OQgNcu8ilJjr9LzCX1XCrMZg==}
-    peerDependencies:
-      vue: ^3.5.0
 
   vue-component-meta@3.3.11:
     resolution: {integrity: sha512-fskQZaIFOifwB4x+/J24795yvezOJ1TKaqn97/4PHybyvXpDNdcKn3oTcPrw6HnNoZWe343A+TiCFOcFv1/SuQ==}
@@ -9014,11 +9000,6 @@ snapshots:
   void-elements@3.1.0: {}
 
   vscode-uri@3.2.0: {}
-
-  vue-afloat@0.2.0(vue@3.5.43(typescript@6.0.3)):
-    dependencies:
-      '@floating-ui/dom': 1.8.0
-      vue: 3.5.43(typescript@6.0.3)
 
   vue-component-meta@3.3.11(typescript@6.0.3):
     dependencies:

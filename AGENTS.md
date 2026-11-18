@@ -13,7 +13,13 @@ still apply).
   the Phosphor set already installed via `presetIcons`) on a `<span class="i-ph:..." aria-hidden="true" />`.
   Exception: purely data-driven/generative vector graphics (e.g. `DisplayDonut`'s
   progress ring) aren't icons and stay inline `<svg>`.
-- Anything that teleports (a reka `*Portal`, a `<Teleport>`) must route its target
+- Prefer the platform for overlays: a modal is a native `<dialog>` opened with
+  `showModal()` (`useNativeDialog` in `composables/dialog.ts`), and a tooltip is
+  a native `[popover]` placed by CSS anchor positioning (`bindTooltip` /
+  `vTooltip` in `composables/tooltip.ts`). Both render in the top layer *in
+  place*: no Teleport, no z-index layer, and they can't escape a shadow root.
+  Animate them in CSS (`@starting-style` + `allow-discrete`), not JS.
+- Anything that still teleports (a reka `*Portal`, a `<Teleport>`) must route its target
   through `usePortalTarget(() => props.to)` and expose the `to?: string | HTMLElement`
   prop, so the content stays inside an enclosing shadow root. Add the component to
   the `cases` list in `test/portal.test.ts` and to the `Utilities/ShadowRoot` story.

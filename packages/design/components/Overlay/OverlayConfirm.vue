@@ -1,9 +1,9 @@
-<!-- @description an AlertDialog for a confirm/cancel decision, `variant="danger"` for destructive actions. -->
+<!-- @description a native alert `<dialog>` for a confirm/cancel decision, `variant="danger"` for destructive actions. -->
 <script setup lang="ts">
-import { AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogOverlay, AlertDialogPortal, AlertDialogRoot, AlertDialogTitle, AlertDialogTrigger } from 'reka-ui'
-import { usePortalTarget } from '../../composables/portalTarget'
+import { useTemplateRef } from 'vue'
+import { useNativeDialog } from '../../composables/dialog'
 
-const props = withDefaults(
+withDefaults(
   defineProps<{
     title?: string
     description?: string
@@ -11,8 +11,6 @@ const props = withDefaults(
     cancelLabel?: string
     /** `danger` paints the confirm button red for destructive actions. */
     variant?: 'default' | 'danger'
-    /** Teleport target for the portal; defaults to the enclosing shadow root, else `document.body`. */
-    to?: string | HTMLElement
   }>(),
   { confirmLabel: 'Confirm', cancelLabel: 'Cancel', variant: 'default' },
 )
@@ -20,42 +18,44 @@ const props = withDefaults(
 const emit = defineEmits<{ confirm: [], cancel: [] }>()
 const open = defineModel<boolean>('open')
 
-const portalTo = usePortalTarget(() => props.to)
+// An alert dialog asks for a decision: Esc cancels, a backdrop click doesn't.
+const native = useNativeDialog(useTemplateRef('dialog'), open, { lightDismiss: false })
+const { Trigger } = native
 </script>
 
 <template>
-  <AlertDialogRoot v-model:open="open">
-    <AlertDialogTrigger v-if="$slots.trigger" as-child>
-      <slot name="trigger" />
-    </AlertDialogTrigger>
-    <AlertDialogPortal :to="portalTo">
-      <AlertDialogOverlay class="bg-[#ddd]/40 inset-0 fixed z-modal-backdrop backdrop-blur-sm dark:bg-black/40" data-af-animate />
-      <!-- Centered by the wrapper, whose padding is also the minimum margin — see OverlayModal. -->
-      <div class="p-4 flex pointer-events-none items-center inset-0 justify-center fixed z-modal-content sm:p-6">
-        <AlertDialogContent
-          class="p-4 outline-none border border-base rounded-xl bg-base max-h-full max-w-sm w-full pointer-events-auto shadow-2xl overflow-auto"
-          data-af-modal
-        >
-          <AlertDialogTitle v-if="title" class="color-base font-medium">
-            {{ title }}
-          </AlertDialogTitle>
-          <AlertDialogDescription v-if="description" class="text-sm mt-1 op-fade">
-            {{ description }}
-          </AlertDialogDescription>
-          <div class="mt-4 flex gap-2 justify-end">
-            <AlertDialogCancel class="btn-action" @click="emit('cancel')">
-              {{ cancelLabel }}
-            </AlertDialogCancel>
-            <AlertDialogAction
-              class="btn-primary"
-              :class="variant === 'danger' ? 'bg-red-500! hover:bg-red-600!' : ''"
-              @click="emit('confirm')"
-            >
-              {{ confirmLabel }}
-            </AlertDialogAction>
-          </div>
-        </AlertDialogContent>
-      </div>
-    </AlertDialogPortal>
-  </AlertDialogRoot>
+  <Trigger v-if="$slots.trigger">
+    <slot name="trigger" />
+  </Trigger>
+  <dialog
+    :id="native.id"
+    ref="dialog"
+    role="alertdialog"
+    :closedby="native.closedby"
+    :aria-labelledby="title ? `${native.id}-title` : undefined"
+    :aria-describedby="description ? `${native.id}-description` : undefined"
+    class="color-base m-auto p-4 outline-none border border-base rounded-xl bg-base max-h-[calc(100dvh-2rem)] max-w-sm w-[calc(100%-2rem)] shadow-2xl overflow-auto sm:max-h-[calc(100dvh-3rem)]"
+    data-af-modal
+  >
+    <h2 v-if="title" :id="`${native.id}-title`" class="color-base font-medium">
+      {{ title }}
+    </h2>
+    <p v-if="description" :id="`${native.id}-description`" class="text-sm mt-1 op-fade">
+      {{ description }}
+    </p>
+    <div class="mt-4 flex gap-2 justify-end">
+      <!-- `autofocus`: open on the least destructive choice. -->
+      <button v-bind="native.closeProps()" class="btn-action" autofocus @click="emit('cancel')">
+        {{ cancelLabel }}
+      </button>
+      <button
+        v-bind="native.closeProps()"
+        class="btn-primary"
+        :class="variant === 'danger' ? 'bg-red-500! hover:bg-red-600!' : ''"
+        @click="emit('confirm')"
+      >
+        {{ confirmLabel }}
+      </button>
+    </div>
+  </dialog>
 </template>

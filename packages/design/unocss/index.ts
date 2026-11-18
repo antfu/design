@@ -30,7 +30,7 @@ function assertOptions(options: PresetAnthonyDesignOptions): void {
  * resolves under Wind4, Wind3 or Mini.
  *
  * It deliberately ships **no z-index scale** — stacking is a whole-app concern.
- * The overlay components reference named layers (`z-modal-content`, `z-dropdown`,
+ * The overlay components reference named layers (`z-dropdown`, `z-toast`,
  * …); define those in your own UnoCSS `shortcuts` config (see Setup). As a
  * guardrail the preset blocks plain `z-<number>` utilities so every z-index goes
  * through a named layer (opt out with `blocklists: { plainZIndex: false }`).

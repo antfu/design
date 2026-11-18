@@ -1,8 +1,7 @@
-<!-- @description a slide-in panel from any `side` (left/right/top/bottom), sized by `width`. -->
+<!-- @description a slide-in native `<dialog>` panel from any `side` (left/right/top/bottom), sized by `width`. -->
 <script setup lang="ts">
-import { DialogClose, DialogContent, DialogDescription, DialogOverlay, DialogPortal, DialogRoot, DialogTitle, DialogTrigger } from 'reka-ui'
-import { computed } from 'vue'
-import { usePortalTarget } from '../../composables/portalTarget'
+import { computed, useTemplateRef } from 'vue'
+import { useNativeDialog } from '../../composables/dialog'
 
 const props = withDefaults(
   defineProps<{
@@ -15,21 +14,22 @@ const props = withDefaults(
      * full viewport width.
      */
     width?: string | number
-    /** Teleport target for the portal; defaults to the enclosing shadow root, else `document.body`. */
-    to?: string | HTMLElement
   }>(),
   { side: 'right' },
 )
 
 const open = defineModel<boolean>('open')
 
-const portalTo = usePortalTarget(() => props.to)
+const native = useNativeDialog(useTemplateRef('dialog'), open)
+const { Trigger } = native
 
+// A modal `<dialog>` is `position: fixed; inset: 0; margin: auto` by default:
+// pin it to one edge instead.
 const SIDE_CLASS = {
-  right: 'right-0 top-0 h-full w-80 max-w-[90vw] border-l',
-  left: 'left-0 top-0 h-full w-80 max-w-[90vw] border-r',
-  top: 'top-0 inset-x-0 h-1/3 border-b',
-  bottom: 'bottom-0 inset-x-0 h-1/3 border-t',
+  right: 'inset-[0_0_0_auto] h-full max-h-none w-80 max-w-[90vw] [border-width:0_0_0_1px]',
+  left: 'inset-[0_auto_0_0] h-full max-h-none w-80 max-w-[90vw] [border-width:0_1px_0_0]',
+  top: 'inset-[0_0_auto_0] w-full max-w-none h-1/3 [border-width:0_0_1px_0]',
+  bottom: 'inset-[auto_0_0_0] w-full max-w-none h-1/3 [border-width:1px_0_0_0]',
 } as const
 
 // Inline style rather than a class so any CSS length works; it wins over `w-80`.
@@ -41,38 +41,39 @@ const style = computed(() => {
 </script>
 
 <template>
-  <DialogRoot v-model:open="open">
-    <DialogTrigger v-if="$slots.trigger" as-child>
-      <slot name="trigger" />
-    </DialogTrigger>
-    <DialogPortal :to="portalTo">
-      <DialogOverlay class="bg-[#ddd]/40 inset-0 fixed z-drawer-backdrop backdrop-blur-sm dark:bg-black/40" data-af-animate />
-      <DialogContent
-        class="outline-none border-base bg-base flex flex-col shadow-2xl fixed z-drawer-content"
-        :class="SIDE_CLASS[side]"
-        :style="style"
-        data-af-drawer
-        :data-side="side"
-      >
-        <header class="px-4 py-3 border-b border-base flex shrink-0 gap-4 items-center justify-between">
-          <DialogTitle v-if="title" class="color-base font-medium">
-            {{ title }}
-          </DialogTitle>
-          <DialogDescription v-if="$slots.description" class="sr-only">
-            <slot name="description" />
-          </DialogDescription>
-          <slot name="header" />
-          <DialogClose class="btn-icon shrink-0 h-7 w-7" aria-label="Close">
-            <span class="i-ph:x" aria-hidden="true" />
-          </DialogClose>
-        </header>
-        <div class="p-4 flex-1 overflow-auto">
-          <slot />
+  <Trigger v-if="$slots.trigger">
+    <slot name="trigger" />
+  </Trigger>
+  <dialog
+    :id="native.id"
+    ref="dialog"
+    :closedby="native.closedby"
+    :aria-labelledby="title ? `${native.id}-title` : undefined"
+    class="color-base m-0 p-0 outline-none border-base border-solid bg-base shadow-2xl"
+    :class="SIDE_CLASS[side]"
+    :style="style"
+    data-af-drawer
+    :data-side="side"
+  >
+    <div class="flex flex-col h-full">
+      <header class="px-4 py-3 border-b border-base flex shrink-0 gap-4 items-center justify-between">
+        <h2 v-if="title" :id="`${native.id}-title`" class="color-base font-medium">
+          {{ title }}
+        </h2>
+        <div v-if="$slots.description" class="sr-only">
+          <slot name="description" />
         </div>
-        <footer v-if="$slots.footer" class="px-4 py-3 border-t border-base flex shrink-0 gap-2 items-center justify-end">
-          <slot name="footer" />
-        </footer>
-      </DialogContent>
-    </DialogPortal>
-  </DialogRoot>
+        <slot name="header" />
+        <button v-bind="native.closeProps()" class="btn-icon shrink-0 h-7 w-7" aria-label="Close">
+          <span class="i-ph:x" aria-hidden="true" />
+        </button>
+      </header>
+      <div class="p-4 flex-1 overflow-auto">
+        <slot />
+      </div>
+      <footer v-if="$slots.footer" class="px-4 py-3 border-t border-base flex shrink-0 gap-2 items-center justify-end">
+        <slot name="footer" />
+      </footer>
+    </div>
+  </dialog>
 </template>
